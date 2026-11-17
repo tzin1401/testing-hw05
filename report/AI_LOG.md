@@ -204,3 +204,20 @@
 - **AI output:**
   > Chạy tuần tự Load, Stress, Spike; reset SUT trước mỗi plan, không sửa JMX. Mỗi JTL có 70 samples, 0 errors (0%); 7 workflow label đều 10 samples/0 errors, negative login 0 sample. Runtime logs không cho thấy lỗi parsing/scripting. Tạo report/05a_all_plans_smoke.md; cả ba smoke pass.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #14 – 2026-11-18 00:46 (giờ VN)
+- **AI tool:** omp – RunLoad (openai-codex/gpt-6-luna)
+- **Bước:** Task 1 – Bước 13 – Chạy thật plan LOAD
+- **Prompt:**
+  > Bước 13 – Chạy thật plan LOAD (mỗi lần giao chỉ chạy 1 plan).
+  > 1. Chạy scripts/reset_sut.sh. Ghi các bước reset vào report/07_run_log.md, kèm thời điểm thực hiện.
+  > 2. Chạy song song: scripts/monitor_backend.sh results/monitor/<tên>.csv
+  > 3. Chạy: jmeter -n -t test-plans/23120190_Load_20261117.jmx -l results/jtl/<tên>.jtl -e -o results/html/<tên>/
+  > 4. Dừng monitor. Ghi vào report/07_run_log.md: thời gian bắt đầu/kết thúc, lệnh đã chạy, số sample, % lỗi, avg/p90/p95/p99, throughput, CPU và RAM tối đa của backend.
+  > Mọi số phải lấy từ results/html/<tên>/statistics.json và file monitor CSV. Không ước lượng.
+  > 5. Nếu có lockout xảy ra: ghi lại mã lỗi và số lần, rồi ghi cách đã reset.
+  > Xong khi: có .jtl, thư mục HTML và CSV monitor của plan; run log có số liệu kèm nguồn trích.
+  > Chi tiết thực thi: jmx test-plans/23120190_Load_20261117.jmx (không đổi ngày tên plan đãtạo). Kếtquả basename23120190_Load_$(date +%Y%m%d), nếu outputđãtồn tại dùng timestamp suffix đừng xóa/ghiđè kếtquả trước. Trước bất kỳrun: ghi thời gian dateVN và reset_sut. Tạo dirs results/jtl,results/html,results/monitor. Chạy monitor output CSV basename tươngứng, giữ PID, trap dừngmonitor khi JMeter kếtthúc/lỗi. Chạy JMeter KHÔNG override threads/rampup/duration/loops: mặcđịnh50VU ramp50s tổng600s, -l -e -o đúngyêu cầu, -j results/<basename>_jmeter.log, console tee results/23120190_Load_console.log (log là outputprogram, shell redirect đượcphép khôngcodeedit). Timeout đủ khoảng900s, không tự rútngắn. Bắt stdout/progress thật, đừng đểpipeline tee làm mất exitcode setpipefail. Sau test dừngmonitor, đọcthậtJTL vàHTML statistics.json, count primary/negative riêng, mã401/403, negative success, mainerrors; tínhcpu/rSS max từCSV và nóiCPU ps là lifetime average sampled không phải instantaneouspeak. Mọiavg/p90/p95/p99/throughput lấy statistics.json exactfields, nêu units. Source report/07_run_log.md có start/end/reset times/commands/errors vàcácmetricsnguồn. Append AI_LOG bước13Load đúngtimestamp/prompt(đãthayLOAD), modelactual, Humanreviewtrống. Khôngtựđiềnreview hoặc commitusersfiles. Nếu HTML generation lỗi, giữJTL/CSV vàbáoerror thật không claimđủ; không chạy lại tải chỉđểтạoHTML (cóthể dùngjmeter -g existingJTL đểgenerateHTML saufixruntime nếu khôngсửaJTL). Cuối lượt báođủartifact paths vàtrạngthái, дừngчờManager yêu cầungười dùngchụpảnh. Khôngч chạyplan thứ2.
+- **AI output:**
+  > Đã reset SUT, chạy duy nhất LOAD plan với monitor đồng hành; hoàn tất thành công, sinh JTL, HTML report và CSV monitor. Báo cáo số liệu thực trong report/07_run_log.md, phân tách main/negative login và mã HTTP, kèm nguồn statistics.json/CSV. Không sửa plan/SUT, không chạy plan khác.
+- **Human review:** 
