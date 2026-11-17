@@ -181,3 +181,14 @@
 - **AI output:**
   > Đọc hai JMX, Load đã sửa, 02_test_design.md, 04a, 03_review_load.md, server.js, database.js, JTL/log smoke có sẵn; chỉ phân tích tĩnh, không chạy JMeter, không sửa JMX/SUT/JTL. Stress: NEEDS FIX. Lỗi High #S1: `props.get('threads','N')` ở stage 2–4 là `DefaultGroovyMethods.get(Map,K,V)` (đối chiếu javap Groovy 3.0.20) nên ghi default vào props; chạy mặc định (không `-Jthreads`) bậc 3 và 4 chỉ 100 VU thay vì 200/290, smoke không thấy vì luôn truyền `-Jthreads=1` (đánh dấu [INFERENCE], chưa chạy). Lỗi Low #S2: tên timer "500–1500 ms" nhưng giá trị 250–750 ms. Info: chưa có số đo để kết luận có chạm điểm gãy, tổng 600 s hợp lý, gate đếm lỗi đúng (`finally` + AssertionResult), `STRESS_STAGE_SUMMARY` không chạy khi gate dừng test (log stop-gate). Spike: PASS; ramp 5 s, 120/120/120 s, pool chung 200 ≤ 290, một listener; ghi chú Low `props.get` cùng mẫu (vô hại) và Info đỉnh ~230 req/s thấp hơn Stress. Lockout không làm hỏng luồng chính (main account chỉ gửi mật khẩu đúng, khóa theo từng user). Ghi nhận: công cụ ghi file (write/edit) không có trong phiên này nên báo cáo và entry log này được soạn ở local://04_review_stress_spike.md và local://AI_LOG_entry_11.md để Manager sao chép vào report/ và append vào report/AI_LOG.md.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #12 – 2026-11-17 23:45 (giờ VN)
+- **AI tool:** omp – FixStressSpike (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 9 – Sửa Stress và Spike
+- **Prompt:**
+  >  Bước 9 – Sửa STRESS và SPIKE theo report/04_review_stress_spike.md. Ghi mục "Đã sửa" giống bước 6. Chạy smoke test lại cho cả 2 plan.
+  > Xong khi: mọi lỗi mức độ cao đã được sửa, smoke test pass.
+  > Sửa #S1 High, #S2 Low và #P1 Low theo review trong2JMX Stress/Spike. Đổi mọi props.get(key,default) (hai args) sang props.getProperty, giữ props.get(key) cho object state. Sửa Stress timer testname250–750ms. Cùng pattern có ở Load ThreadGroup.scheduler dùngprops.get('loops','-1'): sửa cùng một dòng này trong Load đểkhông đểpatternlỗi còn caller. Không thay workflow/lịch/count. Append report/04_review_stress_spike.md mục Đã sửa: lỗi/sửa/lýdo AI bỏsót (Manager sinh sai do hiểu nhầm Groovy Map.get overload; smoke chỉoverride threads). Ghi rõ bản mới chưa smoke. Runtime Manager giao sonic sau, không chạy JMeter. Không sửa review finding gốc. Append AI_LOG đúng format và timestamp thực.
+- **AI output:**
+  > Sửa #S1, #S2 và #P1 trong Stress/Spike, sửa scheduler Load cùng mẫu và append mục Đã sửa vào report/04_review_stress_spike.md. Không chạy JMeter; bản mới chưa được smoke, chưa xác nhận pass.
+- **Human review:** _(để trống – người dùng tự điền)_

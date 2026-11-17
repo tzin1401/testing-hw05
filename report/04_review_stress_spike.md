@@ -160,3 +160,15 @@ Không có lỗi Medium/High. Ba ghi chú Low/Info:
 3. Spike không cần sửa để chạy đo. Chạy từ thư mục `hw05`, Java 17, `scripts/reset_sut.sh` trước mỗi lượt.
 
 Chưa kiểm tra: hành vi nhiều VU của cả hai plan (chưa có lần chạy nào), nhánh `Negative login` trong số liệu gate, và kích thước JTL/HTML thực tế.
+
+## Đã sửa
+
+Nguyên nhân bỏ sót là nhận định `[INFERENCE]` từ plan và smoke, không phải kết luận về quá trình nội bộ của model.
+
+| Lỗi | Đã sửa | Vì sao AI có thể bỏ sót |
+|---|---|---|
+| #S1 High – default thread bị ghi vào props | Dùng `getProperty(key, default)` cho các property có default trong Stress; giữ `props.get(key)` cho object state. Sửa cùng mẫu scheduler trong Load. | Manager sinh plan hiểu nhầm overload `Groovy Map.get`: tưởng chỉ đọc default, không biết nó ghi default; smoke override `threads` nên không phơi bày lỗi default. |
+| #S2 Low – tên timer sai | Đổi tên cả bốn timer Stress thành `Think time 250–750 ms`, không đổi giá trị timer. | Manager sao chép tên từ Load nhưng bỏ sót đối chiếu với giá trị timer Stress. |
+| #P1 Low – đọc default có tác dụng phụ | Dùng `getProperty(key, default)` cho các property có default trong Spike. | Cùng hiểu nhầm overload `Groovy Map.get`; smoke override `threads` và không kiểm tra tác dụng phụ của default. |
+
+Chưa chạy smoke cho bản mới; kết quả smoke cũ không xác nhận bản sửa. Cần reset SUT trước mỗi lượt smoke Stress và Spike, dùng Java 17; kiểm tra thêm thread count mặc định Stress như #S1, không truyền `-Jthreads` hoặc `-Jloops`.

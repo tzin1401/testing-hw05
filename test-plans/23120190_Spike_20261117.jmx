@@ -45,7 +45,7 @@
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(threads,10)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampup,10)}</stringProp>
-        <stringProp name="ThreadGroup.scheduler">${__groovy(props.get('loops'\,'-1') == '-1')}</stringProp>
+        <stringProp name="ThreadGroup.scheduler">${__groovy(props.getProperty('loops'\,'-1') == '-1')}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(duration,360)}</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
       </ThreadGroup>
@@ -326,11 +326,11 @@ try {
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">${__P(loops,-1)}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__groovy((props.get('loops'\,'-1') == '-1' || props.get('timeline_smoke'\,'false') == 'true') ? props.get('spike_threads'\,'190') : '0')}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__groovy((props.getProperty('loops'\,'-1') == '-1' || props.getProperty('timeline_smoke'\,'false') == 'true') ? props.getProperty('spike_threads'\,'190') : '0')}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(spike_rampup,5)}</stringProp>
-        <stringProp name="ThreadGroup.scheduler">${__groovy(props.get('loops'\,'-1') == '-1')}</stringProp>
+        <stringProp name="ThreadGroup.scheduler">${__groovy(props.getProperty('loops'\,'-1') == '-1')}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(spike_duration,120)}</stringProp>
-        <stringProp name="ThreadGroup.delay">${__groovy(props.get('loops'\,'-1') == '-1' ? props.get('spike_delay'\,'120') : '0')}</stringProp>
+        <stringProp name="ThreadGroup.delay">${__groovy(props.getProperty('loops'\,'-1') == '-1' ? props.getProperty('spike_delay'\,'120') : '0')}</stringProp>
       </ThreadGroup>
       <hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Main accounts">

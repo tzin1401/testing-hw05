@@ -1,0 +1,8 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794934088465,43,01 Login,200,OK,Stress stage 1 1-1,text,true,,642,235,1,1,http://localhost:3000/api/login,43,0,25
+1794934089095,6,02 Products,200,OK,Stress stage 1 1-1,text,true,,1238,322,1,1,http://localhost:3000/api/products,6,0,0
+1794934089727,11,03 Product detail,200,OK,Stress stage 1 1-1,text,true,,451,324,1,1,http://localhost:3000/api/products/1,11,0,0
+1794934090315,20,04 Add cart,200,OK,Stress stage 1 1-1,text,true,,294,404,1,1,http://localhost:3000/api/cart,20,0,0
+1794934090609,4,05 Get cart,200,OK,Stress stage 1 1-1,text,true,,334,318,1,1,http://localhost:3000/api/cart,3,0,0
+1794934091347,18,06 Checkout,200,OK,Stress stage 1 1-1,text,true,,312,405,1,1,http://localhost:3000/api/checkout,18,0,0
+1794934091680,4,07 My orders,200,OK,Stress stage 1 1-1,text,true,,405,330,1,1,http://localhost:3000/api/orders/my-orders,4,0,0
