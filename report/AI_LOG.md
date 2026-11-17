@@ -118,3 +118,23 @@
 - **AI output:**
   > Đọc log Java 17: lỗi ArrayIndexOutOfBoundsException tại getMatchNumbersAsInt khi xử lý 01 Login, summary 0 sample. Đối chiếu javap JMeter 5.6.3: defaultValues được split bằng dấu chấm phẩy, giá trị cũ `;` tạo mảng rỗng trong khi match_numbers có hai phần tử. Sửa default của extractor login thành `NOT_FOUND;NOT_FOUND` và checkout thành `NOT_FOUND`, giữ native keys, JSONPath, match và workflow. Append nguyên nhân vào report/02a_load_smoke.md và hướng dẫn Java 17 vào report/00_environment.md. Chưa chạy lại JMeter, chưa xác nhận pass.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #8 – 2026-11-17 23:21 (giờ VN)
+- **AI tool:** omp – Reviewer (anthropic/claude-sonnet-5-5)
+- **Bước:** Task 1 – Bước 5 – Review độc lập test plan Load
+- **Prompt:**
+  > Bước 5 – Review độc lập test plan LOAD (test-plans/23120190_Load_*.jmx). Đối chiếu với report/02_test_design.md và eshop-sut/backend/server.js.
+  > Kiểm tra và liệt kê từng lỗi theo mẫu: [mức độ] vị trí – vấn đề – cách sửa. Cần kiểm tra:
+  >   - Ramp-up và think-time có thực tế không; số thread có hợp lý không.
+  >   - Assertion có yếu không (chỉ kiểm tra 200 là yếu). Có xử lý được price string/number không.
+  >   - Xử lý lockout có đúng không: tài khoản sai có tách riêng không, 401/403 có được coi là đúng không.
+  >   - Extractor và header có đúng không; Authorization có bị thiếu ở request nào không.
+  >   - Đường dẫn CSV, Sharing mode, Recycle.
+  >   - total_amount có bị cộng dồn sai không.
+  >   - Listener có đúng duy nhất Summary Report không.
+  > Ghi vào report/03_review_load.md. KHÔNG sửa file .jmx.
+  > Xong khi: mỗi lỗi có vị trí cụ thể và cách sửa; có kết luận PASS hoặc NEEDS FIX.
+  > Điểm đã biết cần xét: CSV main tiêu thụ mỗi iteration nhưng account_email cố định; pool fallback đọc file. Kiểm tra việc này gây consumer-visible lỗi thực hay chỉ lệch thiết kế, tránh đòi abstraction dư. Xem response assertions, stop dependencies, token default NOT_FOUND. Không sửa JMX; mỗi finding phải có dòng/cách sửa và evidence. Có quyền viết thì chỉ report/03_review_load.md và append AI_LOG; không có thì trả nguyên nội dung để Manager ghi.
+- **AI output:**
+  > Đọc JMX, 02_test_design.md, 02a_load_smoke.md và server.js; tạo report/03_review_load.md, kết luận NEEDS FIX. 3 lỗi Medium: (1) thiếu HTTPSampler.use_keepalive nên mọi request gửi Connection: close (đối chiếu javap ApacheJMeter_http.jar 5.6.3: mặc định false); (2) assertion 05 Get cart khớp phần tử cũ vì giỏ không bị xóa, nên dùng phần tử cuối; (3) login thất bại thì vòng lặp quay lại không có think-time. Thêm 2 lỗi Low (switch assertion không có default; assertion không đối chiếu biến extractor), các mục Info. Pool account: không phải lỗi người dùng nhìn thấy, chỉ lệch thiết kế, không đòi abstraction. Không sửa JMX/SUT, không chạy test, không tạo .jtl; chưa chạy 50 VU nên các nhận định tải đánh dấu [INFERENCE].
+- **Human review:** _(để trống – người dùng tự điền)_
