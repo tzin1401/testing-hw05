@@ -1,0 +1,17 @@
+2026-11-18T02:06:55.186883+07:00 POST /api/login body={"email": "perf289@eshop.com", "password": "Perf@289a"} HTTP 200
+{"message": "Login successful", "token": "[REDACTED]", "user": {"id": 291, "name": "Perf User 289", "email": "perf289@eshop.com", "password": "Perf@289a", "role": "user", "login_attempts": 0, "locked_until": null, "reset_token": null, "shipping_address": null, "phone": null}}
+2026-11-18T02:06:55.193176+07:00 GET /api/cart body=null HTTP 200
+[]
+2026-11-18T02:06:55.198832+07:00 GET /api/products/2 body=null HTTP 200
+{"id": 2, "name": "Samsung Galaxy S24 Ultra", "price": "28000000", "description": "Màn hình hiển thị xuất sắc, camera siêu zoom", "imageUrl": "https://placehold.co/300x300/png?text=Samsung+S24", "category_id": 1}
+2026-11-18T02:06:55.205296+07:00 POST /api/cart body={"id": 2, "name": "Samsung Galaxy S24 Ultra", "price": 28000000, "quantity": 1} HTTP 200
+{"message": "Added to cart"}
+2026-11-18T02:06:55.211349+07:00 GET /api/cart body=null HTTP 200
+[{"id": 2, "name": "Samsung Galaxy S24 Ultra", "price": 28000000, "quantity": 1}]
+2026-11-18T02:06:55.226419+07:00 POST /api/checkout body={"total_amount": 1, "shipping_address": "test"} HTTP 200
+{"message": "Checkout successful", "orderId": 1}
+2026-11-18T02:06:55.232938+07:00 GET /api/orders/my-orders body=null HTTP 200
+[{"id": 1, "user_id": 291, "total_amount": 1, "status": "pending", "shipping_address": "test", "created_at": "2026-11-17 19:06:55"}]
+2026-11-18T02:06:55.239293+07:00 GET /api/cart body=null HTTP 200
+[{"id": 2, "name": "Samsung Galaxy S24 Ultra", "price": 28000000, "quantity": 1}]
+Observed: stored client total 1; cart retained after successful checkout.
