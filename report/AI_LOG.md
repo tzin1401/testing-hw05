@@ -165,3 +165,19 @@
 - **AI output:**
   > Hai worker không tạo được file; Manager tái sử dụng cây XML của Load đã sửa, ghi hai JMX Stress/Spike đúng ngày date. Stress có 4 nhóm nối tiếp, gate nội bộ không ghi sample đánh giá error/p95 trước bậc tiếp, pool tài khoản riêng từng bậc và summary; Spike có nhóm nền/burst đồng thời chia sẻ pool. Giữ workflow, assertion, keepalive và lockout. Giao sonic chạy smoke 1VU, toàn bậc Stress và compressed Spike. Chưa xác nhận runtime pass, chưa chạy tải thật.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #11 – 2026-11-17 23:45 (giờ VN)
+- **AI tool:** omp – Reviewer (anthropic/claude-sonnet-5-5)
+- **Bước:** Task 1 – Bước 8 – Review độc lập test plan Stress và Spike
+- **Prompt:**
+  > Bước 8 – Review độc lập test plan STRESS và SPIKE, dùng cùng checklist với report/03_review_load.md. Kiểm tra thêm:
+  >   - Các bậc tải Stress có đủ cao để chạm điểm gãy không.
+  >   - Spike có thật sự tăng vọt không: ramp-up phải vài giây, không phải vài phút.
+  >   - Tổng thời gian chạy của mỗi plan có hợp lý không.
+  >   - Khi tải cao, lockout có làm hỏng luồng chính không.
+  > Ghi vào report/04_review_stress_spike.md. KHÔNG sửa file .jmx.
+  > Xong khi: mỗi plan có danh sách lỗi và kết luận riêng.
+  > Đọc report/04a_stress_spike_initial_smoke.md: smoke7/7 mỗiplan, Stress4stage28samples, Spike compressed low/high/low, stopgate Java17 đã quan sát. Đọc các plan và Load đã sửa, thiết kế, server code. Kiểm tra property runtime JMeter (__groovy, num_threads=0 smoke, scheduler/delay/duration), pool namespaces Stress riêngstage/Spikechung, failure gate assertion state, one ResultCollector listener each. Nêu lỗi observable với evidence, không scope creep. Report/04_review_stress_spike.md, AI_LOG append only, kết luận mỗiplan riêng. Không sửa plans, không kiểm tra lại runtime.
+- **AI output:**
+  > Đọc hai JMX, Load đã sửa, 02_test_design.md, 04a, 03_review_load.md, server.js, database.js, JTL/log smoke có sẵn; chỉ phân tích tĩnh, không chạy JMeter, không sửa JMX/SUT/JTL. Stress: NEEDS FIX. Lỗi High #S1: `props.get('threads','N')` ở stage 2–4 là `DefaultGroovyMethods.get(Map,K,V)` (đối chiếu javap Groovy 3.0.20) nên ghi default vào props; chạy mặc định (không `-Jthreads`) bậc 3 và 4 chỉ 100 VU thay vì 200/290, smoke không thấy vì luôn truyền `-Jthreads=1` (đánh dấu [INFERENCE], chưa chạy). Lỗi Low #S2: tên timer "500–1500 ms" nhưng giá trị 250–750 ms. Info: chưa có số đo để kết luận có chạm điểm gãy, tổng 600 s hợp lý, gate đếm lỗi đúng (`finally` + AssertionResult), `STRESS_STAGE_SUMMARY` không chạy khi gate dừng test (log stop-gate). Spike: PASS; ramp 5 s, 120/120/120 s, pool chung 200 ≤ 290, một listener; ghi chú Low `props.get` cùng mẫu (vô hại) và Info đỉnh ~230 req/s thấp hơn Stress. Lockout không làm hỏng luồng chính (main account chỉ gửi mật khẩu đúng, khóa theo từng user). Ghi nhận: công cụ ghi file (write/edit) không có trong phiên này nên báo cáo và entry log này được soạn ở local://04_review_stress_spike.md và local://AI_LOG_entry_11.md để Manager sao chép vào report/ và append vào report/AI_LOG.md.
+- **Human review:** _(để trống – người dùng tự điền)_
