@@ -236,3 +236,20 @@
 - **AI output:**
   > Bảo toàn HTML output cũ sau lỗi directory tồn tại; tạo report offline thành công từ JTL hiện có. Append report/07_run_log.md mục Stress với statistics, phân loại sample/codes, monitor và từng stable stage; tất cả bốn bậc tới 290 VU đạt gate, max observed 290 VU nhưng breakpoint chưa chạm. Append prompt chính xác vào TASK1_PROMPTS.md và entry này; không rerun tải, không chạy Load/Spike/Soak.
 - **Human review:** 
+
+## #16 – 2026-11-18 01:21 (giờ VN)
+- **AI tool:** omp – RunSpike (openai-codex/gpt-6-luna)
+- **Bước:** Task 1 – Bước 13 – Chạy thật plan SPIKE
+- **Prompt:**
+  > Bước 13 – Chạy thật plan SPIKE (mỗi lần giao chỉ chạy 1 plan).
+  > 1. Chạy scripts/reset_sut.sh. Ghi các bước reset vào report/07_run_log.md, kèm thời điểm thực hiện.
+  > 2. Chạy song song: scripts/monitor_backend.sh results/monitor/<tên>.csv
+  > 3. Chạy: jmeter -n -t test-plans/<plan>.jmx -l results/jtl/<tên>.jtl -e -o results/html/<tên>/
+  > 4. Dừng monitor. Ghi vào report/07_run_log.md: thời gian bắt đầu/kết thúc, lệnh đã chạy, số sample, % lỗi, avg/p90/p95/p99, throughput, CPU và RAM tối đa của backend.
+  > Mọi số phải lấy từ results/html/<tên>/statistics.json và file monitor CSV. Không ước lượng.
+  > 5. Nếu có lockout xảy ra: ghi lại mã lỗi và số lần, rồi ghi cách đã reset.
+  > Xong khi: có .jtl, thư mục HTML và CSV monitor của plan; run log có số liệu kèm nguồn trích.
+  > JMX test-plans/23120190_Spike_20261117.jmx. Basename23120190_Spike_$(date +%Y%m%d), nếu output tồn tại dùngsuffixfresh; tuyệtđốikhôngghiđèJTL/HTML/CSV. Reset_sut trướcJMeter, monitorCSV backgroundtrapdừng/wait. Chạyjmeter -n -t... -l results/jtl/<base>.jtl -e -o results/html/<base>/ -j results/<base>_jmeter.log; console tee results/23120190_Spike_console.log, pipefail giữexitcode. KHÔNG override threads/rampup/duration/loops/spike_*; mặcđịnhbaseline10VU360sramp10s, burst190VUdelay120sduration120sramp5s, đồngthời đúng10→200→10. Timeout700s; outputleafHTMLkhôngtạo trướcrun, chỉparentdir. NếuexportHTMLlỗi giữJTLvàCSV, generateoffline bằng-gexistingJTL sangdirfresh, khôngrerunSpike. Đọcthậ statistics.json totalmetrics avg/p90/p95/p99/error/throughput exactsource; JTLmain/negativecount/errors/codes, pha baseline/burst/recovery theoactualtimings từlogs vàthreadName; monitorCPUsampledmax/RSSMiB CPUpslifetimeaverage. Appendreport/07_run_log.md mụcSpike giữmọiLoadStress, exactcommands/env/reset/start/end/artifacts/sources/method phânpha. AppendAI_LOG bước13Spike promptnguyênvăn bỏGhi vào log, timestampVN từdate, toolmodelactual, humanreviewblank; khôngghiTASK1_PROMPTS hoặc06humanreview/evidence. DừngsauSpike đểuserchụpảnh, khôngSoak. Báokếtquảthậtđủartifactsanderrorstate, khôngclaimbreakpointtừSpike.
+- **AI output:**
+  > Reset SUT và chạy duy nhất plan SPIKE với tải mặc định, monitor song song. JMeter hoàn tất exit code 0, sinh JTL, HTML và CSV; report/07_run_log.md được bổ sung metrics thực, phân loại JTL/lockout, tài nguyên monitor và artifact sources. Không chạy Soak.
+- **Human review:** 

@@ -100,3 +100,48 @@ JTL `timeStamp` là sample start time. Mốc đầu cửa sổ lấy từ `STRES
 Cuối cửa sổ danh nghĩa bậc 4 là 01:08:20.972; log ghi tải kết thúc lúc 01:08:21.633. Gate log cho các bậc trước bậc kế tiếp: stage 1 15,767 mẫu/p95 12 ms, stage 2 31,275/p95 17 ms, stage 3 61,173/p95 48 ms; cả ba `errors=0.0`, `continue=true`. Stage 4 được chạy hết; summary log ghi 66,406 mẫu, lỗi 0%, p95 906 ms. Các gate lấy thống kê tích lũy toàn stage theo script, còn bảng stable-window loại 30 giây ramp-up; hai loại cửa sổ không thay thế nhau. Tất cả gate đều tiếp tục và mọi stable window danh nghĩa đều thỏa ngưỡng lỗi ≤5% và p95 ≤2,000 ms. 290 VU là mức ổn định quan sát được cao nhất và cũng là bậc cao nhất đã thử; do chưa vượt ngưỡng ở 290 VU, breakpoint/threshold chưa tìm thấy. Không có bậc nào bị bỏ qua.
 
 Artifacts: JTL `results/jtl/23120190_Stress_20261118.jtl`; monitor CSV `results/monitor/23120190_Stress_20261118.csv`; report offline `results/html/23120190_Stress_20261118_recovered/`; HTML output ban đầu lỗi do thư mục có sẵn nhưng directory cũ được giữ nguyên.
+
+## Bước 13 – Chạy thật plan SPIKE
+
+### Reset, thời gian và lệnh
+
+- Reset SUT bắt đầu `2026-11-18 01:15:09 +07`, hoàn tất `01:15:16 +07`, bằng `scripts/reset_sut.sh`; kết quả thật: `SUT reset. Backend PID: 774397 | users seeded: 300`. Việc restart backend reset DB và trạng thái lockout; script seed 300 user.
+- JMeter bắt đầu `2026-11-18 01:15:17 +07`; JMeter log ghi test bắt đầu `2026 Nov 18 01:15:18 ICT`; tải kết thúc `2026-11-18 01:21:19 +07` (JMeter log `01:21:19 ICT`), lệnh kết thúc lúc `01:21:22 +07`, exit code `0`.
+- Monitor chạy nền song song trước JMeter; trap gửi SIGINT và chờ monitor kết thúc sau JMeter.
+- Monitor start time: `2026-11-18T01:15:16+0700`, immediately before JMeter; the shell command was `scripts/monitor_backend.sh results/monitor/23120190_Spike_20261118.csv`.
+- Lệnh thực tế (Java 17; không override tải):
+  ```bash
+  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  export PATH="$JAVA_HOME/bin:$PATH"
+  jmeter -n -t test-plans/23120190_Spike_20261117.jmx -l results/jtl/23120190_Spike_20261118.jtl -e -o results/html/23120190_Spike_20261118/ -j results/23120190_Spike_20261118_jmeter.log
+  ```
+- Stdout/stderr tee: `results/23120190_Spike_20261118_console.log`. JMeter tạo HTML dashboard thành công.
+
+### Kết quả
+
+Nguồn metric tổng thể: `results/html/23120190_Spike_20261118/statistics.json`, entry `Total`; response time đơn vị ms, throughput requests/sec.
+
+| Metric | Giá trị |
+|---|---:|
+| Samples tổng | 27,965 |
+| Errors | 0 (0.0%) |
+| Average (`meanResTime`) | 75.25227963525879 ms |
+| p90 (`pct1ResTime`) | 12 ms |
+| p95 (`pct2ResTime`) | 17 ms |
+| p99 (`pct3ResTime`) | 32 ms |
+| Throughput | 77.92645681929645 requests/sec |
+
+JTL `results/jtl/23120190_Spike_20261118.jtl` xác nhận 27,965 samples, lỗi 0; 27,760 luồng chính và 205 `Negative login`, tất cả thành công theo assertion. Negative login trả HTTP 401 22 lần và HTTP 403 183 lần; phản hồi 403 là lockout của user dùng nhánh đăng nhập sai, được chấp nhận trong plan, không phải lỗi sample. SUT đã reset trước test để xóa lockout.
+
+Phân nhóm theo `threadName` trong JTL: `Spike baseline` có 4,001 sample chính, `Spike burst` có 23,759 sample chính; cả hai 0 lỗi. Đây là hai nhóm chạy chồng lấp, **không phải hai pha thời gian**. 703 sample recovery được worker xác định là phần con của nhóm baseline sau burst, không cộng thêm vào 27,760 mẫu chính. JMX cấu hình baseline 10 VU/360s và burst thêm 190 VU, delay 120s, duration 120s, ramp-up 5s. Log bắt đầu lập lịch nhóm baseline `01:15:18.944`, burst `01:15:20.495`; mốc lập lịch burst không phải mốc burst bắt đầu gửi HTTP. Theo timestamp JTL, HTTP của burst bắt đầu ở offset xấp xỉ 120s so với test; tải kết thúc `01:21:19`. Không dùng Spike để khẳng định breakpoint.
+
+Monitor CSV `results/monitor/23120190_Spike_20261118.csv`: 357 mẫu, `2026-11-18T01:15:16+0700`–`2026-11-18T01:21:22+0700`.
+
+| Tài nguyên backend | Max mẫu CSV |
+|---|---:|
+| CPU (`cpu_percent`) | 24.1% |
+| RSS (`rss_mb`) | 125.42 MiB |
+
+CPU là lifetime-average `%CPU` từ `ps`, lấy mẫu mỗi giây, không phải peak instantaneous; RSS được script đổi từ KiB sang MiB. Max là cao nhất trong các mẫu quan sát được.
+
+Artifacts: JTL `results/jtl/23120190_Spike_20261118.jtl`; HTML `results/html/23120190_Spike_20261118/`; monitor `results/monitor/23120190_Spike_20261118.csv`; runtime log `results/23120190_Spike_20261118_jmeter.log`; console `results/23120190_Spike_20261118_console.log`.
