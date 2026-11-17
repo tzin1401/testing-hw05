@@ -1,0 +1,8 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794940141157,43,01 Login,200,OK,Soak users 1-1,text,true,,642,235,1,1,http://localhost:3000/api/login,42,0,28
+1794940142253,2,02 Products,200,OK,Soak users 1-1,text,true,,1238,322,1,1,http://localhost:3000/api/products,2,0,0
+1794940143510,3,03 Product detail,200,OK,Soak users 1-1,text,true,,451,324,1,1,http://localhost:3000/api/products/1,3,0,0
+1794940144312,4,04 Add cart,200,OK,Soak users 1-1,text,true,,294,404,1,1,http://localhost:3000/api/cart,4,0,0
+1794940145801,2,05 Get cart,200,OK,Soak users 1-1,text,true,,334,318,1,1,http://localhost:3000/api/cart,2,0,0
+1794940146662,11,06 Checkout,200,OK,Soak users 1-1,text,true,,312,405,1,1,http://localhost:3000/api/checkout,11,0,0
+1794940147627,2,07 My orders,200,OK,Soak users 1-1,text,true,,405,330,1,1,http://localhost:3000/api/orders/my-orders,2,0,0

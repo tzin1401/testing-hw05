@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Flow 1 Soak">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="HOST" elementType="Argument"><stringProp name="Argument.name">HOST</stringProp><stringProp name="Argument.value">localhost</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp>
+          <elementProp name="PORT" elementType="Argument"><stringProp name="Argument.name">PORT</stringProp><stringProp name="Argument.value">3000</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp>
+        </collectionProp>
+      </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp><boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults"><stringProp name="HTTPSampler.domain">${HOST}</stringProp><stringProp name="HTTPSampler.port">${PORT}</stringProp><stringProp name="HTTPSampler.protocol">http</stringProp><stringProp name="HTTPSampler.connect_timeout">5000</stringProp><stringProp name="HTTPSampler.response_timeout">30000</stringProp></ConfigTestElement><hashTree/>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="JSON headers"><collectionProp name="HeaderManager.headers"><elementProp name="Content-Type" elementType="Header"><stringProp name="Header.name">Content-Type</stringProp><stringProp name="Header.value">application/json</stringProp></elementProp></collectionProp></HeaderManager><hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Soak users">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp><elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController"><boolProp name="LoopController.continue_forever">false</boolProp><stringProp name="LoopController.loops">${__P(loops,-1)}</stringProp></elementProp><stringProp name="ThreadGroup.num_threads">${__P(threads,203)}</stringProp><stringProp name="ThreadGroup.ramp_time">${__P(rampup,60)}</stringProp><stringProp name="ThreadGroup.scheduler">${__groovy(props.getProperty('loops'\,'-1') == '-1')}</stringProp><stringProp name="ThreadGroup.duration">${__P(duration,720)}</stringProp><stringProp name="ThreadGroup.delay">0</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Main accounts"><stringProp name="filename">data/users_main.csv</stringProp><stringProp name="fileEncoding">UTF-8</stringProp><stringProp name="variableNames">main_email,main_password</stringProp><boolProp name="ignoreFirstLine">true</boolProp><stringProp name="delimiter">,</stringProp><boolProp name="quotedData">false</boolProp><boolProp name="recycle">true</boolProp><boolProp name="stopThread">false</boolProp><stringProp name="shareMode">shareMode.all</stringProp></CSVDataSet><hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Products"><stringProp name="filename">data/products.csv</stringProp><stringProp name="fileEncoding">UTF-8</stringProp><stringProp name="variableNames">product_id,keyword,quantity,csv_price,csv_name</stringProp><boolProp name="ignoreFirstLine">true</boolProp><stringProp name="delimiter">,</stringProp><boolProp name="quotedData">false</boolProp><boolProp name="recycle">true</boolProp><boolProp name="stopThread">false</boolProp><stringProp name="shareMode">shareMode.all</stringProp></CSVDataSet><hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Lockout accounts"><stringProp name="filename">data/users_lock.csv</stringProp><stringProp name="fileEncoding">UTF-8</stringProp><stringProp name="variableNames">lock_email,lock_password</stringProp><boolProp name="ignoreFirstLine">true</boolProp><stringProp name="delimiter">,</stringProp><boolProp name="quotedData">false</boolProp><boolProp name="recycle">true</boolProp><boolProp name="stopThread">false</boolProp><stringProp name="shareMode">shareMode.all</stringProp></CSVDataSet><hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="01 Login"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/login</stringProp><stringProp name="HTTPSampler.method">POST</stringProp><boolProp name="HTTPSampler.postBodyRaw">true</boolProp><elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"><elementProp name="" elementType="HTTPArgument"><boolProp name="HTTPArgument.always_encode">false</boolProp><stringProp name="Argument.value">{"email":"${account_email}","password":"${account_password}"}</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp></collectionProp></elementProp></HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Keep account and reset iteration"><stringProp name="scriptLanguage">groovy</stringProp><stringProp name="cacheKey">true</stringProp><stringProp name="script">if (!vars.get('account_email')) {
+  def accounts = props.computeIfAbsent('soak.accounts') { java.util.Collections.synchronizedSet(new HashSet()) }
+  synchronized (accounts) {
+    def email = vars.get('main_email'); def password = vars.get('main_password')
+    if (accounts.contains(email)) {
+      def rows = new File('data/users_main.csv').readLines('UTF-8').drop(1).collect { it.split(',', -1) }
+      def row = rows.find { !accounts.contains(it[0]) }
+      if (!row) throw new IllegalStateException('Not enough main accounts for active VUs')
+      email = row[0]; password = row[1]
+    }
+    accounts.add(email); vars.put('account_email', email); vars.put('account_password', password)
+  }
+}
+['token','user_id','order_id','detail_name','detail_price','total_amount','login_ok','detail_ok','cart_ok','checkout_ok'].each { vars.remove(it) }</stringProp></JSR223PreProcessor><hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract token and user"><stringProp name="JSONPostProcessor.referenceNames">token;user_id</stringProp><stringProp name="JSONPostProcessor.jsonPathExprs">$.token;$.user.id</stringProp><stringProp name="JSONPostProcessor.match_numbers">1;1</stringProp><stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND;NOT_FOUND</stringProp></JSONPostProcessor><hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="5% wrong login"><intProp name="ThroughputController.style">1</intProp><boolProp name="ThroughputController.perThread">false</boolProp><stringProp name="ThroughputController.percentThroughput">${__P(lock_percent,5)}</stringProp></ThroughputController><hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Negative login"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/login</stringProp><stringProp name="HTTPSampler.method">POST</stringProp><boolProp name="HTTPSampler.postBodyRaw">true</boolProp><elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"><elementProp name="" elementType="HTTPArgument"><boolProp name="HTTPArgument.always_encode">false</boolProp><stringProp name="Argument.value">{"email":"${lock_email}","password":"${lock_password}"}</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp></collectionProp></elementProp></HTTPSamplerProxy><hashTree/>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Login failed"><stringProp name="IfController.condition">${__groovy(vars.get('login_ok') != 'true')}</stringProp><boolProp name="IfController.evaluateAll">false</boolProp><boolProp name="IfController.useExpression">true</boolProp></IfController><hashTree>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Pause after failed login"><intProp name="ActionProcessor.action">1</intProp><intProp name="ActionProcessor.target">0</intProp><stringProp name="ActionProcessor.duration">1000</stringProp></TestAction><hashTree/>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Authenticated"><stringProp name="IfController.condition">${__groovy(vars.get('login_ok') == 'true')}</stringProp><boolProp name="IfController.evaluateAll">false</boolProp><boolProp name="IfController.useExpression">true</boolProp></IfController><hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Bearer token"><collectionProp name="HeaderManager.headers"><elementProp name="Authorization" elementType="Header"><stringProp name="Header.name">Authorization</stringProp><stringProp name="Header.value">Bearer ${token}</stringProp></elementProp></collectionProp></HeaderManager><hashTree/>
+          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think time 500–1500 ms"><stringProp name="ConstantTimer.delay">500</stringProp><stringProp name="RandomTimer.range">1000</stringProp></UniformRandomTimer><hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="02 Products"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/products</stringProp><stringProp name="HTTPSampler.method">GET</stringProp></HTTPSamplerProxy><hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="03 Product detail"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/products/${product_id}</stringProp><stringProp name="HTTPSampler.method">GET</stringProp></HTTPSamplerProxy><hashTree/>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Valid product"><stringProp name="IfController.condition">${__groovy(vars.get('detail_ok') == 'true')}</stringProp><boolProp name="IfController.evaluateAll">false</boolProp><boolProp name="IfController.useExpression">true</boolProp></IfController><hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="04 Add cart"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/cart</stringProp><stringProp name="HTTPSampler.method">POST</stringProp><boolProp name="HTTPSampler.postBodyRaw">true</boolProp><elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"><elementProp name="" elementType="HTTPArgument"><boolProp name="HTTPArgument.always_encode">false</boolProp><stringProp name="Argument.value">${cart_body}</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp></collectionProp></elementProp></HTTPSamplerProxy><hashTree/>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Cart added"><stringProp name="IfController.condition">${__groovy(vars.get('cart_ok') == 'true')}</stringProp><boolProp name="IfController.evaluateAll">false</boolProp><boolProp name="IfController.useExpression">true</boolProp></IfController><hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="05 Get cart"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/cart</stringProp><stringProp name="HTTPSampler.method">GET</stringProp></HTTPSamplerProxy><hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 Checkout"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/checkout</stringProp><stringProp name="HTTPSampler.method">POST</stringProp><boolProp name="HTTPSampler.postBodyRaw">true</boolProp><elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"><elementProp name="" elementType="HTTPArgument"><boolProp name="HTTPArgument.always_encode">false</boolProp><stringProp name="Argument.value">{"total_amount":${total_amount},"shipping_address":"123 Test Street"}</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp></collectionProp></elementProp></HTTPSamplerProxy><hashTree>
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract order ID"><stringProp name="JSONPostProcessor.referenceNames">order_id</stringProp><stringProp name="JSONPostProcessor.jsonPathExprs">$.orderId</stringProp><stringProp name="JSONPostProcessor.match_numbers">1</stringProp><stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp></JSONPostProcessor><hashTree/>
+              </hashTree>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Checkout succeeded"><stringProp name="IfController.condition">${__groovy(vars.get('checkout_ok') == 'true')}</stringProp><boolProp name="IfController.evaluateAll">false</boolProp><boolProp name="IfController.useExpression">true</boolProp></IfController><hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="07 My orders"><boolProp name="HTTPSampler.use_keepalive">true</boolProp><stringProp name="HTTPSampler.path">/api/orders/my-orders</stringProp><stringProp name="HTTPSampler.method">GET</stringProp></HTTPSamplerProxy><hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Workflow response checks"><stringProp name="scriptLanguage">groovy</stringProp><stringProp name="cacheKey">true</stringProp><stringProp name="script">import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+try {
+  def label = prev.getSampleLabel()
+  if (label == 'Negative login') {
+    def ok = prev.getResponseCode() in ['401', '403']
+    prev.setSuccessful(ok)
+    assert ok : 'Expected HTTP 401 or 403'
+    return
+  }
+  assert prev.getResponseCode() == '200' : 'Expected HTTP 200'
+  def json = new JsonSlurper().parseText(prev.getResponseDataAsString())
+  def id = vars.get('product_id').toInteger()
+  def qty = vars.get('quantity').toInteger()
+  switch (label) {
+    case '01 Login':
+      assert json.token instanceof String &amp;&amp; json.token.trim() &amp;&amp; json.user?.id != null
+      assert vars.get('token') == json.token &amp;&amp; vars.get('user_id') == json.user.id.toString()
+      vars.put('login_ok', 'true'); break
+    case '02 Products':
+      assert json instanceof List &amp;&amp; json.any { it.id == id }; break
+    case '03 Product detail':
+      assert json instanceof Map &amp;&amp; json.id == id &amp;&amp; json.name instanceof String &amp;&amp; json.name.trim()
+      def price = new BigDecimal(json.price.toString()); assert price &gt; 0
+      vars.put('total_amount', price.multiply(new BigDecimal(qty)).toPlainString())
+      vars.put('cart_body', JsonOutput.toJson([id:id, name:json.name, price:price, quantity:qty]))
+      vars.put('detail_ok','true'); break
+    case '04 Add cart':
+      assert json.message == 'Added to cart'; vars.put('cart_ok','true'); break
+    case '05 Get cart':
+      assert json instanceof List &amp;&amp; json &amp;&amp; json[-1].id == id &amp;&amp; json[-1].quantity == qty; break
+    case '06 Checkout':
+      assert json.orderId instanceof Number &amp;&amp; json.orderId.toString() ==~ /[1-9][0-9]*/
+      assert vars.get('order_id') == json.orderId.toString()
+      vars.put('checkout_ok','true'); break
+    case '07 My orders':
+      assert json instanceof List &amp;&amp; json.any { it.id.toString() == vars.get('order_id') &amp;&amp; it.user_id.toString() == vars.get('user_id') &amp;&amp; new BigDecimal(it.total_amount.toString()).compareTo(new BigDecimal(vars.get('total_amount'))) == 0 }; break
+    default: assert false : 'No check for label ' + label
+  }
+} catch (Throwable e) {
+  AssertionResult.setFailure(true)
+  AssertionResult.setFailureMessage(e.toString())
+}</stringProp></JSR223Assertion><hashTree/>
+        <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer"><boolProp name="ResultCollector.error_logging">false</boolProp><objProp><name>saveConfig</name><value class="SampleSaveConfiguration"><time>true</time><latency>true</latency><timestamp>true</timestamp><success>true</success><label>true</label><code>true</code><message>true</message><threadName>true</threadName><dataType>true</dataType><assertions>true</assertions><subresults>true</subresults><responseData>false</responseData><samplerData>false</samplerData><xml>false</xml><fieldNames>true</fieldNames><responseHeaders>false</responseHeaders><requestHeaders>false</requestHeaders><responseDataOnError>false</responseDataOnError><saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage><assertionsResultsToSave>0</assertionsResultsToSave><bytes>true</bytes><sentBytes>true</sentBytes><url>true</url><threadCounts>true</threadCounts><idleTime>true</idleTime><connectTime>true</connectTime></value></objProp><stringProp name="filename">${__P(writer_file,results/jtl/23120190_Soak_20261118_writer.jtl)}</stringProp></ResultCollector><hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -253,3 +253,17 @@
 - **AI output:**
   > Reset SUT và chạy duy nhất plan SPIKE với tải mặc định, monitor song song. JMeter hoàn tất exit code 0, sinh JTL, HTML và CSV; report/07_run_log.md được bổ sung metrics thực, phân loại JTL/lockout, tài nguyên monitor và artifact sources. Không chạy Soak.
 - **Human review:** 
+
+## #17 – 2026-11-18 01:26 (giờ VN)
+- **AI tool:** omp – SoakPlan (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 14 – Tạo test plan Soak
+- **Prompt:**
+  > Bước 14 – Tạo test-plans/23120190_Soak_<YYYYMMDD>.jmx để chạy soak (endurance), dùng Load plan làm gốc.
+  > - Tải bằng khoảng 70% mức tải ổn định cao nhất quan sát được trong kết quả STRESS (đọc report/07_run_log.md và results/html/23120190_Stress_*/statistics.json). Ghi rõ đã chọn con số nào và vì sao.
+  > - Thời lượng 12 phút (Thread Group dùng Duration), ramp-up 60 giây.
+  > - Listener: Simple Data Writer (chỉ để ghi file).
+  > Xong khi: smoke test 1 thread pass; thông số chọn có trích nguồn từ kết quả Stress.
+  > Nguồn report/07_run_log.md Stress4stablewindows:290VU, errors0%, p95stable947ms, mainRPS470.775; maxobservedstable290VU, breakpointchưatìm. Chọn203VU=0.7*290 (integerexact), khôngclaim70%RPS. Soak dùngLoadthinktime500–1500ms (khácStress250–750ms), nênRPSsẽđothực, khôngsuy từstressRPS. Clone Loadkeepworkflow/extractors/meaningfulassertions/keepalive/negative5%/CSVpool (đổinamespace load.accounts→soak.accounts tránhGUIreuseotherplan). Threadsdefault203/rampup60/duration720, loopspropertysmoke1vòngscheduleroff, propertiesgetProperty khôngmutatingdefaults. ListenerduynhấtSimpleDataWriter native ResultCollector guiclassSimpleDataWriter; filename thực property ${__P(writer_file,results/jtl/23120190_Soak_<date>_writer.jtl)} cho nghehiệurõđangghifile. Main-lJTLcanonical giữriêngpath, KHÔNG cùngfilenamevớilistener vìsẽduplicateevents; ghi rõ outputwriterlàbảnphụgeneratedbởiJMeter, khôngdùngcộngdồn samplecount. Smoke sẽoverridewriter_fileunique. Không tạo/sửaJTLtrongagent. Datefromdate+%Y%m%d. Appendreport/02_test_design.md mụcSoakvớisources/70%VU/lýdo/time/listener/pathsmoke. AppendAI_LOG, no runtimepassclaim. Chỉ JMX mới và2docs, khôngscriptgeneratorJMX.
+- **AI output:**
+  > Tạo plan Soak từ Load với 203 VU, ramp 60 giây, duration 720 giây và Simple Data Writer ghi file riêng; bổ sung nguồn Stress, lý do chọn tải và lệnh smoke vào report/02_test_design.md. Chưa chạy JMeter hoặc xác nhận smoke pass.
+- **Human review:** 
