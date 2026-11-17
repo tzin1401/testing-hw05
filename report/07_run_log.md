@@ -61,18 +61,18 @@ CPU trong CSV là `%CPU` từ `ps`, giá trị lifetime average được lấy m
   export PATH="$JAVA_HOME/bin:$PATH"
   jmeter -n -t test-plans/23120190_Stress_20261117.jmx -l results/jtl/23120190_Stress_20261118.jtl -e -o results/html/23120190_Stress_20261118/ -j results/23120190_Stress_20261118_jmeter.log
   ```
-- Console được lưu tại `results/23120190_Stress_console.log`. Lệnh tải kết thúc với lỗi HTML output directory đã tồn tại; directory cũ `results/html/23120190_Stress_20261118/` không bị xóa hay ghi đè. Directory đã có `index.html`, `statistics.json`, `content/`, `sbadmin2-1.0.7/`; statistics cũ khớp report offline được phục hồi, không phải một test lần nữa.
-- Phục hồi report chỉ đọc JTL hiện có, không reset SUT hay chạy monitor:
+- Console: `results/23120190_Stress_console.log`. Worker ban đầu báo lỗi thư mục HTML đã tồn tại, nhưng rà soát cuối xác nhận JMeter gốc ghi `Dashboard generated`: `results/html/23120190_Stress_20261118/` đã tạo thành công. Dòng INFO bỏ qua `statistics.json` có sẵn không phải lỗi xuất dashboard; không quy lỗi HTML cho lần chạy tải.
+- Sau báo cáo nhầm của worker, đã xuất thêm bản đối chiếu từ JTL hiện có, không reset SUT hay chạy monitor:
   ```bash
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   export PATH="$JAVA_HOME/bin:$PATH"
   jmeter -g results/jtl/23120190_Stress_20261118.jtl -o results/html/23120190_Stress_20261118_recovered/ -j results/23120190_Stress_20261118_recovery_jmeter.log
   ```
-  Lệnh hoàn tất thành công; report có `statistics.json`. Run ban đầu và recovery log lần lượt ở `results/23120190_Stress_20261118_jmeter.log` và `results/23120190_Stress_20261118_recovery_jmeter.log`.
+  Lệnh xuất lại hoàn tất thành công; bản `_recovered` trùng nội dung với HTML gốc. Log gốc và log đối chiếu: `results/23120190_Stress_20261118_jmeter.log`, `results/23120190_Stress_20261118_recovery_jmeter.log`. Không chạy lại tải.
 
 ### Tổng kết và tài nguyên
 
-Nguồn tổng thể: `results/html/23120190_Stress_20261118_recovered/statistics.json`, entry `Total` (các trường response time ms; `pct1ResTime`=p90, `pct2ResTime`=p95, `pct3ResTime`=p99). Đây là statistics tính từ JTL gốc.
+Nguồn tổng thể: `results/html/23120190_Stress_20261118/statistics.json`, entry `Total` (response time ms; `pct1ResTime`=p90, `pct2ResTime`=p95, `pct3ResTime`=p99). Bản xuất lại `_recovered/statistics.json` có cùng số liệu từ cùng JTL.
 
 | Metric | Giá trị |
 |---|---:|
@@ -99,7 +99,7 @@ JTL `timeStamp` là sample start time. Mốc đầu cửa sổ lấy từ `STRES
 
 Cuối cửa sổ danh nghĩa bậc 4 là 01:08:20.972; log ghi tải kết thúc lúc 01:08:21.633. Gate log cho các bậc trước bậc kế tiếp: stage 1 15,767 mẫu/p95 12 ms, stage 2 31,275/p95 17 ms, stage 3 61,173/p95 48 ms; cả ba `errors=0.0`, `continue=true`. Stage 4 được chạy hết; summary log ghi 66,406 mẫu, lỗi 0%, p95 906 ms. Các gate lấy thống kê tích lũy toàn stage theo script, còn bảng stable-window loại 30 giây ramp-up; hai loại cửa sổ không thay thế nhau. Tất cả gate đều tiếp tục và mọi stable window danh nghĩa đều thỏa ngưỡng lỗi ≤5% và p95 ≤2,000 ms. 290 VU là mức ổn định quan sát được cao nhất và cũng là bậc cao nhất đã thử; do chưa vượt ngưỡng ở 290 VU, breakpoint/threshold chưa tìm thấy. Không có bậc nào bị bỏ qua.
 
-Artifacts: JTL `results/jtl/23120190_Stress_20261118.jtl`; monitor CSV `results/monitor/23120190_Stress_20261118.csv`; report offline `results/html/23120190_Stress_20261118_recovered/`; HTML output ban đầu lỗi do thư mục có sẵn nhưng directory cũ được giữ nguyên.
+Artifacts chính: JTL `results/jtl/23120190_Stress_20261118.jtl`; monitor CSV `results/monitor/23120190_Stress_20261118.csv`; HTML gốc `results/html/23120190_Stress_20261118/`. Bản đối chiếu `results/html/23120190_Stress_20261118_recovered/` được giữ như lịch sử thao tác, không phải lần chạy tải khác.
 
 ## Bước 13 – Chạy thật plan SPIKE
 

@@ -394,3 +394,42 @@
 - **AI output:**
   > Tạo báo cáo Task 1, README tự đánh giá và snapshot Git log; trích nguồn kết quả, nêu giới hạn endurance, các bug và phần việc sinh viên; không sửa human review. Manager cung cấp kết quả API Issues rỗng tại thời điểm kiểm tra. Không tự đăng issue hay push.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+
+## #24 – 2026-11-18 02:22 (giờ VN)
+- **AI tool:** omp – FinalCheck (anthropic/claude-sonnet-5-5)
+- **Bước:** Task 1 – Bước 19 – Rà soát cuối
+- **Prompt:**
+  > Bước 19 – Rà soát cuối Task 1 theo checklist của đề HW05 (Mục 6 Task 1, Mục 11 và Mục 14). Với mỗi mục, đánh dấu ✅ hoặc ❌ và ghi file chứng minh:
+  >   - 3 plan đúng tên, cùng workflow, đủ 3 nhóm endpoint, dữ liệu từ CSV, 3 listener khác nhau.
+  >   - Có 3 file .jtl ĐẦY ĐỦ và 3 thư mục HTML; có soak và ngưỡng có số cụ thể.
+  >   - Có hardware report, hostname khớp; có ghi các bước reset lockout.
+  >   - Có mục AI sai gì / vì sao; có bug report.
+  >   - Số liệu trong TASK1_REPORT.md khớp với statistics.json (kiểm tra ngẫu nhiên 5 số).
+  >   - AI_LOG.md có entry cho mọi bước 0–18.
+  > Ghi vào report/10_final_check.md. Liệt kê riêng những việc NGƯỜI DÙNG còn phải làm: ảnh chụp, video ≥ 6 phút, đăng Issues, điền Human review.
+  > Xong khi: checklist đầy đủ, mọi mục ❌ có hướng xử lý.
+  > Kiểmtra5randomnumbersmainreport với statistics.json nguồn (chọnthậtnêurõ5fields), đếm4canonicalJTLLoad/Stress/Spike/Soakdates18samplecount==HTMLTotalđểxácnhậnrawfull, writerSoakbảnphụkhôngcộng. StressHTMLcanonicalfolder23120190_Stress_20261118_recovered, othersnormaldates18. Check3mainplanworkflow/listenerdistinct/CSV/assertion/extractors; SoakSimpleWriterfilephụactual. Selftests3PASSdeterminismcmp0đãchạy scripts/summarize.py, khôngchạylại broadchecks. EnduranceStressmaxstableobserved290VU468.556RPS,p95947ms, chưabreakpointthrough290; Soak203VUminute3p952244ms>2000,overallp9521: khôngđánhPASSổnđịnhsuốt12phút. MemorymaxobservedStress171.64MiB/Soak127.8,slope1.470 khônghardcapacity/proveleak.
+  > Bugreport09có3confirmedFR02/08 +1pricecompatibilityambiguous. Workerclaimedcart200butraw403Managerđãthucheckout_cart_20261118.txtHTTP200,reportđãsửa,checkactualsource. Lockout35/179403181200. IssuespublicAPIđãđọctrả[]0asofcheck; agentkhôngđăng. VideoURLchưaprovided,PDFreportexportsnotcreated. Đâyuserremainingkhôngfake.
+  > Hardware05vàhardware.pngđối chiếuhostname; userảnhđãcommitnguyênvẹn: readảnhđạidiệnload_run.webp/stress_run.png/spike_run.png/soak_run.pngđểxácnhậnterminalJMeter+htopcùngkhung, nếuvẫnkhôngđủ/khôngđọcđượcghiuncertainty. report06userhumanreviewlinkonlyunchanged; AIloguserfilledentries1–13,newblank. LogcoverageAIsteps0–11,13–18; step12human-onlykhôngAIpromptnênkhôngbịaAIentry12, ghiexception. GIT_LOGsnapshotbefore18explicitkhôngfuturecommitvalid, don'trecursiveupdate.
+  > Checklist✅/❌từngmục+existingproofpaths. Mọi❌cóhướngxửlý rõ agentfixvsusermandatory. CuốiliệtkêuserremainingIssuesảnh/video≥6minunlistedVNvoice/Humanreviewnew/selfgrade/PDF/publicpush; Task2/3/Skilloutscopekhôngclaimdone. Nếucóactualagenterrorreachableghi exactfilelines đểManagerfix, khôngnarrowfalsePASS. AppendAI_LOGbước19modelactual/dateVN/promptnguyênvănbỏGhi vào log/Humanreviewblank; readonlytoolsreturnentryforManagerappend.
+- **AI output:**
+  > Đọc 4 JMX, TASK1_REPORT, README, 07/08/09, AI_LOG, GIT_LOG, 05_hardware, 06 (chỉ đọc), 9 ảnh evidence, statistics.json, endurance.json và JTL; không chạy tải/reset/commit/push, không sửa plan/JTL/SUT/06. Không có tool edit/write nên không ghi file; trả toàn văn report/10_final_check.md và entry này cho Manager ghi. Kết quả: 3 plan cùng workflow, đủ 3 nhóm endpoint, CSV, 3 listener khác nhau (Summary / Aggregate / Response Time Graph) + Soak Simple Data Writer; 4 JTL parse CSV có số dòng bằng Total.sampleCount của HTML (33,775 / 175,882 / 27,965 / 158,591), writer Soak trùng không cộng; 5 trường ngẫu nhiên (Stress RPS, Stress p95, Spike p95, Soak p95, Soak samples) và cả 16 ô bảng khớp statistics.json; số endurance khớp endurance.json (290 VU, 468.556 RPS, p95 947 ms; Soak phút 3 p95 2,244 ms > 2,000 ms, không đánh PASS ổn định 12 phút; RSS 171.64/127.80 MiB, slope 1.470 MiB/phút, không phải trần RAM hay bằng chứng leak). Hostname zinn-Nitro-AN515-57 khớp hardware.png, 05_hardware.md và lệnh `hostname`; 4 ảnh run cho thấy htop + tail jmeter.log cùng khung (PID khớp run log với Load và Spike; Stress/Soak không đối chiếu được PID đầy đủ, ghi uncertainty). AI_LOG có entry cho bước 0–11 và 13–18, bước 12 là việc người dùng nên không bịa entry. Phát hiện ❌ agent-fix: 07_run_log.md:64,102 và TASK1_REPORT.md:47 ghi sai là HTML Stress ban đầu "lỗi thư mục tồn tại" — log JMeter chỉ có INFO và "Dashboard generated", thư mục gốc đầy đủ, giống hệt bản recovered, chưa được git track; đề xuất sửa 3 dòng, chọn bản chính, git add thư mục gốc. Đề xuất bug chưa có: mật khẩu plaintext trả về trong /api/login (SEC-01, server.js:23-24,46,52; raw checkout_cart_20261118.txt dòng 2). Việc người dùng còn lại: video ≥ 6 phút unlisted giọng tiếng Việt, ảnh trang Issues và đăng Issues, điền Human review #14–#24, AI Critique 200–300 từ, xuất PDF, điền điểm tự chấm, push public, đóng gói zip. Task 2/3/Agent Skill ngoài phạm vi, không tuyên bố xong. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
+- **Human review:** _(để trống – người dùng tự điền)_
+
+## #25 – 2026-11-18 02:31 (giờ VN)
+- **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 1 – Bước 19 – Xử lý rà soát cuối
+- **Prompt:**
+  > Bước 19 – Rà soát cuối Task 1 theo checklist của đề HW05 (Mục 6 Task 1, Mục 11 và Mục 14). Với mỗi mục, đánh dấu ✅ hoặc ❌ và ghi file chứng minh:
+  >   - 3 plan đúng tên, cùng workflow, đủ 3 nhóm endpoint, dữ liệu từ CSV, 3 listener khác nhau.
+  >   - Có 3 file .jtl ĐẦY ĐỦ và 3 thư mục HTML; có soak và ngưỡng có số cụ thể.
+  >   - Có hardware report, hostname khớp; có ghi các bước reset lockout.
+  >   - Có mục AI sai gì / vì sao; có bug report.
+  >   - Số liệu trong TASK1_REPORT.md khớp với statistics.json (kiểm tra ngẫu nhiên 5 số).
+  >   - AI_LOG.md có entry cho mọi bước 0–18.
+  > Ghi vào report/10_final_check.md. Liệt kê riêng những việc NGƯỜI DÙNG còn phải làm: ảnh chụp, video ≥ 6 phút, đăng Issues, điền Human review.
+  > Xong khi: checklist đầy đủ, mọi mục ❌ có hướng xử lý.
+- **AI output:**
+  > Lưu bản review độc lập và cập nhật xử lý vào report/10_final_check.md. Sửa báo cáo nhầm của worker về HTML Stress: log gốc ghi Dashboard generated, _recovered chỉ là xuất đối chiếu; chuyển các tham chiếu hiện hành về HTML gốc và đưa thư mục đó vào commit. Thêm BUG-05 mật khẩu plaintext từ curl đã có, trích SEC-01 là tham khảo; cập nhật đếm 4 bug + 1 finding ở README/main report. Đính chính nhãn Task 2 ở entry #19/#21: đây là bước 16/17 Task 1, không sửa entry cũ. Cập nhật snapshot Git log và trạng thái smoke Soak. Không chạy lại tải/reset hoặc sửa JTL/SUT. Việc người dùng còn thiếu và giới hạn endurance giữ rõ trong checklist.
+- **Human review:** _(để trống – người dùng tự điền)_

@@ -62,6 +62,20 @@ Trích response thật: hai lần sai `401 {"error":"Invalid email or password"}
 - **Mức độ:** Low – client phải chuẩn hóa kiểu giá; không khẳng định mọi client hiện tại lỗi.
 - **Bằng chứng:** `results/repro/flow1_bugs_20261118.txt` (product list, product1 corrected, product2 corrected).
 
+## BUG-05 – Mật khẩu lưu plaintext và xuất hiện trong response login
+
+- **Môi trường:** Cùng SUT của BUG-02/03; tài khoản demo `perf289@eshop.com`.
+- **Tái hiện bằng curl:** Đã chạy lúc 02:06:55 +07, không chạy lại ở rà soát cuối:
+  ```bash
+  curl -sS -X POST http://localhost:3000/api/login \
+    -H 'Content-Type: application/json' \
+    -d '{"email":"perf289@eshop.com","password":"Perf@289a"}'
+  ```
+- **Thực tế:** HTTP 200; JSON response có `user.password` bằng nguyên văn `"Perf@289a"`. Trường này nằm trong response thật ở dòng 2 của `results/repro/checkout_cart_20261118.txt`; token đã che. `server.js:23–24` đưa nguyên password vào `INSERT users`, dòng 46 so sánh plaintext, dòng 52 trả toàn bộ user đọc từ DB.
+- **Mong đợi:** README mục 9, SEC-01 dòng 278: “Mật khẩu **không** được lưu dưới dạng plaintext.” Mục này ghi rõ **Tham khảo**, không giả làm FR bắt buộc. Loại mật khẩu khỏi response login là khuyến nghị bảo mật, không phải trích một yêu cầu response schema.
+- **Mức độ:** High (đánh giá rủi ro lưu credential đọc được; không tuyên bố đã khai thác tài khoản người khác).
+- **Bằng chứng:** `results/repro/checkout_cart_20261118.txt` dòng 1–2, mã nguồn và SEC-01 như trên. Không sửa SUT hoặc tạo thêm request để có bằng chứng.
+
 ## Quan sát hiệu năng (không phải bug curl đã tái hiện)
 
 Không chạy lại performance test theo phạm vi. Soak JTL ghi nhận minute index 3 có p95 **2,244 ms**, RPS **171.183**, error **0%**; đây là episode vượt tiêu chí 2,000 ms được mô tả trong `report/08_endurance.md`, không có căn cứ quy nguyên nhân cho một lỗi cụ thể, và curl trực tiếp không tái hiện tải/latency này. Nguồn: `results/jtl/23120190_Soak_20261118.jtl`, `results/analysis/endurance.json`, `results/monitor/23120190_Soak_20261118.csv`. Không tạo bug report riêng cho performance.

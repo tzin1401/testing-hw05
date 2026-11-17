@@ -40,11 +40,11 @@ Bảng dùng entry `Total` của từng statistics JSON, làm tròn RPS đến b
 | Run | Tổng samples | Error | p95 ms | RPS | Nguồn JSON | HTML | JTL canonical |
 |---|---:|---:|---:|---:|---|---|---|
 | Load | 33,775 | 0% | 11 | 56.344 | [JSON](../results/html/23120190_Load_20261118/statistics.json) | [HTML](../results/html/23120190_Load_20261118/index.html) | [JTL](../results/jtl/23120190_Load_20261118.jtl) |
-| Stress | 175,882 | 0% | 1,023 | 293.092 | [JSON](../results/html/23120190_Stress_20261118_recovered/statistics.json) | [HTML phục hồi](../results/html/23120190_Stress_20261118_recovered/index.html) | [JTL](../results/jtl/23120190_Stress_20261118.jtl) |
+| Stress | 175,882 | 0% | 1,023 | 293.092 | [JSON](../results/html/23120190_Stress_20261118/statistics.json) | [HTML](../results/html/23120190_Stress_20261118/index.html) | [JTL](../results/jtl/23120190_Stress_20261118.jtl) |
 | Spike | 27,965 | 0% | 17 | 77.926 | [JSON](../results/html/23120190_Spike_20261118/statistics.json) | [HTML](../results/html/23120190_Spike_20261118/index.html) | [JTL](../results/jtl/23120190_Spike_20261118.jtl) |
 | Soak | 158,591 | 0% | 21 | 220.332 | [JSON](../results/html/23120190_Soak_20261118/statistics.json) | [HTML](../results/html/23120190_Soak_20261118/index.html) | [JTL](../results/jtl/23120190_Soak_20261118.jtl) |
 
-HTML Stress được tạo offline từ JTL vì thư mục HTML ban đầu đã tồn tại, không phải chạy tải lại. JTL writer phụ của Soak là bản ghi cùng sự kiện, không cộng hai lần; xem [run log](07_run_log.md).
+HTML Stress gốc đã được JMeter tạo thành công. Worker từng hiểu nhầm thông báo INFO là lỗi; `_recovered` là bản xuất lại từ cùng JTL để đối chiếu, không phải chạy tải lại. Writer phụ Soak ghi cùng sự kiện nên không cộng hai lần; xem [run log](07_run_log.md).
 
 ## 6. Lockout và reset
 
@@ -58,7 +58,7 @@ Soak 203 VU có phút index 3 (180–240 s từ mẫu chính đầu tiên) **p95
 
 ## 8. Bug và issue
 
-[Bản nháp bug](09_bugs.md) ghi **3 lỗi** có yêu cầu FR-02/FR-08 rõ ràng: lockout, checkout tin tổng tiền client và giỏ không xóa; thêm **1 finding Low** về kiểu giá không nhất quán, kỳ vọng kiểu là inference vì spec không quy định rõ. [Raw lockout và giá](../results/repro/flow1_bugs_20261118.txt); [raw cart/checkout đã xác thực](../results/repro/checkout_cart_20261118.txt). Episode latency là quan sát hiệu năng riêng, không phải lỗi chức năng được curl tái hiện. Manager kiểm tra [API Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả danh sách rỗng, tức 0 issue quan sát tại thời điểm kiểm tra; sinh viên tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues), cân nhắc finding và bổ sung URL từng issue cùng ảnh.
+[Bản nháp bug](09_bugs.md) có **4 bug đã có bằng chứng**: 3 lỗi theo FR-02/FR-08 (lockout, checkout tin tổng tiền client, giỏ không xóa) và BUG-05 về mật khẩu plaintext theo SEC-01 (mục bảo mật tham khảo). Thêm **1 finding Low** về kiểu giá không nhất quán; spec chưa quy định rõ kiểu. [Raw lockout và giá](../results/repro/flow1_bugs_20261118.txt); [raw login/cart/checkout](../results/repro/checkout_cart_20261118.txt). Episode latency là quan sát riêng, không đếm thành bug chức năng. [API Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả `[]` lúc Manager kiểm tra; người dùng tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) rồi bổ sung URL/ảnh. Agent không đăng.
 
 ## 9. Bằng chứng
 

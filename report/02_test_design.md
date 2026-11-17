@@ -76,7 +76,7 @@ jmeter -n -t test-plans/23120190_Spike_20261117.jmx -Jthreads=1 -Jspike_threads=
 
 ## Soak – tải kéo dài
 
-Chọn **203 VU = 70% × 290 VU**, với 290 là bậc ổn định cao nhất đã quan sát, không phải breakpoint: `report/07_run_log.md` mục Stress, bảng stable window, ghi bậc 290 VU có 56.493 mẫu luồng chính, 0% lỗi, p95 947 ms và 470,775 request/s; chưa tìm thấy breakpoint. `results/html/23120190_Stress_20261118_recovered/statistics.json` là thống kê tổng cả lần Stress, không phải thống kê riêng cửa sổ ổn định. Soak giữ think-time Load 500–1500 ms, khác Stress 250–750 ms; 70% là tỷ lệ VU, không phải RPS, và RPS Soak phải đo thực tế.
+Chọn **203 VU = 70% × 290 VU**, với 290 là bậc ổn định cao nhất đã quan sát, không phải breakpoint: bảng stable window trong `report/07_run_log.md` ghi bậc 290 VU có 56.493 mẫu chính, 0% lỗi, p95 947 ms, 470,775 request/s theo cửa sổ danh nghĩa. `results/html/23120190_Stress_20261118/statistics.json` tổng hợp cả lần Stress, không phải riêng cửa sổ ổn định. Soak giữ think-time Load 500–1500 ms, khác Stress 250–750 ms; 70% là tỷ lệ VU, không phải RPS. Script về sau dùng cửa sổ JTL khác, cho 468,556 RPS; xem [08_endurance.md](08_endurance.md).
 
 Plan `test-plans/23120190_Soak_20261118.jmx` dùng Duration 720 giây (12 phút, bao gồm ramp-up 60 giây), mặc định `threads=203`, `rampup=60`, `duration=720`, `loops=-1`. Giữ workflow, assertion, CSV và login sai của Load. Listener duy nhất **Simple Data Writer** ghi bản phụ mặc định `results/jtl/23120190_Soak_20261118_writer.jtl`, đổi bằng `-Jwriter_file=...`; dùng đường dẫn khác cho `-l` JTL chính, không cộng số mẫu hai file vì là hai bản ghi cùng sự kiện.
 
@@ -87,4 +87,4 @@ scripts/reset_sut.sh
 jmeter -n -t test-plans/23120190_Soak_20261118.jmx -Jthreads=1 -Jrampup=1 -Jloops=1 -Jwriter_file=results/jtl/23120190_Soak_20261118_smoke_writer.jtl -l results/jtl/23120190_Soak_20261118_smoke.jtl
 ```
 
-`loops=1` tắt scheduler để kết thúc sau một vòng; smoke chưa được chạy và chưa xác nhận pass.
+`loops=1` tắt scheduler để kết thúc sau một vòng. Smoke sau tạo plan đã đạt 7/7 sampler chính; writer phụ cũng đúng 7 mẫu: [05b_soak_smoke.md](05b_soak_smoke.md).

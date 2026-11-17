@@ -23,13 +23,13 @@ Workflow bao phủ **Auth** (`POST /api/login`), **Read** (list/detail products)
 | Kịch bản | Tổng samples | p95 ms | RPS | Lỗi tổng | Kết quả và dữ liệu |
 |---|---:|---:|---:|---:|---|
 | Load | 33,775 | 11 | 56.344 | 0% | [JSON](results/html/23120190_Load_20261118/statistics.json) · [HTML](results/html/23120190_Load_20261118/index.html) · [JTL](results/jtl/23120190_Load_20261118.jtl) |
-| Stress | 175,882 | 1,023 | 293.092 | 0% | [JSON](results/html/23120190_Stress_20261118_recovered/statistics.json) · [HTML phục hồi](results/html/23120190_Stress_20261118_recovered/index.html) · [JTL](results/jtl/23120190_Stress_20261118.jtl) |
+| Stress | 175,882 | 1,023 | 293.092 | 0% | [JSON](results/html/23120190_Stress_20261118/statistics.json) · [HTML](results/html/23120190_Stress_20261118/index.html) · [JTL](results/jtl/23120190_Stress_20261118.jtl) |
 | Spike | 27,965 | 17 | 77.926 | 0% | [JSON](results/html/23120190_Spike_20261118/statistics.json) · [HTML](results/html/23120190_Spike_20261118/index.html) · [JTL](results/jtl/23120190_Spike_20261118.jtl) |
 | Soak | 158,591 | 21 | 220.332 | 0% | [JSON](results/html/23120190_Soak_20261118/statistics.json) · [HTML](results/html/23120190_Soak_20261118/index.html) · [JTL](results/jtl/23120190_Soak_20261118.jtl) |
 
 Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/08_endurance.md), bậc Stress cao nhất quan sát ổn định sau ramp là 290 VU, 468.556 RPS, p95 947 ms; chưa tìm thấy điểm vượt trong phạm vi này. Đây không chứng minh sức chịu tải liên tục 12 phút. Soak 203 VU có phút index 3 đạt p95 2.244 ms, 171.183 RPS, 0% lỗi, vượt ngưỡng 2.000 ms dù p95 tổng là 21 ms. RSS max quan sát Stress 171.64 MiB, Soak 127.80 MiB; slope Soak 1.470 MiB/phút không chứng minh trần RAM hay leak.
 
-[Bug report](report/09_bugs.md): 3 bug có yêu cầu spec rõ và 1 finding Low về tương thích kiểu giá với spec chưa rõ; episode hiệu năng là quan sát riêng. Manager kiểm tra [API GitHub Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả danh sách rỗng tại thời điểm kiểm tra: 0 issue quan sát, không khẳng định trạng thái về sau. Sinh viên tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) và bổ sung ảnh/URL.
+[Bug report](report/09_bugs.md): 4 bug có bằng chứng (3 theo FR-02/FR-08, 1 mật khẩu plaintext theo SEC-01 tham khảo), thêm 1 finding Low về kiểu giá với spec chưa rõ; episode hiệu năng là quan sát riêng. [API GitHub Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả `[]` lúc Manager kiểm tra: 0 issue quan sát, không khẳng định trạng thái về sau. Sinh viên tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) và bổ sung ảnh/URL.
 
 **Video YouTube:** sinh viên bổ sung URL unlisted; chưa có URL. Cần video ít nhất 6 phút, thuyết minh tiếng Việt của sinh viên, theo [đề](2026.HW05.Performance%20Testing_En.pdf).
 
