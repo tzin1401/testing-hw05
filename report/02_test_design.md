@@ -56,3 +56,21 @@ Nhóm nền 10 VU chạy từ t=0 đến t=360 s, ramp 10 s; nhóm tăng đột 
 Thiết kế property `loops` mặc định `-1` cho chạy theo thời gian; giá trị dương là số vòng **mỗi VU**. Với `loops=1` hoặc `loops=2`, tắt scheduler/duration và mọi start delay của các nhóm được bật, dùng số VU smoke nhỏ (ví dụ một VU), chỉ chạy một nhóm đại diện workflow và login sai có thể không được chọn bởi controller 5%; các vòng phải kết thúc tự nhiên sau đúng 1/2 vòng, không chờ hết lịch 600/360 s. Không dùng cùng lúc duration vô hạn và loop controller vô hạn trong smoke. Kiểm tra riêng sampler sai nếu cần bằng cấu hình chạy kiểm thử phù hợp, không thay đổi tỷ lệ của lần đo.
 
 Ở chế độ đo `loops=-1`, bật scheduler cho các nhóm và đặt duration/delay đúng lịch từng plan; vòng lặp vô hạn chỉ tồn tại trong cửa sổ đã định. Scheduler không bảo đảm ngắt sampler đang chạy đúng mốc, nên cấu hình timeout kết nối/response hữu hạn và ghi nhận thời gian kết thúc thực. Stress cần cơ chế dừng ở ranh giới bậc sau đánh giá ngưỡng như trên; không được để các nhóm tự tiếp tục nếu chưa đánh giá. Thiết kế này chưa tạo file JMX và chưa chạy tải.
+
+## Thực thi Stress/Spike và chế độ xác minh nhanh
+
+Chạy từ thư mục `hw05`, với `JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64` và `$JAVA_HOME/bin` đứng đầu `PATH`. Reset SUT trước mỗi lần chạy. Các override dưới đây chỉ dành cho smoke, không phải kết quả tải thật.
+
+- Stress mặc định có 4 Thread Group tuần tự; `threads` override số VU mỗi bậc, `rampup` mặc định 30, `duration` mặc định 150 cho **mỗi** bậc. Pool tài khoản tách theo bậc vì các bậc không đồng thời.
+- Stress dùng sampler gate nội bộ `SampleResult.setIgnore()` trước HTTP, không thêm listener/JTL sample. Assertion tích lũy elapsed và số lỗi request chính; khi nhóm trước kết thúc, gate bậc sau tính nearest-rank p95 và error trên toàn bậc, bỏ login sai. Vượt 5% hoặc 2000 ms, hoặc không có mẫu, thì không cho HTTP bậc mới và yêu cầu dừng test. Log có `STRESS_STAGE_START`, `STRESS_GATE`, `STRESS_STAGE_SUMMARY`; phân tích ổn định sau ramp vẫn cần đọc JTL riêng, không lấy metric gate toàn bậc thay thế.
+- Spike mặc định baseline 10 VU/360 s/ramp 10 s; burst thêm 190 VU, delay 120 s, duration 120 s, ramp 5 s. Property riêng: `spike_threads`, `spike_delay`, `spike_duration`, `spike_rampup`. Hai nhóm chia sẻ pool để không dùng chung tài khoản đang hoạt động.
+- `loops>0` mặc định chỉ bật nhóm đại diện của mỗi plan bằng số thread 0 ở nhóm còn lại; `stage_smoke=true` bật cả 4 nhóm Stress; `timeline_smoke=true` bật burst cả khi dùng loops hữu hạn. Scheduler bật khi `loops=-1`. Không reset SUT giữa các bậc trong cùng một plan.
+
+```bash
+# Thêm -l và -j với tên output mới cho từng lần; reset trước từng lệnh.
+jmeter -n -t test-plans/23120190_Stress_20261117.jmx -Jthreads=1 -Jrampup=1 -Jloops=1
+jmeter -n -t test-plans/23120190_Spike_20261117.jmx -Jthreads=1 -Jrampup=1 -Jloops=1
+jmeter -n -t test-plans/23120190_Stress_20261117.jmx -Jthreads=1 -Jrampup=1 -Jloops=1 -Jstage_smoke=true
+jmeter -n -t test-plans/23120190_Spike_20261117.jmx -Jthreads=1 -Jspike_threads=1 -Jrampup=1 -Jspike_rampup=1 -Jloops=-1 -Jduration=24 -Jspike_delay=8 -Jspike_duration=8
+```
+

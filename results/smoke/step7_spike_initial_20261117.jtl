@@ -1,0 +1,8 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794933062881,36,01 Login,200,OK,Spike baseline 1-1,text,true,,642,235,1,1,http://localhost:3000/api/login,35,0,21
+1794933063789,2,02 Products,200,OK,Spike baseline 1-1,text,true,,1238,322,1,1,http://localhost:3000/api/products,2,0,0
+1794933064694,2,03 Product detail,200,OK,Spike baseline 1-1,text,true,,451,324,1,1,http://localhost:3000/api/products/1,2,0,0
+1794933066043,9,04 Add cart,200,OK,Spike baseline 1-1,text,true,,294,404,1,1,http://localhost:3000/api/cart,9,0,0
+1794933067500,2,05 Get cart,200,OK,Spike baseline 1-1,text,true,,334,318,1,1,http://localhost:3000/api/cart,2,0,0
+1794933068708,15,06 Checkout,200,OK,Spike baseline 1-1,text,true,,312,405,1,1,http://localhost:3000/api/checkout,15,0,0
+1794933069927,2,07 My orders,200,OK,Spike baseline 1-1,text,true,,405,330,1,1,http://localhost:3000/api/orders/my-orders,2,0,0

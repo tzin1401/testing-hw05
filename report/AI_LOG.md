@@ -151,3 +151,17 @@
 - **AI output:**
   > Sửa test-plans/23120190_Load_20261117.jmx theo các lỗi Medium và Low; append mục Đã sửa và lệnh smoke Java 17 vào report/03_review_load.md, bổ sung thông tin xóa JTL cũ vào report/02a_load_smoke.md. Không thay pool, không chạy smoke trong coding agent; chưa xác nhận plan mới pass.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #10 – 2026-11-17 23:30 (giờ VN)
+- **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol); task workers StressSpike và BuildStressSpike chưa tạo file
+- **Bước:** Task 1 – Bước 7 – Sinh Stress và Spike
+- **Prompt:**
+  > Bước 7 – Tạo test plan STRESS và SPIKE, dùng Load plan đã sửa làm gốc.
+  > - test-plans/23120190_Stress_<YYYYMMDD>.jmx: tăng tải theo bậc, đúng như report/02_test_design.md (dùng nhiều Thread Group nối tiếp, hoặc tham số -J). Listener DUY NHẤT: Aggregate Report.
+  > - test-plans/23120190_Spike_<YYYYMMDD>.jmx: tải nền thấp → tăng vọt trong vài giây → hạ về mức nền. Listener DUY NHẤT: Response Time Graph.
+  > - Giữ nguyên workflow, CSV, extractor, assertion và cách xử lý lockout của Load plan.
+  > - Smoke test mỗi plan với 1 thread 1 vòng.
+  > Xong khi: có 2 file .jmx đúng tên, smoke test pass, 3 plan dùng 3 listener khác nhau.
+- **AI output:**
+  > Hai worker không tạo được file; Manager tái sử dụng cây XML của Load đã sửa, ghi hai JMX Stress/Spike đúng ngày date. Stress có 4 nhóm nối tiếp, gate nội bộ không ghi sample đánh giá error/p95 trước bậc tiếp, pool tài khoản riêng từng bậc và summary; Spike có nhóm nền/burst đồng thời chia sẻ pool. Giữ workflow, assertion, keepalive và lockout. Giao sonic chạy smoke 1VU, toàn bậc Stress và compressed Spike. Chưa xác nhận runtime pass, chưa chạy tải thật.
+- **Human review:** _(để trống – người dùng tự điền)_
