@@ -192,3 +192,15 @@
 - **AI output:**
   > Sửa #S1, #S2 và #P1 trong Stress/Spike, sửa scheduler Load cùng mẫu và append mục Đã sửa vào report/04_review_stress_spike.md. Không chạy JMeter; bản mới chưa được smoke, chưa xác nhận pass.
 - **Human review:** _(để trống – người dùng tự điền)_
+## #13 – 2026-11-17 23:52 (giờ VN)
+- **AI tool:** omp – FinalSmoke (openai-codex/gpt-6-luna)
+- **Bước:** Task 1 – Bước 10 – Smoke test cả 3 plan
+- **Prompt:**
+  > Bước 10 – Smoke test cả 3 plan với tải nhỏ (5 thread, 2 vòng). Chạy reset_sut.sh trước MỖI plan.
+  > Lệnh: jmeter -n -t <plan> -Jthreads=5 -l results/smoke/<tên>.jtl
+  > Báo cáo: số sample, % lỗi, và lỗi theo từng request (đọc từ .jtl). KHÔNG sửa plan. Nếu có lỗi thì báo lại cho Manager.
+  > Xong khi: cả 3 plan chạy hết; % lỗi của luồng chính = 0 (không tính request login sai cố ý).
+  > Bổ sung -Jloops=2 -Jrampup=1 để chạy đúng 2 vòng thay vì lịch tải; file results/smoke/23120190_{Load|Stress|Spike}_20261117.jtl, đặt -j results/smoke/<tên>_jmeter.log riêng để có runtime log chứ không chỉ console. Reset trước mỗi plan, chạy tuần tự, timeout120s mỗi plan. Đọc samples/errors per label từ JTL thật; kỳvọng70 main samples/plan (5*2*7), negative cóthể0 theo controller rounding. Nếu lỗi báo Manager và không sửa plan; cóthể chạy cácplan còn lại vì từngrun độc lập sau reset. Tạo report/05a_all_plans_smoke.md với command table/per-label main count/errors và negative counts/codes riêng; đọc parse/scripting errors JMeter runtime logs. Append AI_LOG entry bước10 đúngtimestamp, prompt nguyênvăn bỏ Ghi vào log, Human review trống; không viết entry bước12 vì do người dùng. Không chạy tải thật, không HTML reports bước13.
+- **AI output:**
+  > Chạy tuần tự Load, Stress, Spike; reset SUT trước mỗi plan, không sửa JMX. Mỗi JTL có 70 samples, 0 errors (0%); 7 workflow label đều 10 samples/0 errors, negative login 0 sample. Runtime logs không cho thấy lỗi parsing/scripting. Tạo report/05a_all_plans_smoke.md; cả ba smoke pass.
+- **Human review:** _(để trống – người dùng tự điền)_

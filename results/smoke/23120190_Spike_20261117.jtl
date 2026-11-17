@@ -1,0 +1,71 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794934295191,68,01 Login,200,OK,Spike baseline 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,68,0,44
+1794934295192,67,01 Login,200,OK,Spike baseline 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,67,0,43
+1794934295192,67,01 Login,200,OK,Spike baseline 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,67,0,43
+1794934295191,68,01 Login,200,OK,Spike baseline 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,68,0,44
+1794934295191,68,01 Login,200,OK,Spike baseline 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,68,0,44
+1794934296150,3,02 Products,200,OK,Spike baseline 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934296221,4,02 Products,200,OK,Spike baseline 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934296618,4,02 Products,200,OK,Spike baseline 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934296636,3,02 Products,200,OK,Spike baseline 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934296896,3,02 Products,200,OK,Spike baseline 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934297445,4,03 Product detail,200,OK,Spike baseline 1-2,text,true,,461,324,5,5,http://localhost:3000/api/products/4,4,0,0
+1794934297432,3,03 Product detail,200,OK,Spike baseline 1-5,text,true,,467,324,5,5,http://localhost:3000/api/products/5,3,0,0
+1794934297490,3,03 Product detail,200,OK,Spike baseline 1-4,text,true,,451,324,5,5,http://localhost:3000/api/products/1,3,0,0
+1794934297706,4,03 Product detail,200,OK,Spike baseline 1-3,text,true,,480,324,5,5,http://localhost:3000/api/products/2,3,0,0
+1794934298081,4,03 Product detail,200,OK,Spike baseline 1-1,text,true,,448,324,5,5,http://localhost:3000/api/products/3,4,0,0
+1794934298109,8,04 Add cart,200,OK,Spike baseline 1-5,text,true,,294,424,5,5,http://localhost:3000/api/cart,8,0,0
+1794934298613,3,04 Add cart,200,OK,Spike baseline 1-3,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1794934298732,4,04 Add cart,200,OK,Spike baseline 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,4,0,0
+1794934298765,3,04 Add cart,200,OK,Spike baseline 1-2,text,true,,294,408,5,5,http://localhost:3000/api/cart,3,0,0
+1794934299455,3,05 Get cart,200,OK,Spike baseline 1-3,text,true,,341,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934299459,3,04 Add cart,200,OK,Spike baseline 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1794934299544,4,05 Get cart,200,OK,Spike baseline 1-5,text,true,,342,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934299856,2,05 Get cart,200,OK,Spike baseline 1-2,text,true,,338,318,5,5,http://localhost:3000/api/cart,2,0,0
+1794934300011,3,05 Get cart,200,OK,Spike baseline 1-4,text,true,,334,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934300298,16,06 Checkout,200,OK,Spike baseline 1-5,text,true,,312,404,5,5,http://localhost:3000/api/checkout,16,0,0
+1794934300429,14,06 Checkout,200,OK,Spike baseline 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934300522,13,06 Checkout,200,OK,Spike baseline 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1794934300939,2,05 Get cart,200,OK,Spike baseline 1-1,text,true,,331,318,5,5,http://localhost:3000/api/cart,2,0,0
+1794934301200,16,06 Checkout,200,OK,Spike baseline 1-2,text,true,,312,405,5,5,http://localhost:3000/api/checkout,16,0,0
+1794934301230,5,07 My orders,200,OK,Spike baseline 1-4,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,5,0,0
+1794934301245,5,01 Login,200,OK,Spike baseline 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,5,0,0
+1794934301608,4,07 My orders,200,OK,Spike baseline 1-5,text,true,,404,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934301616,5,01 Login,200,OK,Spike baseline 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,5,0,0
+1794934301681,4,07 My orders,200,OK,Spike baseline 1-3,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934301690,4,01 Login,200,OK,Spike baseline 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,4,0,0
+1794934301762,15,06 Checkout,200,OK,Spike baseline 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,15,0,0
+1794934302498,4,02 Products,200,OK,Spike baseline 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934302520,4,02 Products,200,OK,Spike baseline 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934302556,4,02 Products,200,OK,Spike baseline 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934302677,3,07 My orders,200,OK,Spike baseline 1-2,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934302683,3,01 Login,200,OK,Spike baseline 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,3,0,0
+1794934302893,5,07 My orders,200,OK,Spike baseline 1-1,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,5,0,0
+1794934302902,6,01 Login,200,OK,Spike baseline 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,6,0,0
+1794934303647,3,03 Product detail,200,OK,Spike baseline 1-4,text,true,,451,324,5,5,http://localhost:3000/api/products/1,3,0,0
+1794934303660,4,02 Products,200,OK,Spike baseline 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934303720,3,02 Products,200,OK,Spike baseline 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934303770,3,03 Product detail,200,OK,Spike baseline 1-5,text,true,,480,324,5,5,http://localhost:3000/api/products/2,3,0,0
+1794934303880,4,03 Product detail,200,OK,Spike baseline 1-3,text,true,,448,324,5,5,http://localhost:3000/api/products/3,4,0,0
+1794934304467,4,04 Add cart,200,OK,Spike baseline 1-3,text,true,,294,401,5,5,http://localhost:3000/api/cart,4,0,0
+1794934304694,3,04 Add cart,200,OK,Spike baseline 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1794934304760,3,03 Product detail,200,OK,Spike baseline 1-1,text,true,,467,324,5,5,http://localhost:3000/api/products/5,3,0,0
+1794934305050,3,04 Add cart,200,OK,Spike baseline 1-5,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1794934305107,4,03 Product detail,200,OK,Spike baseline 1-2,text,true,,461,324,5,5,http://localhost:3000/api/products/4,3,0,0
+1794934305694,3,05 Get cart,200,OK,Spike baseline 1-3,text,true,,405,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934305778,4,04 Add cart,200,OK,Spike baseline 1-1,text,true,,294,424,5,5,http://localhost:3000/api/cart,4,0,0
+1794934305932,3,05 Get cart,200,OK,Spike baseline 1-4,text,true,,401,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934306070,4,05 Get cart,200,OK,Spike baseline 1-5,text,true,,416,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934306601,3,05 Get cart,200,OK,Spike baseline 1-1,text,true,,406,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934306609,4,04 Add cart,200,OK,Spike baseline 1-2,text,true,,294,408,5,5,http://localhost:3000/api/cart,4,0,0
+1794934306852,14,06 Checkout,200,OK,Spike baseline 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934306881,14,06 Checkout,200,OK,Spike baseline 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934307263,4,05 Get cart,200,OK,Spike baseline 1-2,text,true,,409,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934307501,4,07 My orders,200,OK,Spike baseline 1-3,text,true,,542,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934307530,4,07 My orders,200,OK,Spike baseline 1-4,text,true,,542,330,4,4,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934307537,14,06 Checkout,200,OK,Spike baseline 1-5,text,true,,312,405,3,3,http://localhost:3000/api/checkout,14,0,0
+1794934307743,12,06 Checkout,200,OK,Spike baseline 1-1,text,true,,312,404,3,3,http://localhost:3000/api/checkout,11,0,0
+1794934308360,2,07 My orders,200,OK,Spike baseline 1-1,text,true,,541,330,3,3,http://localhost:3000/api/orders/my-orders,2,0,0
+1794934308556,15,06 Checkout,200,OK,Spike baseline 1-2,text,true,,313,405,2,2,http://localhost:3000/api/checkout,15,0,0
+1794934308629,4,07 My orders,200,OK,Spike baseline 1-5,text,true,,541,330,2,2,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934309404,4,07 My orders,200,OK,Spike baseline 1-2,text,true,,543,330,1,1,http://localhost:3000/api/orders/my-orders,4,0,0

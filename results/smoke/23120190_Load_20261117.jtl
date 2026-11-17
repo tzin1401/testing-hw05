@@ -1,0 +1,71 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794934249299,68,01 Login,200,OK,Load users 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,68,0,39
+1794934249299,70,01 Login,200,OK,Load users 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,70,0,39
+1794934249299,70,01 Login,200,OK,Load users 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,70,0,39
+1794934249299,70,01 Login,200,OK,Load users 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,67,0,39
+1794934249299,70,01 Login,200,OK,Load users 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,70,0,39
+1794934250303,5,02 Products,200,OK,Load users 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,5,0,0
+1794934250390,4,02 Products,200,OK,Load users 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934250465,3,02 Products,200,OK,Load users 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934250597,3,02 Products,200,OK,Load users 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934250644,3,02 Products,200,OK,Load users 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934251281,6,03 Product detail,200,OK,Load users 1-3,text,true,,451,324,5,5,http://localhost:3000/api/products/1,6,0,0
+1794934251705,3,03 Product detail,200,OK,Load users 1-5,text,true,,467,324,5,5,http://localhost:3000/api/products/5,3,0,0
+1794934251790,4,03 Product detail,200,OK,Load users 1-2,text,true,,480,324,5,5,http://localhost:3000/api/products/2,4,0,0
+1794934251825,3,03 Product detail,200,OK,Load users 1-4,text,true,,461,324,5,5,http://localhost:3000/api/products/4,3,0,0
+1794934251844,4,03 Product detail,200,OK,Load users 1-1,text,true,,448,324,5,5,http://localhost:3000/api/products/3,4,0,0
+1794934252453,9,04 Add cart,200,OK,Load users 1-3,text,true,,294,404,5,5,http://localhost:3000/api/cart,9,0,0
+1794934252633,6,04 Add cart,200,OK,Load users 1-2,text,true,,294,411,5,5,http://localhost:3000/api/cart,6,0,0
+1794934252709,5,04 Add cart,200,OK,Load users 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,5,0,0
+1794934252853,4,04 Add cart,200,OK,Load users 1-5,text,true,,294,424,5,5,http://localhost:3000/api/cart,4,0,0
+1794934252895,4,04 Add cart,200,OK,Load users 1-4,text,true,,294,408,5,5,http://localhost:3000/api/cart,4,0,0
+1794934253497,4,05 Get cart,200,OK,Load users 1-1,text,true,,331,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934253722,3,05 Get cart,200,OK,Load users 1-3,text,true,,334,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934253787,3,05 Get cart,200,OK,Load users 1-4,text,true,,338,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934254020,3,05 Get cart,200,OK,Load users 1-5,text,true,,342,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934254073,4,05 Get cart,200,OK,Load users 1-2,text,true,,341,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934254638,17,06 Checkout,200,OK,Load users 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,17,0,0
+1794934254837,18,06 Checkout,200,OK,Load users 1-5,text,true,,312,404,5,5,http://localhost:3000/api/checkout,18,0,0
+1794934254889,14,06 Checkout,200,OK,Load users 1-2,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934254999,18,06 Checkout,200,OK,Load users 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,18,0,0
+1794934255183,11,06 Checkout,200,OK,Load users 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,11,0,0
+1794934255954,6,07 My orders,200,OK,Load users 1-5,text,true,,404,330,5,5,http://localhost:3000/api/orders/my-orders,6,0,0
+1794934255974,6,01 Login,200,OK,Load users 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,6,0,0
+1794934256022,3,07 My orders,200,OK,Load users 1-1,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934256028,3,01 Login,200,OK,Load users 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,3,0,0
+1794934256299,5,07 My orders,200,OK,Load users 1-2,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934256307,5,01 Login,200,OK,Load users 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,5,0,0
+1794934256417,4,07 My orders,200,OK,Load users 1-4,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934256425,6,01 Login,200,OK,Load users 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,5,0,0
+1794934256459,5,07 My orders,200,OK,Load users 1-3,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,5,0,0
+1794934256467,6,01 Login,200,OK,Load users 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,5,0,0
+1794934256979,2,02 Products,200,OK,Load users 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,1,0,0
+1794934257004,2,02 Products,200,OK,Load users 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,2,0,0
+1794934257278,4,02 Products,200,OK,Load users 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934257623,4,02 Products,200,OK,Load users 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934257729,4,03 Product detail,200,OK,Load users 1-1,text,true,,480,324,5,5,http://localhost:3000/api/products/2,4,0,0
+1794934257759,4,02 Products,200,OK,Load users 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934257940,5,03 Product detail,200,OK,Load users 1-3,text,true,,467,324,5,5,http://localhost:3000/api/products/5,5,0,0
+1794934258012,3,03 Product detail,200,OK,Load users 1-5,text,true,,451,324,5,5,http://localhost:3000/api/products/1,3,0,0
+1794934258364,5,03 Product detail,200,OK,Load users 1-2,text,true,,448,324,5,5,http://localhost:3000/api/products/3,5,0,0
+1794934258373,4,03 Product detail,200,OK,Load users 1-4,text,true,,461,324,5,5,http://localhost:3000/api/products/4,4,0,0
+1794934258513,4,04 Add cart,200,OK,Load users 1-3,text,true,,294,424,5,5,http://localhost:3000/api/cart,4,0,0
+1794934258856,3,04 Add cart,200,OK,Load users 1-5,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1794934258947,4,04 Add cart,200,OK,Load users 1-1,text,true,,294,411,5,5,http://localhost:3000/api/cart,4,0,0
+1794934259533,3,04 Add cart,200,OK,Load users 1-4,text,true,,294,408,5,5,http://localhost:3000/api/cart,2,0,0
+1794934259603,2,05 Get cart,200,OK,Load users 1-3,text,true,,409,318,5,5,http://localhost:3000/api/cart,2,0,0
+1794934259749,3,04 Add cart,200,OK,Load users 1-2,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1794934259786,3,05 Get cart,200,OK,Load users 1-1,text,true,,405,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934259971,3,05 Get cart,200,OK,Load users 1-5,text,true,,409,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934260048,3,05 Get cart,200,OK,Load users 1-4,text,true,,409,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934260662,14,06 Checkout,200,OK,Load users 1-3,text,true,,312,404,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934260759,13,06 Checkout,200,OK,Load users 1-5,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1794934260883,2,05 Get cart,200,OK,Load users 1-2,text,true,,405,318,5,5,http://localhost:3000/api/cart,2,0,0
+1794934260897,13,06 Checkout,200,OK,Load users 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1794934261128,14,06 Checkout,200,OK,Load users 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934261499,15,06 Checkout,200,OK,Load users 1-2,text,true,,313,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934261646,2,07 My orders,200,OK,Load users 1-1,text,true,,542,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1794934261667,3,07 My orders,200,OK,Load users 1-4,text,true,,542,330,4,4,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934262017,3,07 My orders,200,OK,Load users 1-3,text,true,,541,330,3,3,http://localhost:3000/api/orders/my-orders,2,0,0
+1794934262239,4,07 My orders,200,OK,Load users 1-5,text,true,,541,330,2,2,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934262382,5,07 My orders,200,OK,Load users 1-2,text,true,,543,330,1,1,http://localhost:3000/api/orders/my-orders,5,0,0

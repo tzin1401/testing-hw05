@@ -1,0 +1,71 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794934275087,61,01 Login,200,OK,Stress stage 1 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,60,0,36
+1794934275087,61,01 Login,200,OK,Stress stage 1 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,60,0,36
+1794934275087,61,01 Login,200,OK,Stress stage 1 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,60,0,36
+1794934275087,61,01 Login,200,OK,Stress stage 1 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,60,0,36
+1794934275087,61,01 Login,200,OK,Stress stage 1 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,60,0,36
+1794934275678,4,02 Products,200,OK,Stress stage 1 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934275784,4,02 Products,200,OK,Stress stage 1 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934275964,4,02 Products,200,OK,Stress stage 1 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934276066,4,02 Products,200,OK,Stress stage 1 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934276082,3,02 Products,200,OK,Stress stage 1 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934276329,5,03 Product detail,200,OK,Stress stage 1 1-5,text,true,,451,324,5,5,http://localhost:3000/api/products/1,5,0,0
+1794934276358,4,03 Product detail,200,OK,Stress stage 1 1-3,text,true,,448,324,5,5,http://localhost:3000/api/products/3,4,0,0
+1794934276530,3,03 Product detail,200,OK,Stress stage 1 1-2,text,true,,467,324,5,5,http://localhost:3000/api/products/5,3,0,0
+1794934276668,4,03 Product detail,200,OK,Stress stage 1 1-1,text,true,,461,324,5,5,http://localhost:3000/api/products/4,4,0,0
+1794934276781,7,04 Add cart,200,OK,Stress stage 1 1-3,text,true,,294,401,5,5,http://localhost:3000/api/cart,6,0,0
+1794934276810,3,03 Product detail,200,OK,Stress stage 1 1-4,text,true,,480,324,5,5,http://localhost:3000/api/products/2,3,0,0
+1794934276955,5,04 Add cart,200,OK,Stress stage 1 1-1,text,true,,294,408,5,5,http://localhost:3000/api/cart,5,0,0
+1794934276978,4,04 Add cart,200,OK,Stress stage 1 1-5,text,true,,294,404,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277054,4,04 Add cart,200,OK,Stress stage 1 1-2,text,true,,294,424,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277261,4,05 Get cart,200,OK,Stress stage 1 1-3,text,true,,331,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277377,4,04 Add cart,200,OK,Stress stage 1 1-4,text,true,,294,411,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277488,4,05 Get cart,200,OK,Stress stage 1 1-5,text,true,,334,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277613,2,05 Get cart,200,OK,Stress stage 1 1-1,text,true,,338,318,5,5,http://localhost:3000/api/cart,2,0,0
+1794934277692,16,06 Checkout,200,OK,Stress stage 1 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,15,0,0
+1794934277724,3,05 Get cart,200,OK,Stress stage 1 1-2,text,true,,342,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934277867,4,05 Get cart,200,OK,Stress stage 1 1-4,text,true,,341,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934277920,11,06 Checkout,200,OK,Stress stage 1 1-5,text,true,,312,405,5,5,http://localhost:3000/api/checkout,11,0,0
+1794934278023,14,06 Checkout,200,OK,Stress stage 1 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1794934278135,13,06 Checkout,200,OK,Stress stage 1 1-2,text,true,,312,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1794934278165,12,06 Checkout,200,OK,Stress stage 1 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,12,0,0
+1794934278358,3,07 My orders,200,OK,Stress stage 1 1-3,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934278370,4,01 Login,200,OK,Stress stage 1 1-3,text,true,,642,235,5,5,http://localhost:3000/api/login,4,0,0
+1794934278456,3,07 My orders,200,OK,Stress stage 1 1-1,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1794934278461,5,01 Login,200,OK,Stress stage 1 1-1,text,true,,642,235,5,5,http://localhost:3000/api/login,4,0,0
+1794934278508,3,07 My orders,200,OK,Stress stage 1 1-5,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934278514,3,01 Login,200,OK,Stress stage 1 1-5,text,true,,642,235,5,5,http://localhost:3000/api/login,3,0,0
+1794934278610,3,07 My orders,200,OK,Stress stage 1 1-2,text,true,,404,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1794934278615,5,01 Login,200,OK,Stress stage 1 1-2,text,true,,642,235,5,5,http://localhost:3000/api/login,4,0,0
+1794934278689,3,02 Products,200,OK,Stress stage 1 1-3,text,true,,1238,322,5,5,http://localhost:3000/api/products,3,0,0
+1794934278700,4,07 My orders,200,OK,Stress stage 1 1-4,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934278707,4,01 Login,200,OK,Stress stage 1 1-4,text,true,,642,235,5,5,http://localhost:3000/api/login,4,0,0
+1794934278967,4,02 Products,200,OK,Stress stage 1 1-5,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934279007,4,02 Products,200,OK,Stress stage 1 1-2,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934279136,4,02 Products,200,OK,Stress stage 1 1-1,text,true,,1238,322,5,5,http://localhost:3000/api/products,4,0,0
+1794934279229,2,02 Products,200,OK,Stress stage 1 1-4,text,true,,1238,322,5,5,http://localhost:3000/api/products,2,0,0
+1794934279282,3,03 Product detail,200,OK,Stress stage 1 1-2,text,true,,461,324,5,5,http://localhost:3000/api/products/4,3,0,0
+1794934279313,3,03 Product detail,200,OK,Stress stage 1 1-3,text,true,,451,324,5,5,http://localhost:3000/api/products/1,3,0,0
+1794934279324,4,03 Product detail,200,OK,Stress stage 1 1-5,text,true,,448,324,5,5,http://localhost:3000/api/products/3,4,0,0
+1794934279682,2,04 Add cart,200,OK,Stress stage 1 1-2,text,true,,294,408,5,5,http://localhost:3000/api/cart,2,0,0
+1794934279687,2,03 Product detail,200,OK,Stress stage 1 1-1,text,true,,480,324,5,5,http://localhost:3000/api/products/2,2,0,0
+1794934279777,2,04 Add cart,200,OK,Stress stage 1 1-5,text,true,,294,401,5,5,http://localhost:3000/api/cart,2,0,0
+1794934279900,4,04 Add cart,200,OK,Stress stage 1 1-3,text,true,,294,404,5,5,http://localhost:3000/api/cart,4,0,0
+1794934279923,3,03 Product detail,200,OK,Stress stage 1 1-4,text,true,,467,324,5,5,http://localhost:3000/api/products/5,3,0,0
+1794934280105,4,05 Get cart,200,OK,Stress stage 1 1-2,text,true,,413,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934280157,3,05 Get cart,200,OK,Stress stage 1 1-5,text,true,,398,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934280237,4,04 Add cart,200,OK,Stress stage 1 1-1,text,true,,294,411,5,5,http://localhost:3000/api/cart,4,0,0
+1794934280379,4,05 Get cart,200,OK,Stress stage 1 1-3,text,true,,398,318,5,5,http://localhost:3000/api/cart,4,0,0
+1794934280420,13,06 Checkout,200,OK,Stress stage 1 1-2,text,true,,312,405,5,5,http://localhost:3000/api/checkout,12,0,0
+1794934280460,4,04 Add cart,200,OK,Stress stage 1 1-4,text,true,,294,424,5,5,http://localhost:3000/api/cart,4,0,0
+1794934280673,15,06 Checkout,200,OK,Stress stage 1 1-5,text,true,,312,405,5,5,http://localhost:3000/api/checkout,15,0,0
+1794934280734,13,06 Checkout,200,OK,Stress stage 1 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1794934280936,3,05 Get cart,200,OK,Stress stage 1 1-1,text,true,,412,318,5,5,http://localhost:3000/api/cart,3,0,0
+1794934281056,3,07 My orders,200,OK,Stress stage 1 1-5,text,true,,542,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1794934281125,2,05 Get cart,200,OK,Stress stage 1 1-4,text,true,,416,318,4,4,http://localhost:3000/api/cart,2,0,0
+1794934281134,4,07 My orders,200,OK,Stress stage 1 1-2,text,true,,541,330,4,4,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934281175,4,07 My orders,200,OK,Stress stage 1 1-3,text,true,,542,330,3,3,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934281240,14,06 Checkout,200,OK,Stress stage 1 1-1,text,true,,312,405,2,2,http://localhost:3000/api/checkout,14,0,0
+1794934281574,13,06 Checkout,200,OK,Stress stage 1 1-4,text,true,,313,404,2,2,http://localhost:3000/api/checkout,13,0,0
+1794934281625,5,07 My orders,200,OK,Stress stage 1 1-1,text,true,,542,330,2,2,http://localhost:3000/api/orders/my-orders,4,0,0
+1794934282128,4,07 My orders,200,OK,Stress stage 1 1-4,text,true,,542,330,1,1,http://localhost:3000/api/orders/my-orders,4,0,0
