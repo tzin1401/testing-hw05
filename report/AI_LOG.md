@@ -62,3 +62,25 @@
 - **AI output:**
   > Tạo report/02_test_design.md với ba kịch bản, bảng thông số và lý do, assertion theo workflow, xử lý login sai/lockout và reset, listener riêng, lịch stress/spike cùng chế độ smoke loops. Đối chiếu thông số phần cứng với báo cáo; chưa tạo JMX hay chạy tải.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #5 – 2026-11-17 23:06 (giờ VN)
+- **AI tool:** omp – DataMonitor (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 3 – Chuẩn bị dữ liệu và script giám sát tài nguyên
+- **Prompt:**
+  > Bước 3 – Chuẩn bị dữ liệu và script giám sát tài nguyên.
+  > 1. Dữ liệu (data/). Đọc data/README.md trước. data/users.csv đã được sinh bằng scripts/gen_users.py, không tạo lại bằng tay.
+  >    - users_main.csv: perf001..perf290 (cột email,password), lấy từ data/users.csv.
+  >    - users_lock.csv: perf291..perf300 với mật khẩu SAI (ví dụ WrongPass1!).
+  >    - products.csv: giữ nguyên các cột product_id,keyword,quantity. Thêm cột price và name, lấy từ GET /api/products thật (không tự đoán giá).
+  >    - Mọi file CSV đều có header.
+  >    - Viết code tách/sinh 2 file trên (users_main, users_lock) và cột price/name thành script (ví dụ thêm vào scripts/gen_users.py hoặc tạo scripts/gen_data.py), để chạy lại ra đúng kết quả. Cập nhật data/README.md nếu có gì thay đổi.
+  > 2. Viết scripts/monitor_backend.sh <output.csv>:
+  >    - Mỗi 1 giây ghi: timestamp, %CPU, RSS (MB) của tiến trình `node server.js` (tìm PID bằng `pgrep -f "^node server.js"`). Có thể dùng `ps -o %cpu=,rss= -p PID`.
+  >    - Dừng khi nhận Ctrl+C hoặc khi tiến trình chết.
+  > 3. Thử chạy monitor 5 giây và in ra vài dòng đầu.
+  > Xong khi: có 3 file CSV với số dòng đúng (290 / 10 / 5), monitor chạy được và ghi ra CSV đúng định dạng.
+  > Đọc report/02_test_design.md. Chỉ sửa/tạo scripts/gen_data.py (hoặc gen_users.py nếu phù hợp), scripts/monitor_backend.sh, data CSV, data/README.md, report/AI_LOG.md. Không sửa users.csv. Dữ liệu CSV đầu ra được sinh bởi script chạy thật; không tự ghi dữ liệu phỏng đoán. Không chạy smoke/5 giây kiểm tra trong coding agent: hoàn tất code rồi Manager giao sonic thực thi generator, kiểm tra dữ liệu và monitor một lần; chưa ghi claim kiểm tra đã pass. Giữ product_id/keyword/quantity đang có khi bổ sung price/name từ API. Script phải có self-check nhỏ cho input/output, không framework/tests dư thừa. File executable nếu cần.
+- **AI output:**
+  > Tạo scripts/gen_data.py tách tài khoản và bổ sung dữ liệu sản phẩm từ API, scripts/monitor_backend.sh ghi CPU/RSS theo thời gian; cập nhật data/README.md. Chưa chạy generator hoặc kiểm tra monitor; Manager sẽ thực hiện theo yêu cầu, nên chưa xác nhận dữ liệu hay kết quả giám sát.
+  > Xác minh sau đó bởi sonic: generator chạy thật, kiểm tra CSV/API PASS với 290/10/5 dòng dữ liệu; monitor 5 giây kết thúc SIGINT exit 0, ghi 5 dòng tại results/monitor/step3_smoke.csv. Manager đọc CSV monitor, timestamp 23:07:59–23:08:03 +07, CPU 0.3%, RSS 80.60 MiB; không coi đây là số liệu load test.
+- **Human review:** _(để trống – người dùng tự điền)_
