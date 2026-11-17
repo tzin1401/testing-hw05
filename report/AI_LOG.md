@@ -30,3 +30,15 @@
 - **AI output:**
   > Scout đọc code/spec và phân tích tĩnh nhưng không có shell. Manager gọi thật workflow, chạy curl cho đủ 7 endpoint và tạo report/01_api_analysis.md: body, token, response thật, lỗi từ code, SQL, nhóm endpoint, biến liên kết và bẫy. Không sửa SUT. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #3 – 2026-11-17 23:04 (giờ VN)
+- **AI tool:** omp – sonic; Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 1 – Bước 11
+- **Prompt:**
+  > Bước 11 – Thu thập thông tin phần cứng THẬT của máy test.
+  > Chạy: hostname, lscpu, free -h, lsblk -d -o NAME,SIZE,ROTA,MODEL, uname -a, cat /etc/os-release. Nếu có screenfetch hoặc neofetch thì chạy thêm.
+  > Ghi vào report/05_hardware.md một bảng spec: Hostname, OS, Kernel, CPU (model, số core/thread), RAM, Disk, Java, Node, JMeter. Mọi giá trị phải copy từ output lệnh.
+  > Xong khi: bảng đầy đủ, hostname đúng như output của lệnh `hostname`.
+- **AI output:**
+  > Tạo report/05_hardware.md với bảng spec và output nguồn: hostname zinn-Nitro-AN515-57; i5-11400H, 6 core/12 thread, RAM 30 GiB, OS/kernel/disk và Java/Node/JMeter. Chưa có screenfetch/neofetch, chưa chụp ảnh. Manager đối chiếu bảng với output trong báo cáo. Không ghi số liệu tải giả; bối cảnh chung Phần B TASK1_PROMPTS.md được truyền kèm.
+- **Human review:** _(để trống – người dùng tự điền)_
