@@ -145,3 +145,45 @@ Monitor CSV `results/monitor/23120190_Spike_20261118.csv`: 357 mẫu, `2026-11-1
 CPU là lifetime-average `%CPU` từ `ps`, lấy mẫu mỗi giây, không phải peak instantaneous; RSS được script đổi từ KiB sang MiB. Max là cao nhất trong các mẫu quan sát được.
 
 Artifacts: JTL `results/jtl/23120190_Spike_20261118.jtl`; HTML `results/html/23120190_Spike_20261118/`; monitor `results/monitor/23120190_Spike_20261118.csv`; runtime log `results/23120190_Spike_20261118_jmeter.log`; console `results/23120190_Spike_20261118_console.log`.
+
+## Bước 15 – Chạy thật plan SOAK
+
+### Reset, lệnh và thời gian
+
+- Trước reset: `2026-11-18 01:30:44 +07`; `scripts/reset_sut.sh` hoàn tất `01:30:50 +07`, kết quả `SUT reset. Backend PID: 829842 | users seeded: 300`. Backend restart reset DB, cart RAM và lockout; script seed 300 tài khoản.
+- Monitor được khởi chạy nền trước JMeter, CSV bắt đầu `2026-11-18T01:30:50+0700`. Sau khi tải kết thúc, trap gửi SIGINT và chờ monitor kết thúc.
+- JMeter chạy từ `01:30:51` đến khi lệnh trả về `01:43:00 +07`, exit code `0`; JMeter log bắt đầu test `2026 Nov 18 01:30:52 ICT` và kết thúc `2026 Nov 18 01:42:53 ICT`. Run time thực đo theo JMeter log xấp xỉ 12 phút 1 giây; cấu hình là 203 VU, ramp-up 60 s, duration 720 s; không override thread/ramp/duration/loops. Log xác nhận bắt đầu 203 threads và cả 203 hoàn tất.
+- Java 17:
+  ```bash
+  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  export PATH="$JAVA_HOME/bin:$PATH"
+  scripts/reset_sut.sh
+  scripts/monitor_backend.sh results/monitor/23120190_Soak_20261118.csv &
+  jmeter -n -t test-plans/23120190_Soak_20261118.jmx -l results/jtl/23120190_Soak_20261118.jtl -e -o results/html/23120190_Soak_20261118/ -j results/23120190_Soak_20261118_jmeter.log -Jwriter_file=results/jtl/23120190_Soak_20261118_writer.jtl
+  ```
+- Lệnh JMeter thực tế được bọc `set -o pipefail`, tee stdout/stderr vào `results/23120190_Soak_20261118_console.log`, và trap dừng/wait monitor. HTML report được tạo thành công.
+
+### Kết quả và nguồn
+
+Nguồn tổng thể: `results/html/23120190_Soak_20261118/statistics.json`, entry `Total`; response time ms, `pct1ResTime`=p90, `pct2ResTime`=p95, `pct3ResTime`=p99.
+
+| Metric | Giá trị |
+|---|---:|
+| Samples tổng (canonical JTL) | 158,591 |
+| Errors | 0 (0.0%) |
+| Average | 32.449016652898884 ms |
+| p90 / p95 / p99 | 15 / 21 / 59 ms |
+| Throughput | 220.33168329899428 requests/sec |
+
+JTL canonical `results/jtl/23120190_Soak_20261118.jtl`: 157,462 samples luồng chính, 0 lỗi; `Negative login` 1,129 sample, đều thành công theo assertion, gồm HTTP 401: 6 và HTTP 403: 1,123. Tất cả 158,591 mẫu thành công; các phản hồi 401/403 là kết quả được chấp nhận cho login sai. SUT đã reset trước lần chạy để xóa lockout. Writer JTL phụ `results/jtl/23120190_Soak_20261118_writer.jtl` có cùng 158,591 sample; đây là bản ghi trùng từ Simple Data Writer, không cộng vào tổng canonical.
+
+Monitor `results/monitor/23120190_Soak_20261118.csv`: 710 mẫu, từ `2026-11-18T01:30:50+0700` đến `2026-11-18T01:42:59+0700`.
+
+| Tài nguyên backend | Max mẫu CSV |
+|---|---:|
+| CPU (`cpu_percent`) | 32.6% |
+| RSS (`rss_mb`) | 127.80 MiB |
+
+CPU là lifetime-average `%CPU` của `ps` tại thời điểm lấy mẫu mỗi giây, không phải instantaneous peak; RSS được monitor script đổi từ KiB sang MiB. Các mức tối đa chỉ áp dụng cho mẫu quan sát được trong khoảng monitor. Chưa kết luận RAM ceiling thực hay leak; cần bước 16.
+
+Artifacts: canonical JTL `results/jtl/23120190_Soak_20261118.jtl`; writer JTL phụ `results/jtl/23120190_Soak_20261118_writer.jtl`; HTML `results/html/23120190_Soak_20261118/`; monitor CSV `results/monitor/23120190_Soak_20261118.csv`; JMeter log `results/23120190_Soak_20261118_jmeter.log`; console `results/23120190_Soak_20261118_console.log`.

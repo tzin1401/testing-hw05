@@ -267,3 +267,15 @@
 - **AI output:**
   > Tạo plan Soak từ Load với 203 VU, ramp 60 giây, duration 720 giây và Simple Data Writer ghi file riêng; bổ sung nguồn Stress, lý do chọn tải và lệnh smoke vào report/02_test_design.md. Chưa chạy JMeter hoặc xác nhận smoke pass.
 - **Human review:** 
+ 
+## #18 – 2026-11-18 01:43 (giờ VN)
+- **AI tool:** omp – RunSoak (openai-codex/gpt-6-luna)
+- **Bước:** Task 1 – Bước 15 – Chạy soak 12 phút
+- **Prompt:**
+  > Bước 15 – Chạy soak 12 phút theo đúng quy trình của bước 13 (reset → monitor → jmeter → dừng monitor). Tên kết quả: 23120190_Soak_<YYYYMMDD>.
+  > Ghi vào report/07_run_log.md, mục Soak.
+  > Xong khi: có .jtl, HTML và CSV monitor của lần chạy soak.
+  > Plan test-plans/23120190_Soak_20261118.jmx. Basename23120190_Soak_$(date +%Y%m%d), nếuoutputexists chọnsuffixfresh; kiểmtra cảcanonicalJTL, writerJTL,HTMLdir,monitorCSV đểkhôngghiđè. Reset_sut trước, logtimeVN vàresultseeding. StartmonitorbackgroundwithtrapSIGINT/wait, jmeter -n -t ... -l results/jtl/<base>.jtl -e -o results/html/<base>/ -j results/<base>_jmeter.log -Jwriter_file=results/jtl/<base>_writer.jtl, console tee results/23120190_Soak_console.log withpipefail. KHÔNGoverride threads/rampup/duration/loops/lockpercent:203VU,ramp60,duration720s. Timeout1000s, khôngrútngắn hayrerunload. Canonical vàwriterphải khácpaths; countcanonicalonly, phụdùngchoSimpleDataWriterthực. KhôngmkdirHTMLleaftrướcrun. Nếureportexportfail giữrawJTL/CSV vàgenerateoffline-g sangfreshdir, khôngrerunSoak. SauJMeterdừngmonitor; đọcstatistics.json Total avg/p90/p95/p99/samplecount/errors/throughput vàCSVresource maxima/timewindow (CPUpslifetimeaverage sampled,RSSMiB), JTLmain/negativecounts/codes/success. Verifyactualduration/runthreadcountsfromlogs; writerfile phụ count tươngđương canonical nhưngkhôngsumming. Appendreport/07_run_log.md mụcSoak giữmọiLoadStressSpike với exactcommands/env/reset/start/end/artifacts/sources vàmetrics. AppendAI_LOGentrybước15 timestampdateVN/promptnguyênvănbỏGhi vào log/modelknown/Humanreviewblank; khôngthêmAIentrybước12. KhôngkếtluậnRAMceilingthật hayleakdefinitive trướcscriptbước16. DừngsauSoak báoManager đểuserchụpảnh, khôngchạybugcurl/resettiếp làm mấttrạngtháitrướcảnh.
+- **AI output:**
+  > Đã reset SUT và chạy duy nhất Soak mặc định 203 VU, ramp-up 60 giây, duration 720 giây với monitor đồng hành. JMeter exit code 0; sinh canonical JTL, writer JTL phụ, HTML report và monitor CSV. Append report/07_run_log.md mục Soak với thời gian, lệnh, metrics từ statistics.json/CSV/JTL, phân loại main/negative login và artifact paths. Không chạy lại tải, không reset hay làm thay đổi trạng thái SUT sau run.
+- **Human review:** 
