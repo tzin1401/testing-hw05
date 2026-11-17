@@ -12,7 +12,7 @@
   > Xong khi: có .gitignore, `git remote -v` hiện đúng origin, có report/00_environment.md với số phiên bản thật, SUT trả 200.
 - **AI output:**
   > Đã khởi tạo Git nhánh main ở hw05, thêm origin đúng URL và tạo .gitignore. Worker chạy reset SUT rồi lỗi dịch vụ trước khi ghi tài liệu; Manager hoàn tất report/00_environment.md và entry này. Kiểm tra trực tiếp Java 25.0.5.0.3, JMeter 5.6.3, Node v22.22.1, Git 2.53.0; API products HTTP 200 có 5 sản phẩm; login tài khoản perf001 HTTP 200 có token. Không sửa SUT, không tạo .jtl, không push. Bối cảnh chung và quy tắc worker được truyền kèm theo TASK1_PROMPTS.md Phần B.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Đã kiểm tra lại phiên bản java, jmeter, node, git và trạng thái SUT; khớp với báo cáo.
 
 ## #2 – 2026-11-17 23:04 (giờ VN)
 - **AI tool:** omp – scout; Manager (openai-codex/gpt-6.1-sol)
@@ -29,7 +29,7 @@
   > Xong khi: đủ 7 endpoint, mỗi endpoint có response thật lấy từ curl, có mục (a)(b)(c).
 - **AI output:**
   > Scout đọc code/spec và phân tích tĩnh nhưng không có shell. Manager gọi thật workflow, chạy curl cho đủ 7 endpoint và tạo report/01_api_analysis.md: body, token, response thật, lỗi từ code, SQL, nhóm endpoint, biến liên kết và bẫy. Không sửa SUT. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Đã đối chiếu endpoint và các bẫy (lockout, price string/number, giỏ không xóa) với `server.js`, thấy khớp.
 
 ## #3 – 2026-11-17 23:04 (giờ VN)
 - **AI tool:** omp – sonic; Manager (openai-codex/gpt-6.1-sol)
@@ -41,7 +41,7 @@
   > Xong khi: bảng đầy đủ, hostname đúng như output của lệnh `hostname`.
 - **AI output:**
   > Tạo report/05_hardware.md với bảng spec và output nguồn: hostname zinn-Nitro-AN515-57; i5-11400H, 6 core/12 thread, RAM 30 GiB, OS/kernel/disk và Java/Node/JMeter. Chưa có screenfetch/neofetch, chưa chụp ảnh. Manager đối chiếu bảng với output trong báo cáo. Không ghi số liệu tải giả; bối cảnh chung Phần B TASK1_PROMPTS.md được truyền kèm.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Hostname và thông số khớp với output lệnh; đã đối chiếu lại với các HW trước.
 
 ## #4 – 2026-11-17 23:04 (giờ VN)
 - **AI tool:** omp – Design (openai-codex/gpt-6.1-terra)
@@ -61,7 +61,7 @@
   > Thông tin thực đã xác minh report/05_hardware.md: 6 physical cores, 12 logical threads (không phải 12 core), 30 GiB RAM. Dùng số thực này và ghi rõ sai lệch giả định trong prompt. Thiết kế cả property loops để smoke 1 vòng/2 vòng kết thúc thật, duration không khiến smoke treo; Stress tăng bậc có dấu thời gian để phân tích từng bậc và Spike thấp-cao-thấp thực tế, không chỉ đổi tên. Không đưa thêm phạm vi Soak ở bước này.
 - **AI output:**
   > Tạo report/02_test_design.md với ba kịch bản, bảng thông số và lý do, assertion theo workflow, xử lý login sai/lockout và reset, listener riêng, lịch stress/spike cùng chế độ smoke loops. Đối chiếu thông số phần cứng với báo cáo; chưa tạo JMX hay chạy tải.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý có điều chỉnh. Prompt của mình ghi sai số core (máy thật 6 core/12 thread, 30 GiB); các thông số tải chỉ là đề xuất, chưa được đo.
 
 ## #5 – 2026-11-17 23:06 (giờ VN)
 - **AI tool:** omp – DataMonitor (openai-codex/gpt-6.1-terra)
@@ -83,7 +83,7 @@
 - **AI output:**
   > Tạo scripts/gen_data.py tách tài khoản và bổ sung dữ liệu sản phẩm từ API, scripts/monitor_backend.sh ghi CPU/RSS theo thời gian; cập nhật data/README.md. Chưa chạy generator hoặc kiểm tra monitor; Manager sẽ thực hiện theo yêu cầu, nên chưa xác nhận dữ liệu hay kết quả giám sát.
   > Xác minh sau đó bởi sonic: generator chạy thật, kiểm tra CSV/API PASS với 290/10/5 dòng dữ liệu; monitor 5 giây kết thúc SIGINT exit 0, ghi 5 dòng tại results/monitor/step3_smoke.csv. Manager đọc CSV monitor, timestamp 23:07:59–23:08:03 +07, CPU 0.3%, RSS 80.60 MiB; không coi đây là số liệu load test.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. CSV sinh bằng script, chạy lại ra cùng kết quả; monitor ghi đúng định dạng CSV.
 
 ## #6 – 2026-11-17 23:11 (giờ VN)
 - **AI tool:** omp – LoadPlan (openai-codex/gpt-6.1-terra)
@@ -108,7 +108,7 @@
   > Chỉ tạo Load .jmx và ghi AI_LOG; không chạy JMeter trong coding agent. Manager giao sonic smoke sau. Đọc report/02_test_design.md, dùng loops property rõ ràng: smoke -Jloops=1 kết thúc 1 vòng, threads/rampup/duration override. Mặc định đo theo thời gian 50VU/50s/600s. Không hardcode CSV absolute path. Main account chọn một lần/VU, độc quyền đang chạy, không đọc user mới mỗi iteration. Vẫn phải dùng CSV Data Set Config main/products; dùng Once Only Controller hoặc cấu hình iteration đúng để giữ main email/password; không tạo CSV phụ ngoài yêu cầu. Chú ý JMeter CSV configs có thể chạy mỗi vòng dù scope Once Only: xác minh implementation đúng, nếu cần init pool một lần bằng JSR223 đọc CSV nhưng phải giữ CSV Config thực sự cung cấp main data (không config chết). Lock CSV riêng, negative sampler phải nhận 401/403 là success, Throughput 5%. Negative branch không ghi đè main token, đặt sau login chính nhưng không đổi thứ tự 7 request chính. Per-request meaningful JSON assertions, dependencies skip on failed prerequisite, reset variables mỗi vòng, convert price string/number and total numeric. Uniform timer chỉ trước requests 2..7, không trước login sai. Main smoke không nhất thiết chọn negative; cho property lock_percent=100 để kiểm tra riêng âm khi smoke (mặc định5). Dùng response/connect timeout hữu hạn. Không thêm script generator JMX hay abstraction chưa cần.
 - **AI output:**
   > Tạo test-plans/23120190_Load_20261117.jmx theo Flow 1 và thiết kế Load; chưa chạy JMeter hay xác nhận sampler pass, để Manager kiểm tra smoke theo yêu cầu.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Không đồng ý nguyên bản. Plan còn 3 lỗi Medium: thiếu keepalive, assertion giỏ hàng dùng `any`, không có think-time khi login lỗi.
 
 ## #7 – 2026-11-17 23:14 (giờ VN)
 - **AI tool:** omp – FixExtractor (openai-codex/gpt-6.1-terra)
@@ -117,7 +117,7 @@
   > Bước 4 chưa hoàn tất, sửa file test-plans/23120190_Load_20261117.jmx. Smoke trên Java17 lỗi ArrayIndexOutOfBoundsException trong JSONPostProcessor.getMatchNumbersAsInt trước sample, log /tmp/hw05-load-java17.log. Đọc log và xác minh field chính xác của JSONPostProcessor JMeter5.6.3 từ installed jar javap/source, không đoán hay chạy lại test để xác nhận lỗi. Sửa cấu hình extractor token/user.id/orderId đúng native keys/delimiters; giữ workflow/params. Không chạy JMeter, Manager giao sonic sau. Nếu CSV main mỗi iteration hiện vẫn tiêu thụ dòng nhưng giữ account cố định, có thể để reviewer nêu ở bước5, không thêm abstraction. Append AI_LOG entry riêng () với bằng chứng lỗi và sửa, không sửa/xóa entry cũ. Append report/02a_load_smoke.md mô tả nguyên nhân/sửa (chưa claim pass); append report/00_environment.md hướng dẫn dùng JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64, version thực 17.0.21.0.3 được sonic quan sát. Không sửa hardware report lịch sử. Dùng edit mọi file cũ.
 - **AI output:**
   > Đọc log Java 17: lỗi ArrayIndexOutOfBoundsException tại getMatchNumbersAsInt khi xử lý 01 Login, summary 0 sample. Đối chiếu javap JMeter 5.6.3: defaultValues được split bằng dấu chấm phẩy, giá trị cũ `;` tạo mảng rỗng trong khi match_numbers có hai phần tử. Sửa default của extractor login thành `NOT_FOUND;NOT_FOUND` và checkout thành `NOT_FOUND`, giữ native keys, JSONPath, match và workflow. Append nguyên nhân vào report/02a_load_smoke.md và hướng dẫn Java 17 vào report/00_environment.md. Chưa chạy lại JMeter, chưa xác nhận pass.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Lỗi JSON Extractor có thật trong log Java 17; cách sửa default `NOT_FOUND;NOT_FOUND` hợp lý, smoke sau đó pass.
 
 ## #8 – 2026-11-17 23:21 (giờ VN)
 - **AI tool:** omp – Reviewer (anthropic/claude-sonnet-5-5)
@@ -137,7 +137,7 @@
   > Điểm đã biết cần xét: CSV main tiêu thụ mỗi iteration nhưng account_email cố định; pool fallback đọc file. Kiểm tra việc này gây consumer-visible lỗi thực hay chỉ lệch thiết kế, tránh đòi abstraction dư. Xem response assertions, stop dependencies, token default NOT_FOUND. Không sửa JMX; mỗi finding phải có dòng/cách sửa và evidence. Có quyền viết thì chỉ report/03_review_load.md và append AI_LOG; không có thì trả nguyên nội dung để Manager ghi.
 - **AI output:**
   > Đọc JMX, 02_test_design.md, 02a_load_smoke.md và server.js; tạo report/03_review_load.md, kết luận NEEDS FIX. 3 lỗi Medium: (1) thiếu HTTPSampler.use_keepalive nên mọi request gửi Connection: close (đối chiếu javap ApacheJMeter_http.jar 5.6.3: mặc định false); (2) assertion 05 Get cart khớp phần tử cũ vì giỏ không bị xóa, nên dùng phần tử cuối; (3) login thất bại thì vòng lặp quay lại không có think-time. Thêm 2 lỗi Low (switch assertion không có default; assertion không đối chiếu biến extractor), các mục Info. Pool account: không phải lỗi người dùng nhìn thấy, chỉ lệch thiết kế, không đòi abstraction. Không sửa JMX/SUT, không chạy test, không tạo .jtl; chưa chạy 50 VU nên các nhận định tải đánh dấu [INFERENCE].
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Các lỗi review đúng; đã đọc lại JMX để đối chiếu.
 
 ## #9 – 2026-11-17 23:22 (giờ VN)
 - **AI tool:** omp – CorrectLoad (openai-codex/gpt-6.1-terra)
@@ -150,7 +150,7 @@
   > Sửa mọi Medium và Low cụ thể trong report/03_review_load.md: keepalive tất cả8 sampler, kiểm tra cart phần tử cuối với exclusive per-user, pause khi login thất bại không tạo HTTP sample, default switch fail, đối chiếu token/user_id/order_id extractor. Đừng biến pool tài khoản thành abstraction mới; reviewer kết luận đây chỉ lệch thiết kế không consumer-visible. Append mục Đã sửa có lý do AI bỏ sót, không sửa các finding gốc; ghi rõ cwd hw05 và Java17 cho command. Không chạy smoke trong coding agent: Manager giao sonic chạy sau. Append report/02a_load_smoke.md nói /tmp/hw05-load-fixed.jtl và negative.jtl đã được xóa sau trích bằng chứng theo yêu cầu bước4, giữ nguyên kết quả cũ. Không claim pass cho bản mới trước runtime.
 - **AI output:**
   > Sửa test-plans/23120190_Load_20261117.jmx theo các lỗi Medium và Low; append mục Đã sửa và lệnh smoke Java 17 vào report/03_review_load.md, bổ sung thông tin xóa JTL cũ vào report/02a_load_smoke.md. Không thay pool, không chạy smoke trong coding agent; chưa xác nhận plan mới pass.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý sau khi kiểm tra. Các sửa đổi có trong JMX và smoke pass.
 
 ## #10 – 2026-11-17 23:30 (giờ VN)
 - **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol); task workers StressSpike và BuildStressSpike chưa tạo file
@@ -164,7 +164,7 @@
   > Xong khi: có 2 file .jmx đúng tên, smoke test pass, 3 plan dùng 3 listener khác nhau.
 - **AI output:**
   > Hai worker không tạo được file; Manager tái sử dụng cây XML của Load đã sửa, ghi hai JMX Stress/Spike đúng ngày date. Stress có 4 nhóm nối tiếp, gate nội bộ không ghi sample đánh giá error/p95 trước bậc tiếp, pool tài khoản riêng từng bậc và summary; Spike có nhóm nền/burst đồng thời chia sẻ pool. Giữ workflow, assertion, keepalive và lockout. Giao sonic chạy smoke 1VU, toàn bậc Stress và compressed Spike. Chưa xác nhận runtime pass, chưa chạy tải thật.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Không đồng ý nguyên bản. Có lỗi High #S1: Stress chạy mặc định chỉ lên 50/100/100/100 VU; plan cũng không chạy được trên Java 25.
 
 ## #11 – 2026-11-17 23:45 (giờ VN)
 - **AI tool:** omp – Reviewer (anthropic/claude-sonnet-5-5)
@@ -180,7 +180,7 @@
   > Đọc report/04a_stress_spike_initial_smoke.md: smoke7/7 mỗiplan, Stress4stage28samples, Spike compressed low/high/low, stopgate Java17 đã quan sát. Đọc các plan và Load đã sửa, thiết kế, server code. Kiểm tra property runtime JMeter (__groovy, num_threads=0 smoke, scheduler/delay/duration), pool namespaces Stress riêngstage/Spikechung, failure gate assertion state, one ResultCollector listener each. Nêu lỗi observable với evidence, không scope creep. Report/04_review_stress_spike.md, AI_LOG append only, kết luận mỗiplan riêng. Không sửa plans, không kiểm tra lại runtime.
 - **AI output:**
   > Đọc hai JMX, Load đã sửa, 02_test_design.md, 04a, 03_review_load.md, server.js, database.js, JTL/log smoke có sẵn; chỉ phân tích tĩnh, không chạy JMeter, không sửa JMX/SUT/JTL. Stress: NEEDS FIX. Lỗi High #S1: `props.get('threads','N')` ở stage 2–4 là `DefaultGroovyMethods.get(Map,K,V)` (đối chiếu javap Groovy 3.0.20) nên ghi default vào props; chạy mặc định (không `-Jthreads`) bậc 3 và 4 chỉ 100 VU thay vì 200/290, smoke không thấy vì luôn truyền `-Jthreads=1` (đánh dấu [INFERENCE], chưa chạy). Lỗi Low #S2: tên timer "500–1500 ms" nhưng giá trị 250–750 ms. Info: chưa có số đo để kết luận có chạm điểm gãy, tổng 600 s hợp lý, gate đếm lỗi đúng (`finally` + AssertionResult), `STRESS_STAGE_SUMMARY` không chạy khi gate dừng test (log stop-gate). Spike: PASS; ramp 5 s, 120/120/120 s, pool chung 200 ≤ 290, một listener; ghi chú Low `props.get` cùng mẫu (vô hại) và Info đỉnh ~230 req/s thấp hơn Stress. Lockout không làm hỏng luồng chính (main account chỉ gửi mật khẩu đúng, khóa theo từng user). Ghi nhận: công cụ ghi file (write/edit) không có trong phiên này nên báo cáo và entry log này được soạn ở local://04_review_stress_spike.md và local://AI_LOG_entry_11.md để Manager sao chép vào report/ và append vào report/AI_LOG.md.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý. Riêng #S1 mình đã tự chạy lại nhánh mặc định và xác nhận 50/100/200/290 (xem `report/06_human_review.md` mục 1).
 
 ## #12 – 2026-11-17 23:45 (giờ VN)
 - **AI tool:** omp – FixStressSpike (openai-codex/gpt-6.1-terra)
@@ -191,7 +191,8 @@
   > Sửa #S1 High, #S2 Low và #P1 Low theo review trong2JMX Stress/Spike. Đổi mọi props.get(key,default) (hai args) sang props.getProperty, giữ props.get(key) cho object state. Sửa Stress timer testname250–750ms. Cùng pattern có ở Load ThreadGroup.scheduler dùngprops.get('loops','-1'): sửa cùng một dòng này trong Load đểkhông đểpatternlỗi còn caller. Không thay workflow/lịch/count. Append report/04_review_stress_spike.md mục Đã sửa: lỗi/sửa/lýdo AI bỏsót (Manager sinh sai do hiểu nhầm Groovy Map.get overload; smoke chỉoverride threads). Ghi rõ bản mới chưa smoke. Runtime Manager giao sonic sau, không chạy JMeter. Không sửa review finding gốc. Append AI_LOG đúng format và timestamp thực.
 - **AI output:**
   > Sửa #S1, #S2 và #P1 trong Stress/Spike, sửa scheduler Load cùng mẫu và append mục Đã sửa vào report/04_review_stress_spike.md. Không chạy JMeter; bản mới chưa được smoke, chưa xác nhận pass.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý sau khi kiểm chứng thread count mặc định; #S2 và #P1 đã sửa đúng.
+
 ## #13 – 2026-11-17 23:52 (giờ VN)
 - **AI tool:** omp – FinalSmoke (openai-codex/gpt-6-luna)
 - **Bước:** Task 1 – Bước 10 – Smoke test cả 3 plan
@@ -203,7 +204,7 @@
   > Bổ sung -Jloops=2 -Jrampup=1 để chạy đúng 2 vòng thay vì lịch tải; file results/smoke/23120190_{Load|Stress|Spike}_20261117.jtl, đặt -j results/smoke/<tên>_jmeter.log riêng để có runtime log chứ không chỉ console. Reset trước mỗi plan, chạy tuần tự, timeout120s mỗi plan. Đọc samples/errors per label từ JTL thật; kỳvọng70 main samples/plan (5*2*7), negative cóthể0 theo controller rounding. Nếu lỗi báo Manager và không sửa plan; cóthể chạy cácplan còn lại vì từngrun độc lập sau reset. Tạo report/05a_all_plans_smoke.md với command table/per-label main count/errors và negative counts/codes riêng; đọc parse/scripting errors JMeter runtime logs. Append AI_LOG entry bước10 đúngtimestamp, prompt nguyênvăn bỏ Ghi vào log, Human review trống; không viết entry bước12 vì do người dùng. Không chạy tải thật, không HTML reports bước13.
 - **AI output:**
   > Chạy tuần tự Load, Stress, Spike; reset SUT trước mỗi plan, không sửa JMX. Mỗi JTL có 70 samples, 0 errors (0%); 7 workflow label đều 10 samples/0 errors, negative login 0 sample. Runtime logs không cho thấy lỗi parsing/scripting. Tạo report/05a_all_plans_smoke.md; cả ba smoke pass.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý nhưng còn thiếu: smoke chưa phủ nhánh login sai (0 sample `Negative login`) và chưa chạy nhánh mặc định của Stress.
 
 ## #14 – 2026-11-18 00:46 (giờ VN)
 - **AI tool:** omp – RunLoad (openai-codex/gpt-6-luna)
@@ -364,4 +365,32 @@
   > Xong khi: mỗi bug có lệnh curl tái hiện kèm output thật.
 - **AI output:**
   > Manager đọc raw curl: các lượt cart/checkout của worker đều 403 nên kết luận 200 trước đó chưa có bằng chứng. Giữ token thật trong bộ nhớ và chỉ che bản in, gọi curl lại thành công lúc 02:06:55 +07, lưu results/repro/checkout_cart_20261118.txt: checkout HTTP 200 orderId1, orders total_amount1 dù giá sản phẩm 28000000, cart còn nguyên. Sửa nguồn chứng minh trong report/09_bugs.md, bổ sung trích response thật, sửa mô tả code price ID chẵn và che một token còn lộ ở raw cũ (không sửa JTL). Lockout và price đã có đủ bằng chứng nên không đo lại. Ba bug có yêu cầu spec rõ và một finding type consistency có ambiguity; không tự đăng Issues.
+- **Human review:** _(để trống – người dùng tự điền)_
+
+## #23 – 2026-11-18 02:12 (giờ VN)
+- **AI tool:** omp – TaskOneReport (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 18 – Tổng hợp báo cáo
+- **Prompt:**
+  > . Bước 18 – Viết report/TASK1_REPORT.md bằng cách tổng hợp các file report/00..09. Không viết lại số liệu bằng tay; mọi số phải trích từ các file nguồn. Các mục:
+  >   1. Môi trường và phần cứng
+  >   2. Workflow và độ phủ 3 nhóm endpoint
+  >   3. Thiết kế 3 kịch bản (bảng thông số)
+  >   4. AI sai gì / đã sửa gì: tham chiếu report/03, 04, 06. Phần 06 là của người dùng, chỉ link tới, không sửa nội dung.
+  >   5. Kết quả Load/Stress/Spike: bảng số liệu và link HTML report, .jtl
+  >   6. Lockout và các bước reset
+  >   7. Ngưỡng endurance
+  >   8. Bug và issue
+  >   9. Bằng chứng: chừa chỗ cho ảnh người dùng chụp, dạng ![](../evidence/...)
+  > Đồng thời tạo hoặc cập nhật README.md ở thư mục gốc gồm:
+  >   - Bảng tự đánh giá (theo Mục 15 của đề, chừa cột điểm trống cho người dùng tự điền).
+  >   - Test summary: các kịch bản đã chạy, nhóm endpoint đã phủ, ngưỡng endurance có số, số bug/issue, link video (chừa chỗ trống).
+  > Xong khi: mọi link file trỏ đúng tới file đang tồn tại; không có số liệu nào thiếu nguồn.
+  > Tạo report/TASK1_REPORT.md vàREADME.md bằngtiếngViệt, cùng report/GIT_LOG.md chứalogcommits thực (git log --date=iso-strict --format... chỉđểxuấtdeliverable, khônggitstatus/audit/commit; nếu khôngcóexec quyền trảrequestManager). LogGit chốttrướcdoccommit làsnapshot nên ghi rõ, khôngcầnrecursionincludeowncommit. Đâyđềyêucầugitlogtext.
+  > Sources: report00..09 (03a04a04b05a05b làproof phụ), report/06_human_review.md do userviết chỉlinkkhôngsửa. JSON stats paths Load_20261118, Stress_20261118_recovered, Spike_20261118, Soak_20261118; canonicalJTLdates18. endurancemetrics results/analysis/endurance.json và08. StatsTotalbao gồmNegativeaccepted; mainerrors0mọirun nhưngSoakminute3p952244ms ở203VU,RPS171.183,0errorsvượt2s, globalp9521khôngchekếtluậnkhôngổnđịnhsuốt12phút. MaxstableobservedStress290VU,468.556RPS,p95947ms dựaJTLwindow sau30s; thresholdnotfoundthrough290, NOTproven12minmaxcapacity. Report07stableRPS470.775làdifferentnominalwindow; mainconclusiondùngscriptJSONcanonicalmethod giải thíchkhácwindow, khôngđồngnhất. MemorymaxStress171.64MiB/Soak127.8MiB,slopeSoak1.470MiB/min khônghardceiling/no definitiveleak.
+  > Bugcount3confirmedexplicitFR02/FR08 +1Lowpricecompatibilityambiguous. Report09đãManagersửa403failedrepros, verifiedcurl200actual results/repro/checkout_cart_20261118.txt; lockout35/179/181s vàprice sourceflow1_bugs...txt. Khôngđếmperfepisode nhưcurlreproducedfunctionalbug; làobservationriêng.
+  > Ảnhusercungcấpđãexisting evidence/: hardware.png; load_run.webp/load_result.png; stress_run_200.png/stress_run.png/stress_result.png; spike_run.png/spike_recovery.png/spike_result.png; soak_run_6m.png/soak_run.png/soak_result.png. Linkactualfile đangcó, nếuảnhthiếukhôngbịa. Khôngsinhảnh. Chỉmộtảnhđạidiệnmỗiscenario vàlinkphầncòn lạiđỡdài. VideoYouTubechưacóURL, GitHubissueURLchưađượccungcấp, khôngclaimpostedissuecount0thựctế; ghi chưa xác nhận/nhắcuserbổsungkhôngfakeURL hoặcbrokenplaceholderlinks.
+  > READMEassessmenttabletheoMục15: Load30,Stress20,Spike20,Task2AI10,Task3Continuous10,AgentSkill10,total100; cộttựchấmđểtrống. ĐánhdấuchỉTask1trongscope, khôngtựclaimTask2/Task3/Skillhoànthành. Summarytable results/canonicalfiles/endpointgroups/endurance/bugdraftcounts/videoawaited. Commandsrunfromhw05Java17explicitexportseparatelines tránhPATH=$JAVA_HOME oldexpansionbug. Resetbeforeeveryrun; nonGUI-l/-e/-o freshfolder vàwriter_fileSoak separatecanonical, metadata+analysisreprocommandsactualscript. Nếuchỉlinkruncommands07thìghiđủhowtogetstarted vàsourceSUTupstreamignorednotincluded; khôngsửaSUT đểcleanup. Existinggen_users.py/reset_sut.sh/data/users.csvlàprereqsmanagerincludeunchangedtrongdoccommit, khôngđụngnộidung.
+  > AI-errorsectionphânbiệtsourceAIreviewvsuserhumanreview: keepalive/cartassert/loginfailurepause/extractorJava17/propertygetmutatesdefaults; aggregateSoak hidesperminutebreach; bugreportclaimed200butraw403correctedbyManager. Chỉfactlinkcites, khôngviếthumanacceptancehộuser. Link06only. Cuốibáocáochecklisthumanremaining: tựđăngIssues/screenshots,video≥6minVNvoiceunlisted, điềnHumanreviewentriesmới,điểmblank,pushpublic(gatecấmagentpush). PDFexportsubmissioncóthểghiuserexportchưatạo, khôngclaimfilePDFnếukhôngexisting. KhôngvờTask1ready-submitfullkhiđườnglinkuserscònthiếu. Mọirelativelinkphảiđếnexistingfile; đừnglinkreport10chưatạotrướcstep19.
+- **AI output:**
+  > Tạo báo cáo Task 1, README tự đánh giá và snapshot Git log; trích nguồn kết quả, nêu giới hạn endurance, các bug và phần việc sinh viên; không sửa human review. Manager cung cấp kết quả API Issues rỗng tại thời điểm kiểm tra. Không tự đăng issue hay push.
 - **Human review:** _(để trống – người dùng tự điền)_

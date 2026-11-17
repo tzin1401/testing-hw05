@@ -1,3 +1,5 @@
 eshop-sut/
 results/server.log
 *.log
+__pycache__/
+*.py[cod]
