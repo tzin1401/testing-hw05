@@ -84,3 +84,37 @@
   > Tạo scripts/gen_data.py tách tài khoản và bổ sung dữ liệu sản phẩm từ API, scripts/monitor_backend.sh ghi CPU/RSS theo thời gian; cập nhật data/README.md. Chưa chạy generator hoặc kiểm tra monitor; Manager sẽ thực hiện theo yêu cầu, nên chưa xác nhận dữ liệu hay kết quả giám sát.
   > Xác minh sau đó bởi sonic: generator chạy thật, kiểm tra CSV/API PASS với 290/10/5 dòng dữ liệu; monitor 5 giây kết thúc SIGINT exit 0, ghi 5 dòng tại results/monitor/step3_smoke.csv. Manager đọc CSV monitor, timestamp 23:07:59–23:08:03 +07, CPU 0.3%, RSS 80.60 MiB; không coi đây là số liệu load test.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #6 – 2026-11-17 23:11 (giờ VN)
+- **AI tool:** omp – LoadPlan (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 4 – Tạo test plan Load
+- **Prompt:**
+  > Bước 4 – Tạo test plan LOAD cho JMeter 5.6.3 theo report/02_test_design.md.
+  > File: test-plans/23120190_Load_<YYYYMMDD>.jmx (lấy ngày bằng `date +%Y%m%d`).
+  > Plan phải có:
+  >   - User Defined Variables: HOST=localhost, PORT=3000. Có HTTP Request Defaults.
+  >   - Số thread, ramp-up, thời lượng phải đọc từ property: ${__P(threads,<mặc định>)}, ${__P(rampup,..)}, ${__P(duration,..)}, để có thể override bằng -J khi smoke test.
+  >   - CSV Data Set Config: data/users_main.csv và data/products.csv, đường dẫn tương đối so với thư mục hw05.
+  >   - Đủ 7 request của Flow 1, đúng thứ tự.
+  >   - JSON Extractor: $.token và $.user.id từ login; $.orderId từ checkout.
+  >   - HTTP Header Manager: Content-Type: application/json, và Authorization: Bearer ${token} cho các request cần token.
+  >   - Assertion theo thiết kế ở bước 2.
+  >   - Think-time theo thiết kế.
+  >   - Throughput Controller khoảng 5% cho login sai, dùng data/users_lock.csv. Assertion chấp nhận 401/403.
+  >   - total_amount gửi lên = price × quantity của đúng sản phẩm trong vòng lặp hiện tại. KHÔNG cộng dồn theo giỏ hàng, vì giỏ hàng không bao giờ bị xóa.
+  >   - Listener DUY NHẤT: Summary Report.
+  > Kiểm tra cú pháp: chạy `jmeter -n -t <file> -Jthreads=1 -l /tmp/check.jtl` với 1 thread, 1 vòng. Xem log có lỗi không, rồi xóa /tmp/check.jtl.
+  > Xong khi: file mở được, chạy 1 vòng không có lỗi parse, tất cả sampler đều pass.
+  > Chỉ tạo Load .jmx và ghi AI_LOG; không chạy JMeter trong coding agent. Manager giao sonic smoke sau. Đọc report/02_test_design.md, dùng loops property rõ ràng: smoke -Jloops=1 kết thúc 1 vòng, threads/rampup/duration override. Mặc định đo theo thời gian 50VU/50s/600s. Không hardcode CSV absolute path. Main account chọn một lần/VU, độc quyền đang chạy, không đọc user mới mỗi iteration. Vẫn phải dùng CSV Data Set Config main/products; dùng Once Only Controller hoặc cấu hình iteration đúng để giữ main email/password; không tạo CSV phụ ngoài yêu cầu. Chú ý JMeter CSV configs có thể chạy mỗi vòng dù scope Once Only: xác minh implementation đúng, nếu cần init pool một lần bằng JSR223 đọc CSV nhưng phải giữ CSV Config thực sự cung cấp main data (không config chết). Lock CSV riêng, negative sampler phải nhận 401/403 là success, Throughput 5%. Negative branch không ghi đè main token, đặt sau login chính nhưng không đổi thứ tự 7 request chính. Per-request meaningful JSON assertions, dependencies skip on failed prerequisite, reset variables mỗi vòng, convert price string/number and total numeric. Uniform timer chỉ trước requests 2..7, không trước login sai. Main smoke không nhất thiết chọn negative; cho property lock_percent=100 để kiểm tra riêng âm khi smoke (mặc định5). Dùng response/connect timeout hữu hạn. Không thêm script generator JMX hay abstraction chưa cần.
+- **AI output:**
+  > Tạo test-plans/23120190_Load_20261117.jmx theo Flow 1 và thiết kế Load; chưa chạy JMeter hay xác nhận sampler pass, để Manager kiểm tra smoke theo yêu cầu.
+- **Human review:** _(để trống – người dùng tự điền)_
+
+## #7 – 2026-11-17 23:14 (giờ VN)
+- **AI tool:** omp – FixExtractor (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 4 – Sửa test plan Load
+- **Prompt:**
+  > Bước 4 chưa hoàn tất, sửa file test-plans/23120190_Load_20261117.jmx. Smoke trên Java17 lỗi ArrayIndexOutOfBoundsException trong JSONPostProcessor.getMatchNumbersAsInt trước sample, log /tmp/hw05-load-java17.log. Đọc log và xác minh field chính xác của JSONPostProcessor JMeter5.6.3 từ installed jar javap/source, không đoán hay chạy lại test để xác nhận lỗi. Sửa cấu hình extractor token/user.id/orderId đúng native keys/delimiters; giữ workflow/params. Không chạy JMeter, Manager giao sonic sau. Nếu CSV main mỗi iteration hiện vẫn tiêu thụ dòng nhưng giữ account cố định, có thể để reviewer nêu ở bước5, không thêm abstraction. Append AI_LOG entry riêng () với bằng chứng lỗi và sửa, không sửa/xóa entry cũ. Append report/02a_load_smoke.md mô tả nguyên nhân/sửa (chưa claim pass); append report/00_environment.md hướng dẫn dùng JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64, version thực 17.0.21.0.3 được sonic quan sát. Không sửa hardware report lịch sử. Dùng edit mọi file cũ.
+- **AI output:**
+  > Đọc log Java 17: lỗi ArrayIndexOutOfBoundsException tại getMatchNumbersAsInt khi xử lý 01 Login, summary 0 sample. Đối chiếu javap JMeter 5.6.3: defaultValues được split bằng dấu chấm phẩy, giá trị cũ `;` tạo mảng rỗng trong khi match_numbers có hai phần tử. Sửa default của extractor login thành `NOT_FOUND;NOT_FOUND` và checkout thành `NOT_FOUND`, giữ native keys, JSONPath, match và workflow. Append nguyên nhân vào report/02a_load_smoke.md và hướng dẫn Java 17 vào report/00_environment.md. Chưa chạy lại JMeter, chưa xác nhận pass.
+- **Human review:** _(để trống – người dùng tự điền)_
