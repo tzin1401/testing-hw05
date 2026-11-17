@@ -1,0 +1,15 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794932649485,32,01 Login,200,OK,Load users 1-1,text,true,,642,235,1,1,http://localhost:3000/api/login,32,0,20
+1794932650565,3,02 Products,200,OK,Load users 1-1,text,true,,1238,322,1,1,http://localhost:3000/api/products,3,0,0
+1794932651410,2,03 Product detail,200,OK,Load users 1-1,text,true,,451,324,1,1,http://localhost:3000/api/products/1,2,0,0
+1794932652467,4,04 Add cart,200,OK,Load users 1-1,text,true,,294,404,1,1,http://localhost:3000/api/cart,4,0,0
+1794932653076,2,05 Get cart,200,OK,Load users 1-1,text,true,,334,318,1,1,http://localhost:3000/api/cart,2,0,0
+1794932653675,11,06 Checkout,200,OK,Load users 1-1,text,true,,312,405,1,1,http://localhost:3000/api/checkout,11,0,0
+1794932654691,3,07 My orders,200,OK,Load users 1-1,text,true,,405,330,1,1,http://localhost:3000/api/orders/my-orders,3,0,0
+1794932654698,2,01 Login,200,OK,Load users 1-1,text,true,,642,235,1,1,http://localhost:3000/api/login,2,0,0
+1794932655341,3,02 Products,200,OK,Load users 1-1,text,true,,1238,322,1,1,http://localhost:3000/api/products,3,0,0
+1794932656675,1,03 Product detail,200,OK,Load users 1-1,text,true,,480,324,1,1,http://localhost:3000/api/products/2,1,0,0
+1794932657406,2,04 Add cart,200,OK,Load users 1-1,text,true,,294,411,1,1,http://localhost:3000/api/cart,2,0,0
+1794932657948,1,05 Get cart,200,OK,Load users 1-1,text,true,,408,318,1,1,http://localhost:3000/api/cart,1,0,0
+1794932659084,12,06 Checkout,200,OK,Load users 1-1,text,true,,312,405,1,1,http://localhost:3000/api/checkout,12,0,0
+1794932660150,2,07 My orders,200,OK,Load users 1-1,text,true,,542,330,1,1,http://localhost:3000/api/orders/my-orders,2,0,0

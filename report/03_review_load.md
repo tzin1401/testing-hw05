@@ -88,3 +88,30 @@ Giá lấy từ response SUT, không so với `products.csv`. Đúng thiết k�
 1. Sửa #1, #2, #3 trong JMX (do người/agent được giao sửa, reviewer không sửa).
 2. Tùy chọn #4, #5.
 3. Chạy lại `scripts/reset_sut.sh`, smoke `-Jthreads=1 -Jloops=2`, rồi chạy đo `jmeter -n` từ thư mục hw05 (xem #6).
+
+## Đã sửa
+
+Các nguyên nhân bỏ sót dưới đây là nhận định `[INFERENCE]` từ prompt và bản plan ở bước 4, không phải kết luận về quá trình nội bộ của model.
+
+| Lỗi | Đã sửa | Vì sao AI bước 4 có thể bỏ sót |
+|---|---|---|
+| #1 Medium – thiếu keep-alive | Đặt `HTTPSampler.use_keepalive=true` cho cả 8 HTTP sampler. | Giới hạn model: giả định mặc định JMeter giống cấu hình GUI thay vì kiểm tra default thực tế. |
+| #2 Medium – cart khớp phần tử cũ | Kiểm tra phần tử cuối không rỗng có đúng `id` và `quantity`; tài khoản main độc quyền cho mỗi VU và endpoint thêm vào cuối. | Đặc điểm endpoint: giỏ tồn tại qua checkout, nên assertion `any` có thể khớp dữ liệu cũ; smoke một vòng không phơi bày. |
+| #3 Medium – login thất bại lặp ngay | Thêm nhánh login thất bại với Flow Control Action pause 1000 ms, không tạo HTTP request; nhánh thành công giữ nguyên think-time. | Prompt nhấn mạnh think-time workflow thành công nhưng không chỉ rõ nhịp khi login lỗi; model bỏ sót nhánh lỗi. |
+| #4 Low – switch thiếu default | Thêm `default` làm assertion thất bại với nhãn không được kiểm tra. | Giới hạn model: chỉ xét các nhãn hiện tại, chưa xét nhãn bị đổi hoặc thêm. |
+| #5 Low – chưa đối chiếu extractor | So sánh `token`, `user_id` với JSON login và `order_id` với JSON checkout trước khi đánh dấu bước thành công. | Prompt yêu cầu extractor và assertion nhưng không nói rõ phải đối chiếu giá trị trích xuất với response; model kiểm tra riêng từng phần. |
+| #6 Low – thiếu hướng dẫn cwd | Ghi rõ cwd và Java 17 trong lệnh bên dưới; không đổi đường dẫn tương đối của plan. | Prompt yêu cầu đường dẫn tương đối so với hw05 nhưng chưa yêu cầu ghi rõ cwd khi chạy. |
+
+Không thay pool #7: reviewer xác định đây là lệch thiết kế, không phải lỗi consumer-visible. Các mục #8–#11 là thông tin, không yêu cầu sửa plan. Review không ghi nhận lỗi High.
+
+Chạy smoke từ thư mục `/home/zinn/zinn/testing/hw05`, dùng Java 17 và reset trước lượt chạy:
+
+```sh
+cd /home/zinn/zinn/testing/hw05
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH="$JAVA_HOME/bin:$PATH"
+scripts/reset_sut.sh
+jmeter -n -t test-plans/23120190_Load_20261117.jmx -Jthreads=1 -Jrampup=1 -Jloops=1 -l /tmp/hw05-load-step6.jtl -j /tmp/hw05-load-step6.log
+```
+
+Chưa chạy smoke sau các sửa đổi này; kết quả cũ ở `02a_load_smoke.md` không xác nhận bản mới.

@@ -58,3 +58,7 @@ Kết quả: 8 samples, `Err: 0 (0.00%)`. Bảy sampler chính pass như lượt
 | 07 My orders | 200 | true | _(rỗng)_ |
 
 Nguồn: JTL `/tmp/hw05-load-fixed.jtl`, `/tmp/hw05-load-fixed-negative.jtl` và log tương ứng. Tạm giữ JTL để lưu bằng chứng; không chỉnh sửa JTL.
+
+## Lưu ý bằng chứng bước 4
+
+Hai file `/tmp/hw05-load-fixed.jtl` và `/tmp/hw05-load-fixed-negative.jtl` đã được xóa sau khi trích bằng chứng theo yêu cầu bước 4; các kết quả cũ ở trên được giữ nguyên. Chúng không xác nhận kết quả smoke của plan sau sửa bước 6.

@@ -138,3 +138,16 @@
 - **AI output:**
   > Đọc JMX, 02_test_design.md, 02a_load_smoke.md và server.js; tạo report/03_review_load.md, kết luận NEEDS FIX. 3 lỗi Medium: (1) thiếu HTTPSampler.use_keepalive nên mọi request gửi Connection: close (đối chiếu javap ApacheJMeter_http.jar 5.6.3: mặc định false); (2) assertion 05 Get cart khớp phần tử cũ vì giỏ không bị xóa, nên dùng phần tử cuối; (3) login thất bại thì vòng lặp quay lại không có think-time. Thêm 2 lỗi Low (switch assertion không có default; assertion không đối chiếu biến extractor), các mục Info. Pool account: không phải lỗi người dùng nhìn thấy, chỉ lệch thiết kế, không đòi abstraction. Không sửa JMX/SUT, không chạy test, không tạo .jtl; chưa chạy 50 VU nên các nhận định tải đánh dấu [INFERENCE].
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #9 – 2026-11-17 23:22 (giờ VN)
+- **AI tool:** omp – CorrectLoad (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 6 – Sửa test plan Load
+- **Prompt:**
+  > Bước 6 – Sửa test plan LOAD theo report/03_review_load.md.
+  > Với mỗi lỗi: sửa xong thì ghi vào cuối report/03_review_load.md, mục "Đã sửa": lỗi gì – đã sửa thế nào – vì sao AI (bước 4) bỏ sót (do prompt / giới hạn model / đặc điểm endpoint).
+  > Sau khi sửa: chạy lại smoke test 1 thread 1 vòng.
+  > Xong khi: mọi lỗi mức độ cao đã được sửa, smoke test pass.
+  > Sửa mọi Medium và Low cụ thể trong report/03_review_load.md: keepalive tất cả8 sampler, kiểm tra cart phần tử cuối với exclusive per-user, pause khi login thất bại không tạo HTTP sample, default switch fail, đối chiếu token/user_id/order_id extractor. Đừng biến pool tài khoản thành abstraction mới; reviewer kết luận đây chỉ lệch thiết kế không consumer-visible. Append mục Đã sửa có lý do AI bỏ sót, không sửa các finding gốc; ghi rõ cwd hw05 và Java17 cho command. Không chạy smoke trong coding agent: Manager giao sonic chạy sau. Append report/02a_load_smoke.md nói /tmp/hw05-load-fixed.jtl và negative.jtl đã được xóa sau trích bằng chứng theo yêu cầu bước4, giữ nguyên kết quả cũ. Không claim pass cho bản mới trước runtime.
+- **AI output:**
+  > Sửa test-plans/23120190_Load_20261117.jmx theo các lỗi Medium và Low; append mục Đã sửa và lệnh smoke Java 17 vào report/03_review_load.md, bổ sung thông tin xóa JTL cũ vào report/02a_load_smoke.md. Không thay pool, không chạy smoke trong coding agent; chưa xác nhận plan mới pass.
+- **Human review:** _(để trống – người dùng tự điền)_
