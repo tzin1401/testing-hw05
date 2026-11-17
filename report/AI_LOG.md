@@ -221,3 +221,18 @@
 - **AI output:**
   > Đã reset SUT, chạy duy nhất LOAD plan với monitor đồng hành; hoàn tất thành công, sinh JTL, HTML report và CSV monitor. Báo cáo số liệu thực trong report/07_run_log.md, phân tách main/negative login và mã HTTP, kèm nguồn statistics.json/CSV. Không sửa plan/SUT, không chạy plan khác.
 - **Human review:** 
+
+## #15 – 2026-11-18 01:11 (giờ VN)
+- **AI tool:** omp – FinishStressReport (openai-codex/gpt-6-luna)
+- **Bước:** Task 1 – Bước 13 – Chạy thật plan STRESS
+- **Prompt:**
+  > Bước 13 – Chạy thật plan STRESS (mỗi lần giao chỉ chạy 1 plan).
+  > 1. Chạy scripts/reset_sut.sh. Ghi các bước reset vào report/07_run_log.md, kèm thời điểm thực hiện.
+  > 2. Chạy song song: scripts/monitor_backend.sh results/monitor/<tên>.csv
+  > 3. Chạy: jmeter -n -t test-plans/23120190_Stress_20261117.jmx -l results/jtl/<tên>.jtl -e -o results/html/<tên>/
+  > 4. Dừng monitor. Ghi vào report/07_run_log.md: thời gian bắt đầu/kết thúc, số sample, % lỗi, avg/p90/p95/p99, throughput, CPU/RAM backend; metrics không ước lượng.
+  > 5. Ghi lockout nếu có. Xong khi có JTL, HTML, monitor CSV và run log có nguồn.
+  > Run thực tế đã reset 00:58:12+07, bắt đầu 00:58:19, kết thúc 01:08:21. Không chạy lại Stress hoặc Load. HTML báo outputdir already exists là ground truth; không ghi đè/xóa HTML cũ, inspect trạng thái cũ. Generate offline `jmeter -g <existingJTL> -o results/html/23120190_Stress_20261118_recovered/` với `-j` log mới (suffix nếu cần), không mkdir leaf trước; report-only, không reset SUT/monitor. Đọc statistics Total, CSV giám sát và JTL labels/codes. Tính per-stage VU50/100/200/290, thời gian thực, main samples/errors/p95/RPS; bỏ 30s ramp, nêu gate all-stage khác stable window. Tìm highest stable VU đạt error<=5%, p95<=2000ms; phân biệt max observed stable và breakpoint chưa đạt. Append run log mục Stress, không chạm Load; exact commands/time/env/reset/output failure/recovery/sources. Append AI_LOG Bước 13 Stress theo TASK1_PROMPTS Phần B+C, bỏ cụm Ghi vào log; nêu Report Recovery thực tế, model actual, timestamp dateVN, không đổi Human review. CPU ps lifetime sampled, không instantaneous peak; RSS MiB. Báo evidence/artifacts/higher stable load. Không chạy Spike/Soak.
+- **AI output:**
+  > Bảo toàn HTML output cũ sau lỗi directory tồn tại; tạo report offline thành công từ JTL hiện có. Append report/07_run_log.md mục Stress với statistics, phân loại sample/codes, monitor và từng stable stage; tất cả bốn bậc tới 290 VU đạt gate, max observed 290 VU nhưng breakpoint chưa chạm. Append prompt chính xác vào TASK1_PROMPTS.md và entry này; không rerun tải, không chạy Load/Spike/Soak.
+- **Human review:** 
