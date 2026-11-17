@@ -42,3 +42,23 @@
 - **AI output:**
   > Tạo report/05_hardware.md với bảng spec và output nguồn: hostname zinn-Nitro-AN515-57; i5-11400H, 6 core/12 thread, RAM 30 GiB, OS/kernel/disk và Java/Node/JMeter. Chưa có screenfetch/neofetch, chưa chụp ảnh. Manager đối chiếu bảng với output trong báo cáo. Không ghi số liệu tải giả; bối cảnh chung Phần B TASK1_PROMPTS.md được truyền kèm.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #4 – 2026-11-17 23:04 (giờ VN)
+- **AI tool:** omp – Design (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 1 – Bước 2 – Thiết kế kịch bản
+- **Prompt:**
+  > Bước 2 – Thiết kế 3 kịch bản Load / Stress / Spike cho Flow 1. CHỈ thiết kế, CHƯA tạo file .jmx.
+  > Input: report/01_api_analysis.md. Máy test: 12 CPU core, 30 GB RAM. Backend Node.js chạy đơn luồng, dùng SQLite.
+  > Với mỗi kịch bản, đề xuất kèm LÝ DO cụ thể:
+  >   - Số thread (VU), ramp-up, thời lượng hoặc số vòng, think-time (loại timer và khoảng giá trị).
+  >   - Load: tải bình thường. Stress: tăng bậc đến khi lỗi > 5% hoặc p95 > 2 giây. Spike: tăng vọt rồi hạ.
+  >   - Assertion cho từng request: status code, kèm JSON assertion cho token/orderId/mảng. Lưu ý price string/number.
+  >   - Cách xử lý lockout: thêm khoảng 5% request login SAI dùng nhóm tài khoản riêng perf291..perf300 (đặt trong Throughput Controller). Request này coi 401/403 là ĐÚNG. Luồng chính dùng perf001..perf290. Ghi rõ các bước reset giữa các lần chạy (reset_sut.sh hoặc chờ 180 giây).
+  >   - Listener khác nhau cho mỗi plan: Load = Summary Report; Stress = Aggregate Report; Spike = Response Time Graph.
+  >   - Giải thích ngắn: workflow phủ đủ 3 nhóm endpoint như thế nào.
+  > Ghi vào report/02_test_design.md, kèm một bảng tổng hợp thông số.
+  > Xong khi: có đủ 3 kịch bản, mỗi thông số đều có lý do, có mục lockout và mục listener.
+  > Thông tin thực đã xác minh report/05_hardware.md: 6 physical cores, 12 logical threads (không phải 12 core), 30 GiB RAM. Dùng số thực này và ghi rõ sai lệch giả định trong prompt. Thiết kế cả property loops để smoke 1 vòng/2 vòng kết thúc thật, duration không khiến smoke treo; Stress tăng bậc có dấu thời gian để phân tích từng bậc và Spike thấp-cao-thấp thực tế, không chỉ đổi tên. Không đưa thêm phạm vi Soak ở bước này.
+- **AI output:**
+  > Tạo report/02_test_design.md với ba kịch bản, bảng thông số và lý do, assertion theo workflow, xử lý login sai/lockout và reset, listener riêng, lịch stress/spike cùng chế độ smoke loops. Đối chiếu thông số phần cứng với báo cáo; chưa tạo JMX hay chạy tải.
+- **Human review:** _(để trống – người dùng tự điền)_
