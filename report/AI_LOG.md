@@ -279,3 +279,46 @@
 - **AI output:**
   > Đã reset SUT và chạy duy nhất Soak mặc định 203 VU, ramp-up 60 giây, duration 720 giây với monitor đồng hành. JMeter exit code 0; sinh canonical JTL, writer JTL phụ, HTML report và monitor CSV. Append report/07_run_log.md mục Soak với thời gian, lệnh, metrics từ statistics.json/CSV/JTL, phân loại main/negative login và artifact paths. Không chạy lại tải, không reset hay làm thay đổi trạng thái SUT sau run.
 - **Human review:** 
+
+## #19 – 2026-11-18 01:52 (giờ VN)
+- **AI tool:** omp – EnduranceScript (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 2 – Bước 16 – Script phân tích endurance
+- **Prompt:**
+  >  Bước 16 – Xác định ngưỡng chịu tải (endurance threshold) từ dữ liệu THẬT.
+  > Input: results/jtl/*Soak*.jtl, results/monitor/*Soak*.csv, kết quả Stress.
+  > Viết một script Python nhỏ (scripts/summarize.py) đọc .jtl và CSV monitor rồi tính:
+  >   - RPS theo từng phút; p95 theo từng phút; % lỗi theo từng phút.
+  >   - RSS và %CPU tối đa / trung bình; độ dốc tăng RAM (MB/phút).
+  >   - Từ kết quả Stress: mức tải mà tại đó lỗi > 5% hoặc p95 > 2 giây.
+  > Ghi report/08_endurance.md gồm:
+  >   - Max stable RPS = ?
+  >   - Memory ceiling = ? MB
+  >   - p95 ở mức tải ổn định = ? ms
+  >   - Có rò rỉ bộ nhớ không (liên hệ với userCarts).
+  >   - Ghi rõ lệnh đã chạy để người khác có thể tái lập.
+  > Xong khi: mọi con số đều do script tính ra; script chạy lại cho cùng kết quả.
+  > Bổ sungphâncông: codeonly scripts/summarize.py vàselfcheck nhỏ; chưa viếtconclusions08chođếnsonicrun. Script nhậnexplicit4paths --soak-jtl,--soak-monitor,--stress-jtl,--stress-monitor; sourcescanonical *_Soak_20261118.jtl và*_Stress_20261118.jtl trongresults/jtl,CSVtươngứngresults/monitor. TuyệtđốikhôngcộngSoak_writer.jtl. Xuất deterministicJSONstdout, khôngcurrenttime. MainmetricsloạiNegative login, negativecounts/codes/successriêng. Nearest-rankp95; runrelativeminutebucketsfromfirstmainsample; RPSdenominatortimewidth/partialminuteexplicit; ramp60s summarySoakriêng. StressgroupbythreadName StressstageN, actualuniqueVU, samplecount/errors/p95/RPSallstage vàpost30sramp. ChỉJTLtimestamp+elapsedlànguồnstart/end, khôngcầnlogignoredkhóreproduce; ghi rõwindow khác07nênRPSstablecóthểkhác. Thresholdfirststage error>5%orp95>2000, nullnếuchưavượt; maxstableobservedVU/RPS/p95, khôngclaimbreakpointđãđạt. Monitor max/avgRSSMiB/CPU vàOLS RSSslopeMiB/min trên timestampsจริง, khôngassumeHz. CPUpslifetimeaverage,observedmaxRSSkhônghardmemoryceiling; khôngproveleakbằngRSS12phút. Include sourcepaths/methodunitsJSON. Inputvalidationfinite/time/samplemeaningful. Mộtselfcheckinmemory unittestfilehoặcasserts cho percentile/bucketedge/negativeexclusion (khôngtạoJTLtestfixturetrênđĩa). Noexecutionagent; Manager giao sonicrun2lầncheckdeterminism rồi viết08. AppendAI_LOGbước16codephasechưasốliệu. Khôngtạoabstractionpipeline hoặcdependencies.
+- **AI output:**
+  > Tạo scripts/summarize.py tính metrics từ bốn đường dẫn đầu vào và xuất JSON; tạo scripts/test_summarize.py tự kiểm tra bằng dữ liệu trong bộ nhớ. Chưa chạy script hoặc tự kiểm tra, chưa ghi báo cáo hay kết luận số liệu.
+- **Human review:** _(để trống – người dùng tự điền)_
+
+## #20 – 2026-11-18 01:58 (giờ VN)
+- **AI tool:** omp – ComputeEndurance (sonic); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 1 – Bước 16 – Xác minh và diễn giải output
+- **Prompt:**
+  > Bước 16 – Xác định ngưỡng chịu tải (endurance threshold) từ dữ liệu THẬT.
+  > Input: results/jtl/*Soak*.jtl, results/monitor/*Soak*.csv, kết quả Stress.
+  > Viết một script Python nhỏ (scripts/summarize.py) đọc .jtl và CSV monitor rồi tính:
+  >   - RPS theo từng phút; p95 theo từng phút; % lỗi theo từng phút.
+  >   - RSS và %CPU tối đa / trung bình; độ dốc tăng RAM (MB/phút).
+  >   - Từ kết quả Stress: mức tải mà tại đó lỗi > 5% hoặc p95 > 2 giây.
+  > Ghi report/08_endurance.md gồm:
+  >   - Max stable RPS = ?
+  >   - Memory ceiling = ? MB
+  >   - p95 ở mức tải ổn định = ? ms
+  >   - Có rò rỉ bộ nhớ không (liên hệ với userCarts).
+  >   - Ghi rõ lệnh đã chạy để người khác có thể tái lập.
+  > Xong khi: mọi con số đều do script tính ra; script chạy lại cho cùng kết quả.
+- **AI output:**
+  > Chạy 3 self-check PASS; script chạy hai lần output JSON byte-identical (cmp exit 0). Tạo results/analysis/endurance.json và report/08_endurance.md. Mức Stress ổn định cao nhất quan sát: 290 VU, 468.556 RPS, p95 947 ms; chưa thấy breakpoint. Soak phút index 3 có p95 2244 ms vượt 2000 ms dù tổng HTML p95 21 ms: không kết luận ổn định liên tục 12 phút. RSS max Soak 127.80 MiB, Stress 171.64 MiB; slope Soak 1.470 MiB/phút chỉ là xu hướng quan sát, không chứng minh memory ceiling hay leak vô hạn. Manager sửa checksum bị chép thiếu và nêu rõ breach theo phút trong báo cáo.
+- **Human review:** _(để trống – người dùng tự điền)_
