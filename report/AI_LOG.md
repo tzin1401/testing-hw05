@@ -511,3 +511,32 @@
 - **AI output:**
   > Phiên mới tạo scripts/jtl_truth.py không đọc analyst. Sonic chạy python3 scripts/jtl_truth.py hai lần, self-check pass, cmp JSON và MD đều exit0; giữ results/analysis/ground_truth.json/md, dọn snapshot tạm. Có đủ4run×all/main, count/errors/accepted401403, nearest-rank elapsed percentiles, Latency/Connect, label/minute/Stressstage/post-ramp/Spikephase/outside, metadata thread và HTMLdiffs. Soakwriter chỉ so rowcount+timestampbounds, không tính thành run mới hay khẳng định row identity. Model sonic không được cung cấp nên không suy đoán. Manager kiểm tra output/schema; chưa chuyển kết quả cho analyst.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #29 – 2026-11-18 14:59 (giờ VN)
+- **AI tool:** omp – TaskTwoAnalyst (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 2 – Bước 22
+- **Prompt:**
+  > BỐI CẢNH CHUNG – HW05 Task 2 (đọc kỹ trước khi làm)
+  > - Thư mục: /home/zinn/zinn/testing/hw05. Quy tắc: agent.md (BẮT BUỘC). Đề: "2026.HW05.Performance Testing_En.pdf" mục Task 2.
+  > - SUT: EShop backend Node.js + Express + SQLite (driver sqlite3, MỘT kết nối dùng chung), code eshop-sut/backend/server.js và database.js. KHÔNG sửa code SUT.
+  > - Workflow Flow 1, mỗi vòng 7 request: 01 Login → 02 Products → 03 Product detail → 04 Add cart → 05 Get cart → 06 Checkout → 07 My orders. Ngoài ra có sampler "Negative login" (≈5% vòng, đăng nhập SAI có chủ đích; 401/403 được đánh dấu success=true).
+  > - Kết quả thô (sinh từ lần chạy thật 2026-11-18, KHÔNG được sửa):
+  >   * results/jtl/23120190_Load_20261118.jtl   – Load 50 VU, 600 s
+  >   * results/jtl/23120190_Stress_20261118.jtl – Stress 4 bậc 50/100/200/290 VU, mỗi bậc 150 s
+  >   * results/jtl/23120190_Spike_20261118.jtl  – Spike 10 VU nền + 190 VU từ giây 120 đến 240, ramp 5 s
+  >   * results/jtl/23120190_Soak_20261118.jtl   – Soak 203 VU, 720 s
+  >   * results/jtl/23120190_Soak_20261118_writer.jtl – BẢN GHI TRÙNG của Soak do Simple Data Writer, KHÔNG phải lần chạy thứ hai
+  >   * results/html/<tên>/statistics.json – thống kê của JMeter HTML report
+  >   * Cột JTL: timeStamp(ms epoch, thời điểm BẮT ĐẦU sample), elapsed(ms), label, responseCode, success, threadName, allThreads, Latency, Connect, ...
+  > - Quy tắc AI log: prompt có "ghi vào log" thì append entry vào report/AI_LOG.md đúng format agent.md; AI tool = tên agent + model của bạn; thời gian bằng `date "+%Y-%m-%d %H:%M"`; Human review để trống.
+  > - Cấm: sửa .jtl; bịa số; sửa SUT; commit (Manager commit).
+  > - Cuối mỗi lần làm: báo Manager file đã tạo/sửa và bằng chứng cho từng tiêu chí "Xong khi".
+  > 
+  > Bước 22 – Dựa trên phân tích và bottleneck đã nêu, đề xuất các cách tối ưu hiệu năng cho backend EShop. Hãy xem xét ít nhất: thêm index cho database, connection pool, bật SQLite WAL, cache, chạy nhiều tiến trình Node (cluster), và bất kỳ cách nào khác bạn thấy phù hợp.
+  > Với mỗi đề xuất ghi: mô tả, vấn đề nó giải quyết (dẫn số liệu ở report/11_ai_analysis.md), mức cải thiện kỳ vọng, cách triển khai cụ thể (đoạn code hoặc lệnh).
+  > Ghi vào report/11_ai_analysis.md, mục "Đề xuất tối ưu". Không sửa code SUT.
+  > Xong khi: có ít nhất 6 đề xuất, mỗi đề xuất đủ 4 ý.
+  > Tiếp CHÍNH phiên analyst20/21, lần này chỉ22. Giữ isolation: chỉ JTL/HTML statistics/testplans và report/11_ai_analysis.md của chính bạn; không codeSUT/package/schema, reportkhác, AI_LOG, results/analysis, scripts hoặc outputs/history/agents khác. Append DUY NHẤT mục Đề xuất tối ưu bằng edit, không sửa/xóa byte phần20/21. Đủ ít nhất6 proposal và4ý mỗiđềxuất theo prompt. Vì khôngđọcSUT, phải phân biệt giảđịnh triểnkhai với thôngtinthựcbiết từcommon/plan; không nói thưviệnđãcàihoặcbảngcộttồn tại nếu chưa cónguồn. Mức cải thiện kỳ vọng chưa benchmark phải ghi là giảthuyết/chưa định lượng, khôngfabricatehiệuquảđãđo. Không tựđọcđápán haycố tìnhbịasaiđểreviewbắt. Khôngchạylạitestload hoặc sửaSUT. Không đọc/ghiAI_LOG, Managerlog; trả dateVN vàmodelactual. Loadponytailtiếp, không nesteddelegation/commit/push; fileedittools only.
+- **AI output:**
+  > Cùng phiên analyst append 7 đề xuất: index, pool, WAL, cache, cluster, transaction checkout, event-loop profiling; mỗi đề xuất có mô tả/số liệu/kỳ vọng/cách triển khai minh họa và nêu giả định, không định lượng hiệu quả chưa đo. Manager kiểm tra đủ mục và prefix20/21 giữ nguyên, không sửa đề xuất. Lịch sử truy cập20–22 không có report khác, results/analysis hoặc code SUT; chỉ JTL/plans/own11 và skill/date được phép.
+- **Human review:** _(để trống – người dùng tự điền)_

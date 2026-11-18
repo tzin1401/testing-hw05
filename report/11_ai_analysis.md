@@ -120,3 +120,76 @@ Các phép lọc trên dùng file JTL của run tương ứng, chọn sample the
 - **Throughput tối thiểu: 200 request/s** tính số sample bắt đầu / 120 s ở mỗi cửa sổ sau ramp tại tải mục tiêu, gồm mọi label, đồng thời phải đạt các SLO độ trễ và lỗi. Cùng phép tính, Soak đạt 204,59 request/s ở 120–240 s và 228,03–236,65 request/s ở các cửa sổ 240–720 s; Stress 300–450 s đạt 410,77 request/s. Đây là ngưỡng bảo thủ đề xuất, không phải chứng nhận hiệu năng: cửa sổ Soak 120–240 s đạt throughput nhưng vi phạm độ trễ.
 - **Endurance threshold ứng viên: 200 VU, tối thiểu 200 request/s**, cần kiểm chứng bằng lần soak mới đủ dài và kiểm tra từng cửa sổ sau ramp theo toàn bộ SLO trên. Soak có tối đa 203 thread nhưng xuất hiện đợt chậm rõ rệt 120–240 s; Stress bậc 200 VU chỉ kéo dài khoảng 150 s và có ramp. Do đó **chưa xác lập được số user tối đa chịu ổn định** hay RPS endurance tương ứng từ bằng chứng hiện có; 200 VU là điểm thử tiếp, không phải giới hạn tối đa đã chứng minh. Số thread JMeter cũng không tự chứng minh số người dùng thực.
 - **Cảnh báo p95 regression:** so từng nhóm endpoint giữa hai run có cùng workflow, tải, cửa sổ sau ramp, cách lọc và máy; báo khi p95 mới vừa lớn hơn 1,20 lần p95 baseline **và** tăng ít nhất 5 ms. Chỉ xét nhóm có ít nhất 1.000 sample ở mỗi run; nếu ít hơn, báo thiếu dữ liệu thay vì kết luận không regression. Ngưỡng 20% và sàn 5 ms là quy tắc đề xuất nhằm tránh cảnh báo do thay đổi tuyệt đối rất nhỏ, không phải biến thiên thực nghiệm đã đo hay mức ý nghĩa thống kê. Ví dụ, baseline p95 Read 20 ms ở Soak 360–600 s sẽ kích hoạt từ 25 ms; cửa sổ Stress 300–450 s có tải/thời đoạn khác nên không dùng trực tiếp làm cặp so sánh hợp lệ. Một cảnh báo regression độc lập với việc đạt hay vi phạm SLO tuyệt đối.
+
+## Đề xuất tối ưu
+
+Các đề xuất dưới đây là **giả thuyết chưa benchmark**, không phải thay đổi đã thực hiện hay hiệu quả đã đo. Bằng chứng chỉ cho thấy độ trễ và throughput từ JTL; chưa đủ xác định database, CPU hay thành phần nào gây chậm. Bối cảnh cho biết backend dùng Node/Express, SQLite `sqlite3` với một kết nối dùng chung; tôi không đọc mã hoặc schema. Các chỗ đặt trong `<...>` là vị trí phải xác định từ triển khai thực tế, không khẳng định bảng, cột, route hay thư viện bổ sung tồn tại. Sau mỗi thay đổi, so sánh các lần chạy cùng cấu hình và các cửa sổ tương đương, kiểm tra cả correctness, lỗi và p95/p99 từng label; không cộng các cải thiện giả định.
+
+### 1. Index cho truy vấn thực sự tốn kém
+
+- **Mô tả:** thêm index phù hợp với điều kiện lọc, join hoặc sắp xếp của các truy vấn đang quét nhiều dòng; không thêm index mù cho mọi cột.
+- **Vấn đề và bằng chứng:** Stress 450–600 s có p95 tổng 905 ms, so với 48 ms ở 300–450 s; Checkout mean toàn Stress 175,94 ms. Quét bảng có thể góp phần vào chậm nhưng JTL không chứng minh điều đó.
+- **Cải thiện kỳ vọng:** giả thuyết giảm thời gian truy vấn và đuôi độ trễ nếu có full scan đáng kể; chưa định lượng. Index cũng làm ghi chậm hơn và tốn dung lượng.
+- **Triển khai:** thu thập SQL thực tế của các endpoint chậm, dùng `EXPLAIN QUERY PLAN <câu SELECT thực tế>;` và đo thời gian. Với cột được xác nhận phù hợp, tạo migration theo mẫu `CREATE INDEX <tên_index> ON <bảng_thực_tế>(<cột_lọc_thực_tế>);`; đo lại kế hoạch và tốc độ đọc/ghi, bỏ index không hiệu quả. Các placeholder phải được thay bằng schema thật, không chạy nguyên mẫu.
+
+### 2. Thử pool kết nối SQLite có giới hạn
+
+- **Mô tả:** đánh giá nhiều kết nối cho đọc song song thay vì toàn bộ công việc cùng xếp qua một kết nối; giữ mỗi transaction trên một kết nối riêng từ BEGIN đến COMMIT/ROLLBACK.
+- **Vấn đề và bằng chứng:** Spike 120–180 s có p95 1.497 ms trong khi 180–240 s còn 17 ms; một hàng đợi trên kết nối chung là khả năng cần đo, không phải nguyên nhân đã xác nhận.
+- **Cải thiện kỳ vọng:** có thể giảm thời gian chờ đọc nếu nút thắt nằm ở xếp hàng trên kết nối và cơ sở dữ liệu hỗ trợ đồng thời phù hợp; chưa định lượng. SQLite vẫn chỉ có một writer tại một thời điểm; pool không tự tăng năng lực ghi, có thể tăng tranh chấp.
+- **Triển khai:** trước tiên đo thời gian chờ lấy kết nối và thời gian SQL. Nếu có lợi, dùng một pool kích thước nhỏ, giới hạn, cho các kết nối tới **cùng file database**, cấu hình mỗi kết nối nhất quán; giữ kết nối cho tới khi transaction kết thúc, trả lại trong `finally`. Ví dụ logic: `const db = await pool.acquire(); try { await runTransaction(db); } finally { pool.release(db); }` — `pool` và `runTransaction` là giao diện minh họa cần hiện thực theo code thực tế, không khẳng định package đã cài. Nếu database là in-memory hoặc có trạng thái theo kết nối, phải giải quyết tính chia sẻ và isolation trước khi áp dụng.
+
+### 3. Đánh giá SQLite WAL
+
+- **Mô tả:** nếu database là file và cấu hình phù hợp, thử write-ahead logging để đọc có thể đồng thời với ghi trong nhiều tình huống.
+- **Vấn đề và bằng chứng:** tại Stress 290 VU, p95 tăng lên 905 ms và throughput chỉ tăng từ 410,77 lên 445,85 request/s so với cửa sổ trước; lock hoặc xung đột đọc/ghi có thể là một giả thuyết nhưng chưa được đo.
+- **Cải thiện kỳ vọng:** có thể giảm chờ giữa reader và writer; chưa định lượng, không loại bỏ giới hạn một writer và không chắc có lợi khi chỉ dùng một kết nối.
+- **Triển khai:** trên bản thử nghiệm và kết nối database thực tế chạy `PRAGMA journal_mode=WAL;`, đọc giá trị trả về để xác nhận chế độ thực sự là `wal`; kiểm tra điều kiện filesystem, quy trình backup và checkpoint, rồi đo cùng workload. Không giả định WAL khả dụng hoặc có ý nghĩa cho database in-memory; nếu có nhiều kết nối thì kiểm tra cấu hình trên từng kết nối và theo dõi lỗi/bận khóa.
+
+### 4. Cache dữ liệu sản phẩm công khai
+
+- **Mô tả:** cache có giới hạn cho kết quả đọc sản phẩm ít thay đổi, không cache login, cart, checkout hay orders theo cùng cách.
+- **Vấn đề và bằng chứng:** Soak 120–240 s nhóm Read có p95/p99 303/1.594 ms; cache có thể giảm công việc đọc lặp lại nhưng JTL không cho biết tỷ lệ trùng truy vấn hay nguyên nhân chậm.
+- **Cải thiện kỳ vọng:** có thể giảm độ trễ và tải đọc khi hit rate đủ cao; chưa định lượng, có nguy cơ trả dữ liệu cũ.
+- **Triển khai:** sau khi xác nhận dữ liệu được phép công khai, dùng cache in-memory giới hạn kích thước với key bao gồm toàn bộ tham số lọc/phân trang và các biến thể response liên quan. Pseudocode: `if (cache.hasValid(key)) return cache.get(key); const value = await loadProducts(query); cache.set(key, value, ttl); return value;`. Đặt TTL dựa trên yêu cầu dữ liệu, invalidate khi sản phẩm thay đổi, không cache lỗi hoặc dữ liệu cá nhân. Nếu nhiều process, thiết kế invalidation chung trước khi coi cache nhất quán.
+
+### 5. Chạy nhiều tiến trình Node
+
+- **Mô tả:** thử cluster để phân phối request qua nhiều worker khi đo thấy event loop hoặc CPU của một process là giới hạn.
+- **Vấn đề và bằng chứng:** Stress 200→290 VU, RPS cửa sổ chỉ tăng 410,77→445,85 trong khi p95 tăng 48→905 ms; điều này phù hợp với bão hòa nhưng không chứng minh CPU là nguyên nhân.
+- **Cải thiện kỳ vọng:** có thể tăng năng lực xử lý nếu bottleneck ở CPU/event loop; chưa định lượng và có thể không giúp nếu SQLite writer là nút thắt.
+- **Triển khai:** sau khi bảo đảm khởi tạo database, session, lockout và cache an toàn giữa process, dùng module có sẵn của Node, với entrypoint thực tế do dự án xác định:
+
+  ```js
+  const cluster = require('node:cluster');
+  if (cluster.isPrimary) {
+    for (let i = 0; i < Number(process.env.WORKERS || 2); i++) cluster.fork();
+  } else {
+    require('<entrypoint-khoi-dong-server>');
+  }
+  ```
+
+  Đây là mẫu thiết kế, không chạy nguyên placeholder. Kiểm tra entrypoint chỉ listen trong worker và không reset DB mỗi worker; không dùng nếu mỗi worker tạo database in-memory riêng hoặc trạng thái xác thực/lockout riêng gây sai nghiệp vụ. Đo CPU, độ trễ, lỗi và tính nhất quán trước/sau.
+
+### 6. Rút ngắn transaction Checkout
+
+- **Mô tả:** chỉ giữ khóa transaction trong phần truy vấn và cập nhật cần tính nguyên tử; giảm công việc lặp hoặc thao tác ngoài database bên trong transaction, nếu thực tế có.
+- **Vấn đề và bằng chứng:** Checkout chậm nhất theo mean ở cả bốn run; riêng Stress mean 175,94 ms, p95 977 ms. Các số không chứng minh transaction dài hay thiếu tối ưu là nguyên nhân.
+- **Cải thiện kỳ vọng:** có thể giảm thời gian giữ khóa và chờ ghi dưới đồng thời cao; chưa định lượng. Đưa sai thao tác ra ngoài transaction có thể gây lỗi tính toàn vẹn.
+- **Triển khai:** đo thời điểm bắt đầu/kết thúc transaction và từng câu SQL, kiểm tra kế hoạch truy vấn; chuẩn bị dữ liệu không phụ thuộc trạng thái DB trước `BEGIN` khi an toàn, giữ kiểm tra tồn kho, cập nhật và tạo đơn liên quan trong cùng transaction, `COMMIT` khi thành công và `ROLLBACK` khi lỗi. Mẫu trình tự `BEGIN; <các câu SQL phải nguyên tử>; COMMIT;` là minh họa, cần dựa vào logic thực tế và kiểm thử đồng thời trước khi áp dụng.
+
+### 7. Giảm xử lý chặn event loop
+
+- **Mô tả:** xác định và thay xử lý CPU nặng hoặc I/O đồng bộ trong đường request bằng cách không chặn event loop, nếu có.
+- **Vấn đề và bằng chứng:** Spike đầu đợt có p99 3.322 ms rồi giảm còn 29 ms trong cửa sổ tiếp theo; đây là biến động hàng đợi cần điều tra, không chứng minh event loop bị chặn.
+- **Cải thiện kỳ vọng:** có thể giảm đuôi độ trễ khi event loop bị nghẽn; chưa định lượng và không thay thế tối ưu SQL nếu nguyên nhân ở database.
+- **Triển khai:** thêm phép đo độ trễ event loop bằng API Node trước khi thay code:
+
+  ```js
+  const { monitorEventLoopDelay } = require('node:perf_hooks');
+  const h = monitorEventLoopDelay({ resolution: 20 });
+  h.enable();
+  // Đọc h.percentile(99) / 1e6 để lấy ms theo từng khoảng đo.
+  ```
+
+  Đối chiếu thời điểm event-loop delay cao với JTL, profile hàm đang chạy; chỉ sau khi xác định hotspot mới chuyển tác vụ CPU nặng sang worker thread hoặc I/O sang API bất đồng bộ, đồng thời kiểm tra lỗi và hành vi nghiệp vụ. Mẫu trên là phép đo đề xuất, không phải kết quả đã đo.
