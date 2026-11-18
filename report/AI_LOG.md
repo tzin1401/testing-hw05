@@ -628,3 +628,22 @@
 - **AI output:**
   > Tạo report/15_task2_check.md: đủ5tiêuchíkỹthuật với nguồn; jtl_truth.py đã self-check passed và5 trường được chọn random seed28 đều khớp JTL Stress[300,450)s qua helper script. Hai worker cuối không hoàn tất review: reviewer429, fallback usage_limit_reached sau khi chạy xong2lệnh; Manager khôi phục output gốc, không rerun. Không gán PASS độc lập giả; checklist ghi rõ reviewercuối còn thiếu, sinhviên cần tự review entry32–33 và xem lại2diễnđạt của14 về percentilegộp/nhânđôimẫu. Không sửa14/11/JTL/SUT/testplan; không push/Issue.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #35 – 2026-11-18 22:29 (giờ VN)
+- **AI tool:** omp – TaskThreeChangeMap (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 29
+- **Prompt:**
+  > Bước 29 – Chỉ đọc, không sửa file nào. Lập bản đồ để pipeline biết commit nào CẦN chạy performance test:
+  >   1. Liệt kê các thư mục/file của eshop-sut (git -C eshop-sut ls-files). Xếp từng nhóm vào 1 trong 3 loại:
+  >      - "ảnh hưởng backend": backend/*.js, package.json, package-lock.json…
+  >      - "không ảnh hưởng hiệu năng API": *.md, frontend-*/, ảnh…
+  >      - "chưa rõ": ghi lý do.
+  >   2. Bảng route của server.js (method + path + số dòng) → nhóm Auth / Read / Transactional → label JMeter tương ứng trong Flow 1. Route nào không nằm trong Flow 1 thì ghi "không phủ".
+  >   3. Ghi lịch sử commit hiện có (git -C eshop-sut log --oneline) và trạng thái working tree (git status --short).
+  > Ghi vào report/16a_sut_change_map.md.
+  > Xong khi: mọi file tracked của eshop-sut được xếp loại; mọi route có số dòng.
+  > Ràngbuộc thực thi của Manager: load skill://ponytail trước, active whole session. Chỉ đọc, không tạo/sửa file kể cả report/log; trả nguyên nội dung Markdown report/16a_sut_change_map.md trong fence BỐN backticks để Manager ghi đúng một lần. Manager là người duy nhất append AI_LOG và commit. Không push/tạoIssue/JMeter/reset/SUT edits. Không đọc/grep/glob agent-context files vì quy tắc đã auto-loaded; áp dụng: không sửa/tạoJTL, khôngbịa metric, humanreviewđểtrống, tài liệu Markdowntrongreport/, không commit worker. NếuLSP khảdụng, dùng xd://lsp cho definitions/references khi cần codeintelligence; việc đọc route inventory phải có sốdòng từsourceactual. Khôngbuild/lint/test/formatter ởbướcchỉđọc này. Khôngnesteddelegation.
+  > Reportphải bao phủ mọi trackedfile: có thểnhóm bằngpattern/rule có thứtựvà count, nhưng đính kèminventorypath→category cho toàn bộtrackedpaths (khôngbỏfile), kiểm conservation totals. Auth/Read/Transactional mapping theo Flow1: Login; Products+Detail; Cart+Checkout+Myorders. Negative login cùng POSTloginvớiđầu vào sai; routes khác ghi không phủ, không giả mainlabel. Lệnh git ls-files/log/status là thu thậpmetadata useryêucầu bước29, không validationedits. Trả metadata thời gianVN bằng date, tênmodel actual, lệnh/sourceđãđọc và tổngfiles/routes cùng invariantcoverproof; không bịa output. Nếu dài vẫntrảđủreport, Manager sẽđọcartifact continuation.
+- **AI output:**
+  > Scout chỉ đọc source/JMX, không có shell để hoàn tất metadata. Manager chạy các lệnh Git chỉ đọc và date thực tế, tạo report/16a_sut_change_map.md: đủ66trackedpaths (6ảnhhưởngbackend/59khôngảnhhưởngAPIworkloadcốđịnh/1chưarõ),31route với dòngsource,7routeFlow1/24khôngphủ. Đính chính số29mởđầucủascout thành31; phânloạirouteghi catalog làTransactional. HEADSUTmain85af3ba875c88283615e22cb108f13e2fccaf0e9; database.sqliteđãmodified vànode_modulesuntracked trước bước này, khôngrestore/xóa/stage. Giữ nguyên sửađổicủangườidùng ởHW05, kểcảhuman14/checklist15/logentry34. Kiểmtrareport66inventoryrows/31uniqueroutes và6localfilelinks đều tồn tại. KhôngchạyJMeter/reset/sửaSUT/JTL/push/Issue.
+- **Human review:** _(để trống – người dùng tự điền)_
