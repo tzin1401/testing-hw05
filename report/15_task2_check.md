@@ -1,6 +1,6 @@
 # Task 2 – Checklist cuối (Bước 28)
 
-Rà soát kỹ thuật: Manager `openai-codex/gpt-6.1-sol`, 2026-11-18 20:04 (giờ VN). Đây **không phải** bản review độc lập cuối của worker: reviewer chuyên biệt bị 429; worker dự phòng `TaskTwoFinalFallback` (`openai-codex/gpt-6.1-terra`) chạy xong hai lệnh kiểm chứng rồi bị `usage_limit_reached`. Manager đọc output thực tế và hoàn tất checklist, không gán kết luận PASS cho hai worker đã lỗi.
+Rà soát kỹ thuật: Manager `openai-codex/gpt-6.1-sol` hoàn tất lúc 20:04 (giờ VN); worker dự phòng `TaskTwoFinalFallback` (`openai-codex/gpt-6.1-terra`) chạy kiểm chứng lúc 16:18 rồi bị `usage_limit_reached`. Reviewer chuyên biệt ban đầu bị 429, nên checklist này giữ lịch sử hai lần lỗi và không gán PASS cho chúng. Sau đó reviewer độc lập `TaskTwoFinalReview` (`anthropic/claude-sonnet-5-5`) chạy lại lúc 22:15–22:17 và kết luận **PASS**; xem §4.
 
 ## 1. Checklist theo yêu cầu
 
@@ -53,10 +53,23 @@ Cả 5 dòng output có `match= True`. [JSON](../results/analysis/ground_truth.j
 
 ## 3. Giới hạn và việc người dùng còn làm
 
-| Trạng thái | Việc còn lại | Người xử lý / hướng xử lý |
+| Trạng thái | Việc | Người xử lý / hướng xử lý |
 |---|---|---|
-| ❌ | Chưa có kết luận review độc lập **cuối** từ worker | Khi dịch vụ khả dụng, giao reviewer đọc checklist và hồ sơ Task 2 để có kết luận độc lập; không cần chạy lại JMeter. Hai lần thử hiện tại bị 429 và `usage_limit_reached`, không được tính là đã duyệt. Các review độc lập bước 24–25 vẫn có ở report/12–13. |
-| ❌ | Human review của entry AI #32 và #33 chưa được sinh viên điền | Sinh viên đọc báo cáo/checklist rồi tự điền trong [AI_LOG.md](AI_LOG.md); Manager để trống. |
-| ❌ | Hai diễn đạt trong human review cần sinh viên tự xem lại trước khi nộp | [14](14_human_review_task2.md) dòng 174: cộng bản trùng không làm “mọi metric sai gấp đôi”; mẫu/RPS tăng, nhưng nhân bản đồng đều không tự nhân đôi mean/percentile/max/error %. Dòng 226: p95 gộp không phải trung bình có trọng số các p95 endpoint. Sinh viên tự sửa nếu đồng ý; Manager không viết thay. [TASK2_REPORT.md](TASK2_REPORT.md) §3 đã dùng định nghĩa percentile đúng. |
+| ✅ | Đã có kết luận review độc lập **cuối** từ worker | `TaskTwoFinalReview` (`anthropic/claude-sonnet-5-5`) chạy 22:15–22:17, verdict **PASS**; entry #34 trong [AI_LOG.md](AI_LOG.md), chi tiết §4. Hai lần lỗi 429/`usage_limit_reached` trước đó vẫn được ghi trong lịch sử, không tính là PASS. |
+| ✅ | Human review của entry AI #32 và #33 | Đã điền trong [AI_LOG.md](AI_LOG.md) ngày 2026-11-18. |
+| ✅ | Human review của entry AI #34 | Đã điền trong [AI_LOG.md](AI_LOG.md) ngày 2026-11-18. |
+| ✅ | Hai diễn đạt trong human review | Đã sửa [14](14_human_review_task2.md) dòng 174 (bản ghi trùng chỉ làm sample/RPS tăng gấp đôi; mean, p95, error % không đổi) và dòng 226 (p95 gộp là phân vị trên phân phối mẫu gộp, không phải trung bình có trọng số các p95 endpoint). |
 
-Không sửa JTL, test plan, SUT, analyst report/11 hay human report/14 trong bước này. Các SLO mới vẫn là đề xuất, chưa chứng minh maximum stable users hoặc hiệu quả tối ưu. Checklist này không xác nhận hoàn tất Task 3, Skill, video, PDF, đóng gói hoặc nộp toàn bộ HW05; không push hay tạo Issue.
+Bước 28 không sửa JTL, test plan, SUT, analyst report/11 hay human report/14; sau bước 28, sinh viên đã tự sửa hai diễn đạt ở report/14 như bảng trên. Các SLO mới vẫn là đề xuất, chưa chứng minh maximum stable users hoặc hiệu quả tối ưu. Checklist này không xác nhận hoàn tất Task 3, Skill, video, PDF, đóng gói hoặc nộp toàn bộ HW05; không push hay tạo Issue.
+
+## 4. Review độc lập cuối (Bước 28)
+
+Reviewer `TaskTwoFinalReview` (`anthropic/claude-sonnet-5-5`) chạy lại sau khi hết 429, trong bản sao read-only của repo, lúc 22:15–22:17 ngày 2026-11-18. Kết luận: **PASS** kỹ thuật cho Bước 28; cả 5 tiêu chí đạt; không có lỗi số liệu mới.
+
+- Tự chạy `python3 scripts/jtl_truth.py`: `Self-check passed`.
+- Tự chọn 5 giá trị bằng seed 2028 và tính lại từ JTL: 5/5 khớp (count Login Soak `[360,600)` 8049; count Spike `[120,180)` 11291; p95 Soak `[240,250)` 3885; mean Stress all-run 67,01; count Products Soak `[360,600)` 8054).
+- Tự tính lại 184 giá trị trong `report/12` và `report/14`: 0 lệch.
+- Xác nhận N6 là 1 lỗi thiết kế ngưỡng; Checkout p95 60 ms ở Stress `[300,450)`; hai câu report/14 dòng 174 và 226 đúng thống kê; filter `all`/`main` không gán sai.
+- Không sửa file nào trong lúc review.
+
+Sáu lỗi nhỏ reviewer nêu đã được xử lý sau review: mâu thuẫn dòng 60/62 và thiếu owner dòng 58 của file này; lệch mốc giờ dòng 3/19; khoảng đệm `1,4–2,2` ở report/14 dòng 191; nhãn "Throughput tại 200 VU" ở dòng 203; danh sách entry `#26–#31` ở dòng 293. Không còn ❌ kỹ thuật nào trong phạm vi Bước 28.

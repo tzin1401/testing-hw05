@@ -138,7 +138,7 @@ PY
 | 06 Checkout | 8.057 | 14,00 | 28 | 43 | 110 |
 | 07 My orders | 8.050 | 6,17 | 20 | 35 | 116 |
 
-→ Ở 200 VU, **Checkout p95 = 60 ms**, cũng vượt 50 ms. Nhóm Transactional có p95 45 ms chỉ vì 04/05 rất rẻ (22/23 ms) kéo trung bình nhóm xuống. Đây là chỗ CMD-6 không thấy.
+→ Ở 200 VU, **Checkout p95 = 60 ms**, cũng vượt 50 ms. Nhóm Transactional có p95 45 ms vì p95 gộp là phân vị trên toàn bộ mẫu, không phải trung bình các p95 endpoint; 04/05 có đuôi ngắn (22/23 ms) nên phân vị 95% của mẫu gộp thấp hơn p95 riêng của Checkout. Đây là chỗ CMD-6 không thấy.
 
 ### 2.5 Kiểm tra thêm – độ phân giải cửa sổ Soak
 
@@ -171,7 +171,7 @@ PY
 ### 3.1 Những điểm mình đồng ý
 
 - **Reviewer đúng khi nói 0 lỗi số liệu cứng.** Mình đã tự chạy lại CMD-1, CMD-5, CMD-6, tính độc lập bằng `csv`, và kiểm tra thêm per-label. Các số mình kiểm tra đều khớp; reviewer đã coverage toàn bộ dòng 1–122: count, span, RPS, error, mean, p90/p95/p99, max, số 401/403, số sample Checkout, các cửa sổ Stress/Spike/Soak, số nhóm SLO và số học quy tắc regression.
-- **Không gộp file `*_writer.jtl`:** đúng. Cùng 158.591 dòng, cùng min/max timestamp. Nếu cộng file này, Soak sẽ thành 317.182 sample và mọi metric sai gấp đôi.
+- **Không gộp file `*_writer.jtl`:** đúng. Cùng 158.591 dòng, cùng min/max timestamp. Nếu cộng thêm bản ghi trùng thì số sample và RPS tăng gấp đôi, nhưng mean, p95 và error % không đổi.
 - **Không coi 401/403 của Negative login là lỗi:** đúng. Cả bốn run có `success=false` = 0; 401/403 đều `success=true`. Đây là login sai có chủ đích, không phải lỗi JMeter.
 - **Không coi p90 < mean là lỗi:** đúng. Spike p90 24 < mean 75,25 và Soak Checkout p95 74 < mean 89,14 là hệ quả của đuôi rất dài, không phải nhầm percentile.
 - **Không coi chênh lệch percentile giữa HTML và JTL là lỗi:** đúng. Analyst công bố dùng nearest-rank trên raw; HTML dùng cách tính khác. Đây là khác estimator, không phải đọc sai.
@@ -188,7 +188,7 @@ PY
 
 Vì vậy mình đếm **1 lỗi thiết kế ngưỡng**, không phải 0. Đây không phải lỗi đọc số, nhưng là lỗi của kết luận/đề xuất, đúng phạm vi bước 24.
 
-**Hướng sửa mình đề xuất:** dùng ngưỡng theo endpoint, không chỉ theo nhóm. Bảng dưới là đề xuất của mình cho bước 27, dựa trên số đo 200 VU và lấy khoảng đệm 1,4–2,2 lần:
+**Hướng sửa mình đề xuất:** dùng ngưỡng theo endpoint, không chỉ theo nhóm. Bảng dưới là đề xuất của mình cho bước 27, dựa trên số đo 200 VU và lấy khoảng đệm 1,4–2,6 lần:
 
 | Nhóm / endpoint | p95 tối đa | p99 tối đa | Số đo 200 VU (p95/p99) | Ghi chú |
 |---|---:|---:|---|---|
@@ -200,7 +200,8 @@ Vì vậy mình đếm **1 lỗi thiết kế ngưỡng**, không phải 0. Đâ
 | Transactional – 06 Checkout | 100 ms | 150 ms | 60 / 93 | Trước là 50/100, đây là endpoint sát ngưỡng nhất |
 | Transactional – 07 My orders | 75 ms | 125 ms | 53 / 85 | Trước là 50/100 |
 | Error toàn run / từng cửa sổ | ≤ 0,1% | — | 0% | Giữ nguyên |
-| Throughput tại 200 VU | ≥ 200 req/s | — | 228–237 req/s (Soak), 410,77 req/s (Stress 200 VU) | Giữ nguyên |
+| Throughput – Stress 200 VU | ≥ 200 req/s | — | 410,77 req/s | Giữ nguyên |
+| Throughput – Soak 203 VU (tham chiếu) | — | — | 228–237 req/s | Không dùng thay số 200 VU |
 
 Nếu nhóm muốn giữ đúng bảng 50/100 ms thì phải hạ mức tải mục tiêu xuống **100 VU** (Stress 150–300 s có p95 17 ms), và khi đó không được gọi 200 VU là endurance threshold. Mình chọn cách ngưỡng theo endpoint ở 200 VU vì nó phản ánh đúng điểm đã đo và không che Checkout.
 
@@ -223,7 +224,7 @@ Toàn bộ phân loại ở report 13 là **đánh giá tĩnh trên code**, khô
 
 ### 4.1 Checkout p95 60 ms ở 200 VU
 
-Đây là lỗ hổng cùng loại với N6 nhưng reviewer chưa nêu, không phải lỗi số của analyst. `report/12` CMD-6 chỉ tính p95 nhóm Transactional = 45 ms và kết luận nhóm này đạt 50 ms. Nhưng p95 từng label ở Stress 300–450 s là **Checkout 60 ms**, trong khi 04/05 chỉ 22/23 ms. Nhóm 45 ms là trung bình có trọng số của các label rẻ, không phải p95 của endpoint chậm nhất. Analyst có ghi ở dòng 117 là nên báo thêm p95/p99 từng label, đặc biệt Checkout; nhưng reviewer 12 không chạy con số đó, nên bảng lỗi vẫn thiếu. Vì vậy:
+Đây là lỗ hổng cùng loại với N6 nhưng reviewer chưa nêu, không phải lỗi số của analyst. `report/12` CMD-6 chỉ tính p95 nhóm Transactional = 45 ms và kết luận nhóm này đạt 50 ms. Nhưng p95 từng label ở Stress 300–450 s là **Checkout 60 ms**, trong khi 04/05 chỉ 22/23 ms. p95 gộp không phải trung bình có trọng số của các p95 theo endpoint; nó là phân vị trên phân phối mẫu gộp, nên p95 nhóm 45 ms có thể thấp hơn p95 riêng của Checkout (60 ms). Analyst có ghi ở dòng 117 là nên báo thêm p95/p99 từng label, đặc biệt Checkout; nhưng reviewer 12 không chạy con số đó, nên bảng lỗi vẫn thiếu. Vì vậy:
 
 - Nếu đánh giá theo nhóm, Transactional "đạt" 50 ms.
 - Nếu đánh giá theo endpoint, Checkout "trượt" 50 ms.
@@ -290,6 +291,6 @@ Chạy lại cùng plan, cùng thời lượng, cùng cửa sổ; so Checkout p5
 - **Đề xuất đáng làm nhất:** đo event-loop/SQL/phía JMeter trước; sau đó WAL là thay đổi code đầu tiên vì một dòng, hoàn tác dễ và kiểm tra được giả thuyết commit của Checkout. Index `orders(user_id)` làm sau; bỏ #6, hoãn pool/cache/cluster.
 - **#6:** giữ nhãn HALLUCINATED nhưng ghi rõ nghĩa "không áp dụng được", không phải "analyst bịa đặt".
 
-Đã cập nhật Human review cho các entry #26–#31 trong `report/AI_LOG.md`. Không sửa `report/11`, `12`, `13`; không sửa `.jtl`/SUT; chưa commit.
+Đã cập nhật Human review cho các entry #26–#34 trong `report/AI_LOG.md`. Không sửa `report/11`, `12`, `13`; không sửa `.jtl`/SUT; chưa commit.
 
 **Xong bước 26.**
