@@ -452,3 +452,35 @@
 - **AI output:**
   > Analyst độc lập tạo report/11_ai_analysis.md từ JTL và plan: bốn run đủ count/RPS/error/mean/p90/p95/p99/max, label chậm nhất, diễn biến Stress/Spike/Soak và bottleneck chỉ là giả thuyết. Không đọc report Task1/results/analysis/SUT; Manager kiểm tra nguồn truy cập và đủ mục, không sửa phân tích hay đối chiếu ground truth ở bước này. Log do Manager ghi để analyst không phải đọc AI_LOG có số liệu Task1.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #27 – 2026-11-18 14:56 (giờ VN)
+- **AI tool:** omp – TaskTwoAnalyst (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 2 – Bước 21
+- **Prompt:**
+  > BỐI CẢNH CHUNG – HW05 Task 2 (đọc kỹ trước khi làm)
+  > - Thư mục: /home/zinn/zinn/testing/hw05. Quy tắc: agent.md (BẮT BUỘC). Đề: "2026.HW05.Performance Testing_En.pdf" mục Task 2.
+  > - SUT: EShop backend Node.js + Express + SQLite (driver sqlite3, MỘT kết nối dùng chung), code eshop-sut/backend/server.js và database.js. KHÔNG sửa code SUT.
+  > - Workflow Flow 1, mỗi vòng 7 request: 01 Login → 02 Products → 03 Product detail → 04 Add cart → 05 Get cart → 06 Checkout → 07 My orders. Ngoài ra có sampler "Negative login" (≈5% vòng, đăng nhập SAI có chủ đích; 401/403 được đánh dấu success=true).
+  > - Kết quả thô (sinh từ lần chạy thật 2026-11-18, KHÔNG được sửa):
+  >   * results/jtl/23120190_Load_20261118.jtl   – Load 50 VU, 600 s
+  >   * results/jtl/23120190_Stress_20261118.jtl – Stress 4 bậc 50/100/200/290 VU, mỗi bậc 150 s
+  >   * results/jtl/23120190_Spike_20261118.jtl  – Spike 10 VU nền + 190 VU từ giây 120 đến 240, ramp 5 s
+  >   * results/jtl/23120190_Soak_20261118.jtl   – Soak 203 VU, 720 s
+  >   * results/jtl/23120190_Soak_20261118_writer.jtl – BẢN GHI TRÙNG của Soak do Simple Data Writer, KHÔNG phải lần chạy thứ hai
+  >   * results/html/<tên>/statistics.json – thống kê của JMeter HTML report
+  >   * Cột JTL: timeStamp(ms epoch, thời điểm BẮT ĐẦU sample), elapsed(ms), label, responseCode, success, threadName, allThreads, Latency, Connect, ...
+  > - Quy tắc AI log: prompt có "ghi vào log" thì append entry vào report/AI_LOG.md đúng format agent.md; AI tool = tên agent + model của bạn; thời gian bằng `date "+%Y-%m-%d %H:%M"`; Human review để trống.
+  > - Cấm: sửa .jtl; bịa số; sửa SUT; commit (Manager commit).
+  > - Cuối mỗi lần làm: báo Manager file đã tạo/sửa và bằng chứng cho từng tiêu chí "Xong khi".
+  > 
+  > Bước 21 – Dựa trên phân tích ở report/11_ai_analysis.md, đề xuất ngưỡng hiệu năng (performance thresholds / SLO) cho Flow 1 trên máy này:
+  >   - p95 và p99 tối đa cho từng nhóm endpoint (Auth: login; Read: products, product detail; Transactional: cart, checkout, my-orders).
+  >   - Error % tối đa; throughput tối thiểu.
+  >   - Số user đồng thời tối đa mà hệ thống chịu được ổn định (endurance threshold), và mức RPS tương ứng.
+  >   - Ngưỡng nào nên dùng để tự động báo "p95 regression" khi so sánh hai lần chạy.
+  > Mỗi ngưỡng ghi kèm lý do dựa trên số liệu. Ghi vào report/11_ai_analysis.md, mục "Đề xuất ngưỡng".
+  > Xong khi: có bảng ngưỡng đủ 3 nhóm endpoint, mỗi ngưỡng có lý do.
+  > Tiếp CHÍNH phiên analyst đã làm20. Lượt này chỉ bước21; phần 'chỉ20' của lượt trước đã hoàn tất. Giữ isolation cũ: chỉ JTL/HTML statistics/testplans và DUY NHẤT report/11_ai_analysis.md do bạn tạo, không report khác/AI_LOG/resultsanalysis/scripts/SUT/history/agents. Append mục Đề xuất ngưỡng bằng edit, tuyệt đối không sửa/xóa bất kỳ byte nào của phần bước20. Không đọc output groundtruth hay cố tìm đáp án kiểm chứng. Phân biệt ngưỡng đề xuất với capacity đã chứng minh, nêu phương pháp/window/lý do của bạn, mọi % chưa đo là giả thuyết không phải hiệu quả quan sát. Không chạy lại tải; chưa làm22. Log vẫn Manager ghi, bạn không đọc/ghiAI_LOG; trả ngàygiờVN từdate vàmodelthựcbiết cùngfile/methodmetadata. Load ponytail tiếp tục. Không commit/push/nesteddelegation; edit/write only khôngshell/python sửa report.
+- **AI output:**
+  > Cùng phiên analyst append mục Đề xuất ngưỡng: bảng p95/p99 ba nhóm có nguồn lọc, error/throughput, endurance ứng viên chưa chứng minh và rule regression. Manager kiểm tra đủ trường và phần20 được giữ nguyên, không sửa đề xuất hay cung cấp số ground truth. Analyst không đọc/ghi AI_LOG và chưa làm22.
+- **Human review:** _(để trống – người dùng tự điền)_
