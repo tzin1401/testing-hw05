@@ -1,6 +1,6 @@
 # HW05 – Kiểm thử hiệu năng EShop
 
-Báo cáo này tổng hợp Task 1 và Task 2; Task 3 và Agent Skill không được xác nhận hoàn thành ở bước này. Xem [báo cáo Task 1](report/TASK1_REPORT.md), [AI log](report/AI_LOG.md) và [snapshot Git log](report/GIT_LOG.md).
+Báo cáo này tổng hợp Task 1 và Task 2; Task 3 đã có tài liệu và demo, nhưng CI chưa triển khai và Agent Skill không được xác nhận hoàn thành ở bước này. Xem [báo cáo Task 1](report/TASK1_REPORT.md), [AI log](report/AI_LOG.md) và [snapshot Git log](report/GIT_LOG.md).
 
 ## Tự đánh giá
 
@@ -37,6 +37,10 @@ Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/
 
 [Báo cáo Task 2](report/TASK2_REPORT.md) tổng hợp phân tích AI, đối chiếu [ground truth](results/analysis/ground_truth.md) tính bằng [script](scripts/jtl_truth.py) và [human review](report/14_human_review_task2.md), cùng đánh giá các đề xuất tối ưu.
 
+## Task 3 – Continuous Performance Testing
+
+[Báo cáo Task 3](report/TASK3_REPORT.md) tổng hợp mô hình theo dõi commit, luật gate, flow chart và trade-off; [demo trên commit thật](report/17_cpt_demo.md), [rà soát độc lập](report/18_task3_check.md) và [nhận định của sinh viên](report/19_human_review_task3.md) ghi bằng chứng và giới hạn. CI chưa triển khai; baseline vận hành và policy các tầng sâu chưa được duyệt.
+
 ## Bắt đầu và tái lập
 
 Chạy từ thư mục gốc `hw05`, cần JMeter 5.6.3, Java 17, Node.js và Python; cần tự lấy [SUT EShop upstream](https://github.com/ttbhanh/eshop-sut) vào `eshop-sut/`: thư mục này bị Git ignore, không được bao gồm trong repo bài làm ([môi trường](report/00_environment.md)). Các prerequisite dự án gồm [reset](scripts/reset_sut.sh), [gen_users.py](scripts/gen_users.py), [users.csv](data/users.csv) và các [CSV đầu vào](data/README.md). Reset sẽ restart backend và xóa trạng thái dữ liệu/giỏ/lockout; chạy trước **mỗi** lần đo.
@@ -52,4 +56,4 @@ jmeter -n -t test-plans/23120190_Load_20261117.jmx -l results/jtl/load_new.jtl -
 
 ## Việc sinh viên còn làm
 
-Review AI log và các kết quả, tự điền cột Human review và điểm, tự đăng Issues và bổ sung ảnh, bổ sung URL video, hoàn thành Task 3 và Agent Skill, xuất PDF theo đề và tự push repo công khai. Những mục này chưa được báo cáo là hoàn thành.
+Review AI log và các kết quả, tự điền cột Human review và điểm, tự đăng Issues và bổ sung ảnh, bổ sung URL video, quyết định điều kiện vận hành Task 3 và hoàn thành Agent Skill, xuất PDF theo đề và tự push repo công khai. Những mục này chưa được báo cáo là hoàn thành.

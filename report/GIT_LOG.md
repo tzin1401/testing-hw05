@@ -1,45 +1,34 @@
-# Snapshot Git commit log
-
-Snapshot từ `git log --date=iso-strict --format='%h | %ad | %an | %s%n%b'`, chốt trước commit rà soát cuối chứa lần cập nhật này; không gồm chính commit đó hoặc commit về sau.
-
-```text
-69e2616 | 2026-11-18T02:17:18+07:00 | zinn1401 | docs: task 1 report and README
-
-4ca15e5 | 2026-11-18T02:09:10+07:00 | zinn1401 | docs: bug report drafts
-
-4548868 | 2026-11-18T01:58:33+07:00 | zinn1401 | docs: endurance threshold analysis
-
-48defc7 | 2026-11-18T01:44:30+07:00 | zinn1401 | test: run soak scenario
-
-7375771 | 2026-11-18T01:29:44+07:00 | zinn1401 | test: add soak plan
-
-0fdfec6 | 2026-11-18T01:23:41+07:00 | zinn1401 | test: run spike scenario
-
-462d252 | 2026-11-18T01:13:51+07:00 | zinn1401 | test: run stress scenario
-
-6f5525e | 2026-11-18T00:49:30+07:00 | zinn1401 | test: run load scenario
-
-769beac | 2026-11-17T23:52:49+07:00 | zinn1401 | test: smoke run of all plans
-
-96b0c10 | 2026-11-17T23:50:26+07:00 | zinn1401 | fix: correct stress and spike plans after review
-
-01453e3 | 2026-11-17T23:45:47+07:00 | zinn1401 | docs: review of stress and spike plans
-
-9f96630 | 2026-11-17T23:37:10+07:00 | zinn1401 | test: add stress and spike plans (AI generated)
-
-0009306 | 2026-11-17T23:25:51+07:00 | zinn1401 | fix: correct load plan after review
-
-dd8d98f | 2026-11-17T23:22:23+07:00 | zinn1401 | docs: review of AI-generated load plan
-
-eb3610f | 2026-11-17T23:17:12+07:00 | zinn1401 | test: add load test plan (AI generated)
-
-440c227 | 2026-11-17T23:09:07+07:00 | zinn1401 | test: add CSV data and backend monitor script
-
-2ac2ea9 | 2026-11-17T23:06:22+07:00 | zinn1401 | docs: test design for load/stress/spike
-
-8cf3973 | 2026-11-17T23:04:26+07:00 | zinn1401 | docs: hardware report
-
-bb32fcb | 2026-11-17T23:04:26+07:00 | zinn1401 | docs: API analysis for flow 1
-
-ae90e71 | 2026-11-17T23:00:46+07:00 | zinn1401 | chore: init repo and verify environment
-```
+ae90e71 chore: init repo and verify environment
+bb32fcb docs: API analysis for flow 1
+8cf3973 docs: hardware report
+2ac2ea9 docs: test design for load/stress/spike
+440c227 test: add CSV data and backend monitor script
+eb3610f test: add load test plan (AI generated)
+dd8d98f docs: review of AI-generated load plan
+0009306 fix: correct load plan after review
+9f96630 test: add stress and spike plans (AI generated)
+01453e3 docs: review of stress and spike plans
+96b0c10 fix: correct stress and spike plans after review
+769beac test: smoke run of all plans
+6f5525e test: run load scenario
+462d252 test: run stress scenario
+0fdfec6 test: run spike scenario
+7375771 test: add soak plan
+48defc7 test: run soak scenario
+4548868 docs: endurance threshold analysis
+4ca15e5 docs: bug report drafts
+69e2616 docs: task 1 report and README
+29ab5a8 docs: final task 1 checklist
+ba3197c docs: AI analysis of jtl results
+5a236eb docs: AI-proposed performance thresholds
+da277ea test: ground-truth metrics script from raw jtl
+d3b81be docs: AI-proposed optimizations
+4a6e007 docs: misinterpretation hunt of AI analysis
+a8c7eed docs: feasibility review of AI optimizations
+d917b73 docs: task 2 report
+fe190bc docs: task 2 final checklist
+6bcfd4d docs: sut change map for continuous testing
+5ec7640 docs: continuous performance testing proposal
+2fe9b49 feat: continuous performance gate scripts
+d717569 test: continuous performance gate demo on sut commits
+66dd539 docs: task 3 review

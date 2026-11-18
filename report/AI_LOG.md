@@ -602,7 +602,7 @@
   > ReportbằngtiếngViệtđủ6mụcnguyênprompt, cósources/filter/methodlinkscientificlimits. READMEsửaintroTask1-onlyclaimTask2chưahoànthànhthànhTask1/2documented(cònTask3/Skillngoàiscope), thêm1đoạnngắnTask2+linksreport/ground_truth/script/humanreview,nokhổmetricsduplicate. GiữTask1tables/links,điểmtựchấm/video/issuesusercontentkhôngđổi. Nếuchưa12linktargetsđangexistingchỉlinknhữngfileđãcó, đừnglinkreport15_task2_checkchưatạoở28. KhôngclaimfullHW05readytosubmit. Báofile&metadata,chưaclaimlinkverificationđãrun.
 - **AI output:**
   > Tạo report/TASK2_REPORT.md và cập nhật ngắn README choTask2. Giữ tách0hardnumericerrors theo12 vớiN6thiếtkếtheođánhgiásinhviên; ngưỡngcuốitheo7endpoint từ14, giải thíchchưa capacityproof, pooledpercentilenotmean, all/mainfilter, Soak203not200, ưu tiênprofiling/WAL/index cóđiềukiện. Không sửa11/12/13/14 hoặcJTL/SUT; nhậnđịnhsinhviênchỉlink14. Soniccheck46filelinks,0filemissing,4badanchors; Managerđổi4anchorliêndínhheadingpunctuation sangfilelinkgiữnhãn§ vàxácnhận4sourcefilesexist. Phầnuserreview14vàcácHumanreview26–31đượcgiữnguyên đểcommitcùngbáocáo.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đã đọc TASK2_REPORT.md và README. Số liệu/ngưỡng khớp report/11–14; báo cáo tách đúng 0 lỗi số cứng và N6 là lỗi thiết kế ngưỡng. Đã sửa 2 câu diễn đạt ở report/14 (dòng 174: bản ghi trùng chỉ nhân đôi sample/RPS; dòng 226: p95 gộp không phải trung bình có trọng số các p95 endpoint).
 
 ## #33 – 2026-11-18 20:04 (giờ VN)
 - **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol); TaskTwoFinalFallback (openai-codex/gpt-6.1-terra, thực thi kiểm chứng trước lỗi dịch vụ)
@@ -627,14 +627,28 @@
   > Manager tiếp tục trực tiếp sau hai lỗi dịch vụ: khôi phục output hoàn tất từ history của worker, không chạy lại hai lệnh đã thành công; hoàn tất checklist có bằng chứng, ghi rõ chưa có review độc lập cuối và giữ nguyên human/analyst. User nhắn: continue.
 - **AI output:**
   > Tạo report/15_task2_check.md: đủ5tiêuchíkỹthuật với nguồn; jtl_truth.py đã self-check passed và5 trường được chọn random seed28 đều khớp JTL Stress[300,450)s qua helper script. Hai worker cuối không hoàn tất review: reviewer429, fallback usage_limit_reached sau khi chạy xong2lệnh; Manager khôi phục output gốc, không rerun. Không gán PASS độc lập giả; checklist ghi rõ reviewercuối còn thiếu, sinhviên cần tự review entry32–33 và xem lại2diễnđạt của14 về percentilegộp/nhânđôimẫu. Không sửa14/11/JTL/SUT/testplan; không push/Issue.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đã đọc report/15. Đồng ý checklist kỹ thuật và 5 giá trị kiểm tra; nhưng đây chưa phải review độc lập cuối vì reviewer bị 429. Khi hết giới hạn, giao lại cho reviewer; chưa coi bước 28 đã được duyệt độc lập.
+
+## #34 – 2026-11-18 22:19 (giờ VN)
+- **AI tool:** omp – TaskTwoFinalReview (anthropic/claude-sonnet-5-5); Manager ghi log
+- **Bước:** Task 2 – Bước 28 (review độc lập chạy lại sau lỗi 429)
+- **Prompt:**
+  > Bước 28 – Rà soát Task 2 theo đề HW05 (mục Task 2). Đánh dấu ✅/❌ và ghi file chứng minh:
+  >   - Có phân tích của AI trên `.jtl` và có ngưỡng AI đề xuất.
+  >   - Mỗi chỗ AI đọc sai có giá trị đúng trích từ `.jtl` (kiểm tra ngẫu nhiên 5 giá trị bằng cách chạy lại `scripts/jtl_truth.py`).
+  >   - Có đề xuất tối ưu của AI và mỗi đề xuất được phân loại feasible/hallucinated kèm lý do.
+  >   - Có human review của sinh viên (`report/14`).
+  >   - AI_LOG có entry cho bước 20–25 và 27.
+  > Manager sẽ ghi kết quả vào `report/15_task2_check.md`; reviewer chỉ đọc và trả kết quả, liệt kê những việc người dùng còn phải làm.
+  > Xong khi: checklist đủ, mọi ❌ có hướng xử lý.
+  > Chạy lại sau khi hết 429; đọc và kiểm chứng độc lập, không mặc định checklist của Manager/fallback đúng; tự chọn 5 giá trị ngẫu nhiên mới và tính lại từ JTL; kiểm thêm 0 lỗi số cứng, N6/Checkout p95, hai câu report/14 dòng 174 và 226, filter `all`/`main`; chỉ đọc, không sửa file.
+- **AI output:**
+  > Reviewer độc lập chạy trong bản sao read-only của repo lúc 22:15–22:17. `python3 scripts/jtl_truth.py` self-check pass; tự chọn 5 giá trị bằng seed 2028 và tính lại từ JTL, 5/5 khớp; tự tính lại pool 184 giá trị trong report/12 và report/14, 0 lệch. Xác nhận N6 là 1 lỗi thiết kế ngưỡng, Checkout p95 60 ms ở Stress `[300,450)`; hai câu report/14 dòng 174 và 226 đúng thống kê; filter `all`/`main` không gán sai. Verdict **PASS** kỹ thuật cho Bước 28, kèm 6 lỗi nhỏ: mâu thuẫn report/15 dòng 60 và 62, thiếu owner dòng 58, lệch mốc giờ dòng 3 và 19, khoảng đệm `1,4–2,2` ở report/14 dòng 191, nhãn "200 VU" ở dòng 203, danh sách entry `#26–#31` ở dòng 293. Reviewer không sửa file; Manager đã xử lý 6 lỗi nhỏ sau review và cập nhật report/15 §4.
+- **Human review:** Đã đọc entry #34 và §4 của report/15. Đồng ý verdict PASS kỹ thuật cho Bước 28: reviewer tự chạy `jtl_truth.py`, 5 giá trị seed 2028 khớp, 184 giá trị 0 lệch, N6 và Checkout p95 60 ms đúng. Sáu lỗi nhỏ đã được xử lý; không còn ❌ trong phạm vi Bước 28. Reviewer chạy trên bản sao read-only nên không sửa JTL/SUT/test plan/report 11–13; mình đã kiểm lại các file thay đổi.
 
 ## #35 – 2026-11-18 22:29 (giờ VN)
 - **AI tool:** omp – TaskThreeChangeMap (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
 - **Bước:** Task 3 – Bước 29
-## #2 – 2026-11-17 23:04 (giờ VN)
-- **AI tool:** omp – scout; Manager (openai-codex/gpt-6.1-sol)
-- **Bước:** Task 1 – Bước 1
 - **Prompt:**
   > Bước 29 – Chỉ đọc, không sửa file nào. Lập bản đồ để pipeline biết commit nào CẦN chạy performance test:
   >   1. Liệt kê các thư mục/file của eshop-sut (git -C eshop-sut ls-files). Xếp từng nhóm vào 1 trong 3 loại:
@@ -647,16 +661,212 @@
   > Xong khi: mọi file tracked của eshop-sut được xếp loại; mọi route có số dòng.
   > Ràngbuộc thực thi của Manager: load skill://ponytail trước, active whole session. Chỉ đọc, không tạo/sửa file kể cả report/log; trả nguyên nội dung Markdown report/16a_sut_change_map.md trong fence BỐN backticks để Manager ghi đúng một lần. Manager là người duy nhất append AI_LOG và commit. Không push/tạoIssue/JMeter/reset/SUT edits. Không đọc/grep/glob agent-context files vì quy tắc đã auto-loaded; áp dụng: không sửa/tạoJTL, khôngbịa metric, humanreviewđểtrống, tài liệu Markdowntrongreport/, không commit worker. NếuLSP khảdụng, dùng xd://lsp cho definitions/references khi cần codeintelligence; việc đọc route inventory phải có sốdòng từsourceactual. Khôngbuild/lint/test/formatter ởbướcchỉđọc này. Khôngnesteddelegation.
   > Reportphải bao phủ mọi trackedfile: có thểnhóm bằngpattern/rule có thứtựvà count, nhưng đính kèminventorypath→category cho toàn bộtrackedpaths (khôngbỏfile), kiểm conservation totals. Auth/Read/Transactional mapping theo Flow1: Login; Products+Detail; Cart+Checkout+Myorders. Negative login cùng POSTloginvớiđầu vào sai; routes khác ghi không phủ, không giả mainlabel. Lệnh git ls-files/log/status là thu thậpmetadata useryêucầu bước29, không validationedits. Trả metadata thời gianVN bằng date, tênmodel actual, lệnh/sourceđãđọc và tổngfiles/routes cùng invariantcoverproof; không bịa output. Nếu dài vẫntrảđủreport, Manager sẽđọcartifact continuation.
-  > Bước 1 – Phân tích API cho Flow 1 (chỉ đọc, không sửa file nào ngoài file báo cáo).
-  > Đọc eshop-sut/backend/server.js, eshop-sut/api_specification.md, eshop-sut/README.md. Với từng endpoint của Flow 1, liệt kê:
-  >   method, path, cần token hay không, request body, response mẫu (gọi thử bằng curl để lấy response thật), mã lỗi có thể xảy ra, truy vấn DB bên dưới (đọc hay ghi SQLite).
-  > Sau đó chỉ ra:
-  >   (a) Mỗi endpoint thuộc nhóm nào (Auth/Read/Transactional) và lý do.
-  >   (b) Biến nào phải trích xuất để truyền giữa các request (token, user.id, product price, orderId...).
-  >   (c) Các bẫy khi load test: lockout, price string/number, cart không xóa, SQLite khóa ghi, server đơn luồng.
-  > Ghi kết quả vào report/01_api_analysis.md.
-  > Xong khi: đủ 7 endpoint, mỗi endpoint có response thật lấy từ curl, có mục (a)(b)(c).
 - **AI output:**
   > Scout chỉ đọc source/JMX, không có shell để hoàn tất metadata. Manager chạy các lệnh Git chỉ đọc và date thực tế, tạo report/16a_sut_change_map.md: đủ66trackedpaths (6ảnhhưởngbackend/59khôngảnhhưởngAPIworkloadcốđịnh/1chưarõ),31route với dòngsource,7routeFlow1/24khôngphủ. Đính chính số29mởđầucủascout thành31; phânloạirouteghi catalog làTransactional. HEADSUTmain85af3ba875c88283615e22cb108f13e2fccaf0e9; database.sqliteđãmodified vànode_modulesuntracked trước bước này, khôngrestore/xóa/stage. Giữ nguyên sửađổicủangườidùng ởHW05, kểcảhuman14/checklist15/logentry34. Kiểmtrareport66inventoryrows/31uniqueroutes và6localfilelinks đều tồn tại. KhôngchạyJMeter/reset/sửaSUT/JTL/push/Issue.
-  > Scout đọc code/spec và phân tích tĩnh nhưng không có shell. Manager gọi thật workflow, chạy curl cho đủ 7 endpoint và tạo report/01_api_analysis.md: body, token, response thật, lỗi từ code, SQL, nhóm endpoint, biến liên kết và bẫy. Không sửa SUT. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
+- **Human review:** Đồng ý bản đồ 66 tracked path = 6 B + 59 N + 1 U; 31 route, 7 route Flow 1, 24 route không phủ. Mình kiểm lại inventory: `database.sqlite` xếp U, `node_modules` untracked không bị tính; route ghi/xoá catalog xếp Transactional, không gọi Read. Điểm cần nhớ: N chỉ đúng cho workload API cố định; frontend đổi request mix hoặc seed ngoài repo vẫn có thể lọt. Không thấy file tracked nào bị bỏ.
+
+## #36 – 2026-11-18 22:39 (giờ VN)
+- **AI tool:** omp – TaskThreeProposal (gpt-6.1-terra); TaskThreeRenderCheck (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 30
+- **Prompt:**
+  > Bước 30 – Viết report/16_cpt_proposal.md, dựa trên report/16a_sut_change_map.md và report/TASK2_REPORT.md §4. Các mục:
+  >   1. Mục tiêu và phạm vi. Mô hình chạy theo từng commit của eshop-sut.
+  >   2. Bộ quyết định "có chạy không". Luật theo thứ tự ưu tiên:
+  >      a. Commit message có "[perf]" thì bắt buộc chạy; có "[skip perf]" thì bỏ qua (ghi log lý do).
+  >      b. Diff chạm loại "ảnh hưởng backend" thì chạy.
+  >      c. Chỉ chạm loại "không ảnh hưởng" thì bỏ qua.
+  >      d. Có file "chưa rõ" thì chạy (an toàn hơn).
+  >      Nêu rõ: luật này có thể bỏ sót trường hợp nào (ví dụ đổi dữ liệu seed).
+  >   3. Các tầng test:
+  >      - Tầng 1, mỗi commit: smoke dùng Load plan -Jthreads=30 -Jrampup=15 -Jduration=180.
+  >      - Tầng 2, hằng đêm: Load đầy đủ 50 VU, 600 s.
+  >      - Tầng 3, hằng tuần hoặc trước release: Stress + Spike + Soak.
+  >      Mỗi tầng ghi thời gian chạy ước tính, dựa trên thời lượng cấu hình thật của các plan.
+  >   4. Luật gate. Tính theo từng label chính:
+  >      - REGRESSION: p95 mới > 1,20 × baseline VÀ tăng ≥ 5 ms.
+  >      - SLO FAIL: vượt SLO tuyệt đối trong TASK2_REPORT §4.
+  >      - ERROR FAIL: error > 0,1%.
+  >      - Label có ít hơn N sample thì ghi INCONCLUSIVE, không FAIL. Tự chọn N và giải thích.
+  >      - Chống báo động giả: nếu FAIL thì chạy lại 1 lần, FAIL cả 2 lần mới báo.
+  >   5. Quản lý baseline:
+  >      - Baseline = kết quả smoke trên commit main gần nhất đã PASS.
+  >      - Chỉ cập nhật baseline sau khi PASS và có người duyệt.
+  >      - Cùng máy, cùng profile. Lưu baseline ở results/cpt/baseline.json.
+  >   6. Flow chart bằng Mermaid (```mermaid flowchart TD). Phải đủ các nhánh: commit mới → decide → skip / run → reset SUT → smoke → gate → PASS / FAIL → chạy lại → báo Issue hoặc cập nhật baseline.
+  >   7. Vai trò của AI (G9.6):
+  >      - AI được làm: đọc diff để gợi ý tầng test, tóm tắt kết quả, viết nháp Issue.
+  >      - AI không được làm: tự cập nhật baseline, tự đóng cảnh báo. Giải thích vì sao.
+  >   8. Trade-off. Bảng gồm ít nhất các dòng:
+  >      - Chi phí (phút máy mỗi commit / đêm / tuần).
+  >      - Báo động giả (nhiễu của máy dùng chung, dẫn chứng đợt chậm của Soak).
+  >      - Bỏ sót (smoke ngắn không bắt được rò rỉ RAM, dẫn chứng userCarts).
+  >      - Độ trễ phản hồi cho dev.
+  >      - Baseline bị trôi.
+  >      Mỗi dòng ghi cách giảm thiểu. Chỗ "báo động giả" để trống số, ghi "điền từ bước 32 (A/A)".
+  > Không bịa con số đo. Các ước tính chi phí phải ghi rõ là ước tính và cách tính.
+  > Xong khi: đủ 8 mục; flow chart render được (kiểm bằng npx -y @mermaid-js/mermaid-cli nếu có mạng, không có thì ghi "chưa kiểm render").
+  > Sởhữu duy nhấtreport/16_cpt_proposal.md; không sửa code hoặcREADME. Đọc16a+Task2§4vàplansđúngtên đểlấythờilượngcấuhình. Hợpđồngtrênlàthiếtkếthốngnhấtvớiworker31; khôngtựđặtluậtkhác. Chưaassertmermaidrenderđãkiểm: Manager sẽgiaoexecutorchecknếucómạng. Trả8mụcđủvàplannedcostformulas, sốA/Aplaceholderđúnguser yêu cầu.
+  >
+  > Hợp đồng dùng chung do Manager chốt trước khi song song:
+  > - Load skill://ponytail, dùng toàn session. Không nesteddelegation. Khôngpush/Issue/sửaSUT/chạyJMeter. Manager duy nhất ghiAI_LOG/commit; worker trảprompt/model/date/thayđổi. Mọifileedit dùngedit; file mớiwrite. Khôngđọccontextfilesvìauto-loaded; quy tắc: dữliệuthật, khôngsửaJTL/humanreview; Markdowntrongreport(trừREADMEresultsđượcuserđòi). Khôngbuild/lint/test/formatter mid-flight: Manager giao sonic chạy check một lần sau bàn giao.
+  > - N=1000 mỗi label, theo Task2; p95regression strict >1.20base và delta>=5ms; SLOcảp95/p99theobảngTask2, error>0.1%. Latency chỉ7mainlabels; all-errorvàmain-errorghi rõ mẫu số, negativeexpectedkhôngAuthlatency. LabelítN=INCONCLUSIVE, khôngtựgánFAILvìítmẫu; đủmẫuFAILthậtkhôngbịlabelthiếuche. Exitgate0/1/2 choPASS/FAIL/INCONCLUSIVE.
+  > - [perf]ưu tiênrunnếucả2marker; [skip perf]overridebackendnếukhông[perf]nhưngghi rõrisk. Map16ađã66file:6B/59N/1U; dùngruleprefix/path+fallbackunknown-run, khôngallowlistđóng. FrontendskipchỉápdụngworkloadAPIcốđịnh.
+  > - KhôngtựđổiHEAD: callercheckoutHEADSUTđúngtrướckhirun; pipelinephảichốngđotreechưacommit/wrongHEAD. DBmodifiedvànode_modulesuntrackedlàstatecótrước, khôngstash/restore/delete/chungstaging. Pipelinekhôngtựupdatebaseline. Baselinebootstrapexplicitbằng--make-baselinechỉkhiđủsample/absoluteSLO/errorđạt; phiênđầuđượcusercho phépở32A, khônggọiđólàđãvượtrelativegate.
+  > - Cùngprofile/filter/máy phảiđượclưumetadata vàkiểmtrakhiso baseline; nếukhôngđủthôngtinthuộctínhcompatibilitythìINCONCLUSIVEthayvìPASSgiả. Khôngsuytảiprofiletừ sốsample. Metadata sidecarJTLđược phép, generatorpipeline/command32Aphảighiđủvàdoc rõ.
+  > - Amanualreset+smoke->makebaseline; BpipelineBASE=main^ HEAD=main (cùngcandidatecommitA nhưngdiffrealfirstuploadnênrun, khôngdùngBASE=HEADđểbịskip). D2FAILmớialert; retryresettrướcmỗirun, artifactkhôngappend/overwriteJTLcũ. FAILrồiretryPASSkhôngbáoregressionconfirmed; INCONCLUSIVE/infraerrorphảighi trạngtháithật, khôngPASS.
+  > - Flowchartphảitáchranhgiớitựđộngvàhànhđộngngườidùng: alert/nhápIssuenhưngkhôngtạoIssue; cậpnhậtbaselinecầnngườiduyệt vàlệnhexplicit ngoài pipeline. ĐủcảINCONCLUSIVE/skip/retry. Mọiđềxuấtchi phí làước tính, A/Asốđểtrốngđến32.
+  > - CI MẪUởci/, cópush/PR/schedulenightlyweekly, selfhosted+cùngmáy vàserializeSUT. VìcopyvàoSUTrepo, cầncheckoutcảHW05tools vàSUTđúnglayouteshop-sut/; khônggiảscriptHW05cósẵnởSUTroot. Nightly/weeklydùngprofile/baseline riêng, khôngso với smokebaseline; baselinechưaphêduyệt=INCONCLUSIVEchứkhôngPASS. Nêutiềnđềđểdeploymẫumàkhôngstubs/no-ops.
+  > - Testgiảuserđãđòiở31: fixtureCSV/JTL-formattrongTemporaryDirectory, KHÔNGghi fileđuôi.jtlgiảbấtkỳđâu theoquytắcrepo; cóthểdùngđuôi.csv cho inputparser, documentđâytestfixturekhôngphảikếtquảJMeter. Khôngtạodữliệugiảởresults/. Testthậtcácngưỡngvàdecision; khôngtestsource/wiring/echo/tautology.
+  >
+  > ĐIỀUCHỈNHTHIẾTKẾTRƯỚCKHICÓKẾTQUẢDEMO: thay N=1000 mỗi label bằng **N=500 mỗi label**, đồng thời tối thiểu1000 main sample tổng/run cho relativecomparison. Task2§4 nói≥1000samplemỗirun, khôngnói≥1000mỗilabel; sharedcontracttrước đãsiếtnhầmperlabel. LýdoN500: JTLLoadthật có33534main samples/7label, smoke30VU180so50VU600ước tínhcountlabel≈(33534/7)*(30/50)*(180/600)≈862 trước hiệuứngramp/thinktime;1000perlabelcóthểkhiếnbaselinekhôngđủmẫu. N500làquyếtsáchtừtrướcdemo, khôngnới saukhiFAIL, khôngkhẳngđịnhtuyến tính làdựbáođảmbảo. p95cókhoảng25tail observations,p99chỉ5nênp99nhiễu,cầnretry/tiersdài; ghi rõtradeoff. CLI--min-samplesdefault500, từđâyproposalvàcodeđều500. KhôngđổiSLO1.20/+5ms.
+- **AI output:**
+  > Tạo report/16_cpt_proposal.md đủ8mục, flowchart vàtradeoff; quyết địnhmarker/diff, tầngsmoke30/15/180, nightly50/50/600, tuầnStress+Spike+Soak1680s cấu hìnhchưakểoverhead. N500perlabelvà1000maintotal đượcchốttrướcdemo, khôngnới sauFAIL. SLOtheoTask2, baseline.jsonchỉmanualapproval, giới hạnmachinefingerprint nêurõ. SonicrenderMermaidnpxCLI+Chromeexit0, xemSVGthật222071bytes rồi xóafile tạm; kiểm5filelinks/2headinganchorsđềuđúng. Managerđổi2anchornguồnkhôngchắc sangfilelink vàcậpnhậttrạngtháirender. ChưaJMeter; A/Ađểtrốngđúngyêucầuđến32. KhôngsửaSUT/JTL/humanreview/push/Issue.
+- **Human review:** Đồng ý 8 mục và các lựa chọn thiết kế: marker `[perf]`/`[skip perf]`, N=500 mỗi label/1.000 main, 1,20× + 5 ms, baseline cần người duyệt, AI không tự cập nhật baseline. A/A để trống đúng vì bước 32 mới có số. Flow chart đã render. Điểm mình giữ lại: p99 với N=500 chỉ khoảng 5 quan sát đuôi nên rất nhiễu; baseline một lượt có thể trôi; W1 policy deep phải xử lý trước khi bật CI.
+
+## #37 – 2026-11-18 22:42 (giờ VN)
+- **AI tool:** omp – TaskThreePipeline (openai-codex/gpt-6.1-terra); TaskThreeRenderCheck (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 31
+- **Prompt:**
+  > Bước 31 – Viết code cho pipeline. Chỉ dùng Python stdlib và bash. Tái sử dụng scripts/jtl_truth.py (import load_jtl, metrics), không viết lại phần tính percentile.
+  >   1. scripts/perf_decide.py BASE HEAD:
+  >      - Đọc `git -C eshop-sut diff --name-only BASE HEAD` và commit message của HEAD.
+  >      - Áp luật [perf] / [skip perf] / ảnh hưởng backend / không ảnh hưởng / chưa rõ. Lấy danh sách loại từ report/16a_sut_change_map.md, viết cứng thành hằng số trong code.
+  >      - In JSON {"decision": "run|skip", "reason": ..., "files": [...]}. Exit 0.
+  >   2. scripts/perf_gate.py --baseline B.json --candidate C.jtl [--slo slo.json] [--min-samples N]:
+  >      - Tính p95, error, count theo từng label chính.
+  >      - So với baseline theo luật 1,20× VÀ +5 ms; so SLO; xử lý INCONCLUSIVE.
+  >      - In bảng, ghi results/cpt/<tên>_gate.json.
+  >      - Exit 0 = PASS, 1 = FAIL, 2 = INCONCLUSIVE.
+  >      - Có chế độ --make-baseline C.jtl để tạo baseline.json từ một jtl.
+  >   3. scripts/cpt_pipeline.sh BASE HEAD:
+  >      - decide → nếu run: reset_sut.sh → JMeter smoke (-Jthreads=30 -Jrampup=15 -Jduration=180) → gate.
+  >      - Nếu FAIL: chạy lại 1 lần; FAIL cả 2 lần thì exit 1.
+  >      - Ghi jtl/html vào results/cpt/<shortsha>_<lần>/.
+  >      - KHÔNG tự cập nhật baseline.
+  >   4. results/cpt/slo.json lấy từ bảng SLO trong TASK2_REPORT §4. Ghi nguồn trong README của results/cpt/.
+  >   5. scripts/test_perf_gate.py (unittest): dùng jtl GIẢ trong thư mục tạm của test (tự sinh trong test, không lưu vào results/). Phải có các case:
+  >      - Không đổi → PASS.
+  >      - +30% và +10 ms → FAIL.
+  >      - +30% nhưng chỉ +3 ms → PASS (vì chưa đủ 5 ms).
+  >      - Ít sample → INCONCLUSIVE.
+  >      - Commit chỉ đổi .md → skip; đổi server.js → run; có "[perf]" → run.
+  >   6. ci/github-actions-perf.yml: file MẪU để copy vào .github/workflows của repo SUT.
+  >      - Chạy trên runner self-hosted (lý do: cần cùng máy để baseline có nghĩa). Trigger push/pull_request; schedule cho tầng 2 và 3.
+  >      - Đặt trong ci/, KHÔNG đặt trong .github/workflows của repo hw05, để không tự chạy trên GitHub.
+  > Xong khi: `python3 -m unittest scripts/test_perf_gate.py` pass (dán output); `bash -n scripts/cpt_pipeline.sh` không lỗi; chưa chạy JMeter ở bước này.
+  > Sởhữu scripts/perf_decide.py,perf_gate.py,cpt_pipeline.sh,test_perf_gate.py; results/cpt/slo.json,results/cpt/README.md; ci/github-actions-perf.yml (vàmetadatahelpernếuTHẬTcần,ưu tiêndùngcodehiệncó/ítfile). Khôngsửa16a/16/Task2/JTL/SUT/reset_sut/jtl_truth.py. Dùngload_jtl/metricsimportthật. Dùngxd://lspcho definitions/references nếuLSPkhảdụng, đặcbiệttrướckhichạmvàoexportcósẵn(khôngdựkiếnđụng). TriểnkhaiendtoendCIprofiletierskhôngTODO/stub/echo thaytestrun. Khôngfeaturethừa; đủuser31+sharedcontract. TrảrõlệnhbaselineAmetadata vàsmoke đểManager32chạythậtđúngcompatibility. BaselineformatvàSLOcónguồn, sourceJTL/profile/machine/filter, min sample/sourcecommit. Dùuser'Xongkhi'unittestpass, KHÔNGtựchạymidflight: Managerchạyquaexecutorngaysauhandoff.
+  >
+  > Hợp đồng dùng chung do Manager chốt trước khi song song:
+  > - Load skill://ponytail, dùng toàn session. Không nesteddelegation. Khôngpush/Issue/sửaSUT/chạyJMeter. Manager duy nhất ghiAI_LOG/commit; worker trảprompt/model/date/thayđổi. Mọifileedit dùngedit; file mớiwrite. Khôngđọccontextfilesvìauto-loaded; quy tắc: dữliệuthật, khôngsửaJTL/humanreview; Markdowntrongreport(trừREADMEresultsđượcuserđòi). Khôngbuild/lint/test/formatter mid-flight: Manager giao sonic chạy check một lần sau bàn giao.
+  > - N=1000 mỗi label, theo Task2; p95regression strict >1.20base và delta>=5ms; SLOcảp95/p99theobảngTask2, error>0.1%. Latency chỉ7mainlabels; all-errorvàmain-errorghi rõ mẫu số, negativeexpectedkhôngAuthlatency. LabelítN=INCONCLUSIVE, khôngtựgánFAILvìítmẫu; đủmẫuFAILthậtkhôngbịlabelthiếuche. Exitgate0/1/2 choPASS/FAIL/INCONCLUSIVE.
+  > - [perf]ưu tiênrunnếucả2marker; [skip perf]overridebackendnếukhông[perf]nhưngghi rõrisk. Map16ađã66file:6B/59N/1U; dùngruleprefix/path+fallbackunknown-run, khôngallowlistđóng. FrontendskipchỉápdụngworkloadAPIcốđịnh.
+  > - KhôngtựđổiHEAD: callercheckoutHEADSUTđúngtrướckhirun; pipelinephảichốngđotreechưacommit/wrongHEAD. DBmodifiedvànode_modulesuntrackedlàstatecótrước, khôngstash/restore/delete/chungstaging. Pipelinekhôngtựupdatebaseline. Baselinebootstrapexplicitbằng--make-baselinechỉkhiđủsample/absoluteSLO/errorđạt; phiênđầuđượcusercho phépở32A, khônggọiđólàđãvượtrelativegate.
+  > - Cùngprofile/filter/máy phảiđượclưumetadata vàkiểmtrakhiso baseline; nếukhôngđủthôngtinthuộctínhcompatibilitythìINCONCLUSIVEthayvìPASSgiả. Khôngsuytảiprofiletừ sốsample. Metadata sidecarJTLđược phép, generatorpipeline/command32Aphảighiđủvàdoc rõ.
+  > - Amanualreset+smoke->makebaseline; BpipelineBASE=main^ HEAD=main (cùngcandidatecommitA nhưngdiffrealfirstuploadnênrun, khôngdùngBASE=HEADđểbịskip). D2FAILmớialert; retryresettrướcmỗirun, artifactkhôngappend/overwriteJTLcũ. FAILrồiretryPASSkhôngbáoregressionconfirmed; INCONCLUSIVE/infraerrorphảighi trạngtháithật, khôngPASS.
+  > - Flowchartphảitáchranhgiớitựđộngvàhànhđộngngườidùng: alert/nhápIssuenhưngkhôngtạoIssue; cậpnhậtbaselinecầnngườiduyệt vàlệnhexplicit ngoài pipeline. ĐủcảINCONCLUSIVE/skip/retry. Mọiđềxuấtchi phí làước tính, A/Asốđểtrốngđến32.
+  > - CI MẪUởci/, cópush/PR/schedulenightlyweekly, selfhosted+cùngmáy vàserializeSUT. VìcopyvàoSUTrepo, cầncheckoutcảHW05tools vàSUTđúnglayouteshop-sut/; khônggiảscriptHW05cósẵnởSUTroot. Nightly/weeklydùngprofile/baseline riêng, khôngso với smokebaseline; baselinechưaphêduyệt=INCONCLUSIVEchứkhôngPASS. Nêutiềnđềđểdeploymẫumàkhôngstubs/no-ops.
+  > - Testgiảuserđãđòiở31: fixtureCSV/JTL-formattrongTemporaryDirectory, KHÔNGghi fileđuôi.jtlgiảbấtkỳđâu theoquytắcrepo; cóthểdùngđuôi.csv cho inputparser, documentđâytestfixturekhôngphảikếtquảJMeter. Khôngtạodữliệugiảởresults/. Testthậtcácngưỡngvàdecision; khôngtestsource/wiring/echo/tautology.
+  >
+  > ĐIỀUCHỈNHTHIẾTKẾTRƯỚCKHICÓKẾTQUẢDEMO: thay N=1000 mỗi label bằng **N=500 mỗi label**, đồng thời tối thiểu1000 main sample tổng/run cho relativecomparison. Task2§4 nói≥1000samplemỗirun, khôngnói≥1000mỗilabel; sharedcontracttrước đãsiếtnhầmperlabel. LýdoN500: JTLLoadthật có33534main samples/7label, smoke30VU180so50VU600ước tínhcountlabel≈(33534/7)*(30/50)*(180/600)≈862 trước hiệuứngramp/thinktime;1000perlabelcóthểkhiếnbaselinekhôngđủmẫu. N500làquyếtsáchtừtrướcdemo, khôngnới saukhiFAIL, khôngkhẳngđịnhtuyến tính làdựbáođảmbảo. p95cókhoảng25tail observations,p99chỉ5nênp99nhiễu,cầnretry/tiersdài; ghi rõtradeoff. CLI--min-samplesdefault500, từđâyproposalvàcodeđều500. KhôngđổiSLO1.20/+5ms.
+- **AI output:**
+  > Tạo scripts/perf_decide.py,perf_gate.py,cpt_pipeline.sh,test_perf_gate.py, results/cpt/slo.json+README.md vàci/github-actions-perf.yml. Dùngload_jtl/metricsnearest-rank cósẵn, quyếtđịnhmarker/pathfallback, relative>1.20và>=5ms, N500label/1000maintotal, absoluteSLOvàall-errorwhole+120safterramp. Sửa contractgaps trướcJMeter: weekly3planthật, nightly50/50/600, baseline.jsonsmoke, relativeítmẫuINCONCLUSIVEkhôngcheabsoluteFAIL, rerungateidempotent/manualbaselineupdate, gateJSONlưubaselineprovenance,2FAILlocalalertkhôngtạoIssue. Sonicchạymỗicheckđúng1lần: python3 -m unittest scripts/test_perf_gate.py:14tests/1.036s/OK/exit0; bash -n scripts/cpt_pipeline.sh: khôngoutput/exit0,22:41:33giờVN. FixtureCSVchỉtemp, khôngfakeJTLresults. ChưaJMeter/sửaSUT; khôngđổiSLOđểpass,khôngpush/Issue.
+- **Human review:** Đồng ý code tái dùng `jtl_truth`, gate trả 0/1/2, không tự cập nhật baseline. Mình chạy lại unittest: 18 tests OK; luật `p95_new*5 > p95_old*6` và delta ≥5 đúng là >1,20× và ≥5 ms. `bash -n` và `--check-policy` pass theo report/18. CI mới là file mẫu, chưa chạy trên GitHub; fixture test chỉ ở temp, không tạo JTL giả trong `results/`.
+
+## #38 – 2026-11-18 23:13 (giờ VN)
+- **AI tool:** omp – TaskThreeDemoRun (gpt-6-luna); TaskThreePipeline (openai-codex/gpt-6.1-terra, fix lock/test); TaskThreeRenderCheck (gpt-6-luna, verify fix); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 32
+- **Prompt:**
+  > Bước 32 – Chạy demo THẬT bằng scripts/cpt_pipeline.sh. Theo ngoại lệ quy tắc 12. Không sửa jtl. Mọi số lấy từ output gate. Mỗi lần chạy JMeter mất khoảng 3,5 phút: báo Manager trước khi bắt đầu từng lần.
+  >   A. Baseline: trên eshop-sut main (HEAD hiện tại) chạy smoke một lần → perf_gate.py --make-baseline → results/cpt/baseline.json.
+  >   B. A/A (đo báo động giả): chạy pipeline lần 2 trên CÙNG commit, so với baseline. Ghi PASS/FAIL và p95 từng label so với baseline. Đây là số liệu cho mục "báo động giả" của report 16.
+  >   C. Commit chỉ đổi docs:
+  >      - git -C eshop-sut switch -c perf-demo/docs-only
+  >      - Sửa 1 dòng trong eshop-sut/README.md, rồi commit "docs: demo".
+  >      - Chạy cpt_pipeline.sh main perf-demo/docs-only. Kỳ vọng: decision=skip, KHÔNG chạy JMeter.
+  >   D. Commit làm chậm Checkout:
+  >      - git -C eshop-sut switch main && git -C eshop-sut switch -c perf-demo/slow-checkout
+  >      - Trong server.js, ngay TRƯỚC route app.post("/api/checkout"…), thêm đúng 1 dòng: app.use("/api/checkout", (req, res, next) => setTimeout(next, 30));
+  >      - git add backend/server.js (chỉ file này), rồi commit "perf-demo: add 30ms delay to checkout".
+  >      - Chạy cpt_pipeline.sh main perf-demo/slow-checkout. Kỳ vọng: decision=run → gate FAIL ở 06 Checkout → chạy lại → vẫn FAIL → exit 1. Ghi lại p95 Checkout baseline/mới và các label khác có bị kéo theo không.
+  >   E. Dọn:
+  >      - git -C eshop-sut switch main
+  >      - Kiểm tra `git -C eshop-sut log --oneline -1` đúng commit ban đầu, và server.js không còn dòng delay (grep).
+  >      - Chạy scripts/reset_sut.sh.
+  >      - GIỮ các nhánh perf-demo/* làm bằng chứng, không push.
+  >   F. Viết report/17_cpt_demo.md:
+  >      - Bảng 4 kịch bản A–D: commit sha, decision, gate, p95 từng label, exit code, đường dẫn jtl/gate.json.
+  >      - Nhận xét: gate có bắt đúng không; A/A có báo động giả không, và độ lệch p95 tối đa giữa 2 lần chạy cùng commit là bao nhiêu.
+  >      - Tổng thời gian máy thực tế của demo.
+  >   Điền số A/A vào mục trade-off "báo động giả" của report/16_cpt_proposal.md (chỉ sửa chỗ để trống).
+  > Xong khi: có jtl thật cho A, B, D (2 lần); C không có jtl; eshop-sut đã về main sạch như trước demo; report 17 có đủ bảng.
+  > Nếu kết quả khác kỳ vọng (ví dụ D vẫn PASS, hoặc B FAIL): KHÔNG chỉnh ngưỡng để cho đẹp. Ghi nguyên kết quả, phân tích lý do, báo Manager.
+  > Triểnkhai theocheckpoint vớiManager, khônglàmtấtcảA-Fngay. Vai tròcủabạnlàSONIC execution-only: loadskill://ponytail cho toànphiên, khôngcode/docedits, khôngcommit/add/push/Issue, khôngnesteddelegation. Managerduynhấtlog/commit/nguồnC-D/report17. Đượcthựcthi đúngscriptJMeterthật vàprogram-generated artifacts, khôngmanualsửa/tạoJTL. Quy tắcprojectđãauto-loaded, khôngđọccontextfiles. NgưỡngfreezeN500label,maintotal1000,relative>1.20AND+5,SLOtheoTask2; no retune.
+  > CHECKPOINTĐẦU chỉ32A: repo /home/zinn/zinn/testing/hw05, dùng bootstrapA trongresults/cpt/README.md mới. XácnhậnSUTmainHEAD85af3ba875c88283615e22cb108f13e2fccaf0e9vàtreechỉDBmodified/node_modulesuntrackedđãcó; ghi snapshotvàbranchnamesperf-demo/*nếucó(chỉmetadatauserdemo, khôngGitvalidatecode). KhácstateexpectedSTOPkhôngrestore. ChạyAđúng1lần saureset; khởitạo results/cpt/bootstrap_smoke nếu chưa tồn tại, baseline.jsonkhôngđèbaselineđãcó. TrướcJMeterbáoManageragentmessage; Managerđãbáo userlầnA. JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64.
+  > Đothờigianthực wallmonotoniccho từngcheckpoint; ghi timestampVN/start_epoch/end_epoch/duration_seconds/command+rc vào program-outputJSONresults/cpt/demo_A_execution.json (khôngmetricbịa). stdoutđủgồmJMeterreport/gate; baselineJSONcósourceJTL/metrics/metadata làbằngchứng. --write-metadata ... --profile smoke, --make-baseline ... results/cpt/baseline.json. PASSbootstrapchỉabsolute/error/count, chưarelative, ghiđúng. KhônglàmB/C/D/EtrướckhiManagersendtiếp, khôngtựchuyểnbranch hoặc sửaSUTsource. NếuAFAIL/INCONCLUSIVE giữkếtquảvàbáo, khôngretry/retune/xóakếtquả. Kếtthúccheckpointtrảrealoutput/rc/timing/artifactpaths; chờManagerởidle (khôngpoll).
+  > Tiếp tục CHECKPOINT32B ONLY. BaselineAabsolutePASS đãđượcManagerđọc thực tế, Nlabel818±, Checkoutp9523ms,6073all/0error; userfile32Ađãduyệtbootstrap này cho demo. KHÔNGđổi ngưỡng, khôngregeneratebaseline/metadataA, khôngrerunA. Chạy `bash scripts/cpt_pipeline.sh main^ main` trêncùngSUTmainHEAD85af3ba875c88283615e22cb108f13e2fccaf0e9; diffrealfirstuploadđểdeciderun. TrướcJMeterbáoManager; pipelinecóthểretry1lầnnếuFAIL—ManagerđãbáotrướccảB1vàB2nếucó. Đo wallthực vàghi program-outputJSON results/cpt/demo_B_execution.json (timestamps/command/rc/duration/artifactpaths), stdoutđầyđủ. Chỉchạypipeline1lần, khôngmanualrerun/retune. CảFAIL/INCONCLUSIVE vẫngiữkếtquả, trảđúngstatus/first&retrygatepaths đểManagerbàn giao. KhôngC-D-E/branch/code/docedit/commit/Gitstage. KếtthúccheckpointBthìidlechờManager, khôngpoll. NếuinitialCLIargparsefailA cầnrecordcorrectionthật trongdemo_A_execution.json nếuchưacó, chỉmetadataexecutionkhôngtouchJTL/baseline/gate; đừnggiảAđãvượtrelative.CHECKPOINT32C ONLY: Managerđãtạoperf-demo/docs-onlyvàcommitchỉREADME1dòng bằngcommitnamespace, SHA 4506e466a84ec0a25d3397ce8fd234f5d766b872. Chạy `bash scripts/cpt_pipeline.sh main perf-demo/docs-only` đúng1lần, giữstdout/rc; kỳvọngskipnhưngghiđúngactual. TUYỆTĐỐIkhôngJMeter/resetnếuskip, khônggatePASSgiảchoSKIP. ChứngminhCkhôngtạoJTL bằnginventoryartifactstrước/saupipeline (khôngtouchJTL), ghi program-outputJSON results/cpt/demo_C_execution.json vớicmd/rc/start/end/duration/decision/sha/artifactchanges. Khôngswitchbranch/commit/nguồnedits. SauCchờManagerchuẩnbịD.CHECKPOINT32D, rồi cleanup32E trong finally/EXIT guard của chínhcommand (đừngchờmodelquaylạiđểcleanup). Managerđãcommitđúng1dòngmiddleware, SUTbranchperf-demo/slow-checkout HEAD=fc8660e7a8c6685cc7ed9c48b84de972d4323677. Khôngtựsửacode/thresholds/baseline. Chạy đúng1pipeline invocation `bash scripts/cpt_pipeline.sh main perf-demo/slow-checkout`, timeout>=1000s (2smokes+HTML+reset~6.5phút, khôngdefault300s). NếuFAILscriptretry1lầnđúngcode; khôngmanualrerun. TrướcD1báoManager. ManagerđãbáotrướcuserD1vàD2conditional; giữstdoutthực vàgateJSONmỗiattempt, exitcodepipeline (mong1nếucả2FAIL, nếukhácghiđúngkhôngretune). Recordtimings program-generated results/cpt/demo_D_execution.json gồmcommand/rc/start/end/duration/artifactpaths vàtoànstdoutnếugọn. KhôngsửaCJSON/A/B/baseline.
+  > CleanupE BẮTBUỘC SAU D bằngfinally/trapEXIT (kểcảFAILexpected/exception): `git -C eshop-sut switch main`; ghi`git -C eshop-sut log --oneline -1`, revparseHEADphải85af3ba875c88283615e22cb108f13e2fccaf0e9; grep dònginjectedexact `app.use("/api/checkout", (req, res, next) => setTimeout(next, 30));`phảikhôngcòn; rồi`bash scripts/reset_sut.sh` ngoàipipeline. Ghi gitstatus SUT saucleanupđểso snapshotbanđầu (DBmodified/node_modulesuntracked làexpected, khônggọihoàntoànsạch/khôngrestore/xóafile), giữ2nhánhperf-demo/*local. Record results/cpt/demo_E_execution.json timings/status/grep_rc/reset_rc/mainSHA. Khônggitadd/commit/push/Issue, khôngdeletebranches. Wrappercóthểexit0nếucapture/cleanupthànhcôngnhưngJSONDrcphảigiữ1thật, khônggọiD PASS. TrảDrowsbaseline/candidatep95/FAILreasons vàEproofactual; khôngviết17/16/log (ManagerlàmF).
+- **AI output:**
+  > Demo thật4lượtJMeter: AbootstrapabsolutePASS6073all/0error; Bcùngmain85af3baPASS6112all/0error,0cảnhbáo/1A/A,maxabsdelta6msCheckouttheochiềugiảm23→17. Cdocscommit4506e46lầnđầurc2doNodekếthừaFD9giữflock; giữrecordgốc,lsofxácnhận,fixchildreset9>&-+testkernel-lock,15tests1.055sOKvàbash-nexit0. Resetbảotrìngoàipipelinethảholder; CsaufixSKIPrc0khôngJTL/reset/JMeter. Dcommitfc8660e chỉmiddleware30ms;2gateFAILchỉCheckoutp95regression23→46và45ms,6040/6067all0errors,exit1. Efinallyswitchmain85af3ba,grepkhôngdelay,reset0; DBmodified/node_modulesuntrackedexpected, giữ2nhánhlocal. SLOhashcả4artifactgiốngnhau, khôngretuneN500/1.20/+5/SLO. Tạo17vàđiềnôA/A16; CIguardforkPR+docs; actualcommandintervals768.980s, wallAđếncleanup1431.771s, EgộpDkhôngbịaEriêng. Aargparse--baselinebổsungkhôngrerunJMeter. Khôngpush/Issue/humanreviewedits.
+- **Human review:** Đồng ý A–D. A 6073 all/0 error; B 6112/0, 0 cảnh báo/1 A/A, max delta 6 ms Checkout giảm 23→17; C docs skip sau fix, không JTL; D 30 ms delay FAIL cả 2, Checkout 46/45 vs 23, exit 1; E về main `85af3ba`, không còn delay. C lần đầu rc 2 do FD9 lock được giữ nguyên, không giấu. Thời gian 768,980 s cộng các khoảng đo, wall 1.431,771 s; không đổi ngưỡng. Một cặp A/A chưa đủ kết luận về nhiễu.
+
+## #39 – 2026-11-18 23:37 (giờ VN)
+- **AI tool:** omp – TaskThreeReview (anthropic/claude-sonnet-5-5); TaskThreePipeline (openai-codex/gpt-6.1-terra); TaskThreeReviewRender + TaskThreeRenderCheck (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 33
+- **Prompt:**
+  > Bước 33 – Rà soát Task 3 theo đề (mục Task 3) và report/16, 16a, 17, các script. Đánh dấu ✅/❌ và ghi file chứng minh:
+  >   - Mô hình theo dõi commit của SUT: có, và đã chạy trên commit thật.
+  >   - Có bộ quyết định chạy/không chạy, và demo C chứng minh nhánh skip.
+  >   - Phát hiện p95 regression, và demo D chứng minh nhánh FAIL. Tự chạy lại perf_gate.py trên jtl của D để xác nhận số.
+  >   - Có flow chart, và flow chart khớp với code thật (mỗi nhánh trong chart có trong cpt_pipeline.sh).
+  >   - Có trade-off chi phí và báo động giả, với số từ A/A.
+  >   - Code: unittest pass (chạy lại); luật 1,20× + 5 ms đúng; không có ngưỡng nào bị chỉnh sau khi thấy kết quả.
+  >   - eshop-sut đã về main, server.js không có dòng delay.
+  >   - Tìm điểm yếu của đề xuất mà report 16 chưa nêu (ví dụ chỉ smoke 1 lần mới có baseline, cache warm-up, thứ tự label…).
+  > Ghi vào report/18_task3_check.md.
+  > Xong khi: checklist đủ; mọi ❌ có hướng xử lý.
+  > Load skill://ponytail-review vàskill://ponytail; activewholesession. Bạnreview độc lập readonly, khôngsource/doc/JTL/SUT/AIlogedits,khôngcommit/push/Issue/nesteddelegation. Managerghi18vàlogtừoutputnguyênvăn. Khôngreadagentcontextfiles(đãauto-loaded). Đọc/audittrước, cuối cùngchạyđúngmộtlầnbộcheckuserđòi: unittest scripts/test_perf_gate.py (hiện15tests), perf_gate.py --baseline results/cpt/baseline.json --candidate results/cpt/fc8660e7a8c6_1/run.jtl vàtươngtự_2, từngcáiexpectedexit1; đâycomputedgatequerykhôngJMeter. Khôngbroadchecks/formatter; khôngJMeter/reset/backend/branchchanges. Khôngrerunđểconfirmobservederrors. ExistinggateJSONđượcCLIchothéphồi tốidempotent, khôngtouchrawJTL.
+  > Dữkiệngiaođểbiếtscope, KHÔNGmặcđịnhPASS: A/BsameSUT85af3ba, docs4506e46, delayfc8660e;4JTLthậtA/B/D1/D2. CfirstINCONCLdoNodeinheritsFD9,giữgốc+maintenance+fixactualCLI/kerneltest; CafterfixskipnoJTL. DFAILcả2chỉCheckout,cleanupmaininitialdirtyDB+node_modulesnhưtrước,khônggọihoàntoànsạch. N500chốtTRƯỚCdemosbằnglog36–37, maintotal1000; 1.20/+5/SLOkhôngđổi;4SLOhashf120db11d053f41889ca73cf28dc8ff1aec45648aa0c02723443b872bac36502. BaselineA23Checkout,B17down6, D46/45; phảiđốichiếuthậtnguồn. TimingD+Ecombined384.618,khôngEriêng; report17đãphânbiệt768.980recordedintervalsvswall1431.771vàAbootstrapCLIrecoverykhôngđo.
+  > Flowchart16vừađượcManageralignthứtựHEAD/tree/locktrướcdecide+errorbranches; executorTaskThreeReviewRenderđangrenderphiênbảnmới. Bạncóthểauditcode/chartngay, Managerforwardrenderproofkhiđến; khôngtựnpxrendertrùng. CIjobchặnforkPR, nhậnxéttrustboundarytheocodeactual,CIchưadeploykhôngfabricatePASSGitHub. ChỉđọcGitmetadata/nhánhHEADworkingtreeuserexplicitđòi,khôngGitdiff/statusđểvalidateManagereditsngoàiscope. Dùngxd://lspchodefs/referencesnếuavailable.
+  > Trảreport/18_task3_check.md fullMarkdown<=180lines trongFENCEBỐNbackticks, có8checklisttiêuchínguyênprompt✅/❌vàfileline/sourceproof,actualcommandsoutputs/rc,chỗyếumớicóconcretecase,hướngxửlýmỗi❌,user34commands đúngpathD1,D2đượcchọnít1. Khôngbịađiểmyếunếukhôngcócase. PhânbiệtlỗiMUSTFIXvớioperationalrisk/humanneeds. Ngoàifencetrảmodelactual/dateVN actualđểlog. Khôngviếthuman19.
+- **AI output:**
+  > Reviewerđộclậpxácnhận8/8tiêuchí, tựchạy15testsauditđầu và17testssauW1handoff, bash-n0, smoke--check-policy0, tínhlạigateD12lượtvẫnCheckout46/45vs23exit1. PháthiệnW1scopepolicydeep; Managerkhôngbỏweekly(userđòi), codebắtbuộcCPT_SLOriêng+approvedbaselinepair/checkschema/hash/profile/environmenttrướcJMeter, thiếu=>INCONCLUSIVE;khôngđổiSLOsmoke/N500/1000/1.20/+5. Thêmguardcoverage, executor18tests1.438sOKexit0. Flowchartcóforce/policy/error/artifactmetadata/codelogexit vàrenderSVGthậtexit0lúc23:28,khôngJMeterthêm. Tạo18từbảnreviewchốt,chỉsửarefnhầmsnapshot39DB; docs16nêurõW2AAđảochiều cóthểFAIL,W3sàn5ms,W4flaky/independence,W5CIqueueINFERENCE,W6HEADonly,W7baselinefixed,W8kernel,W9humanapproval/hash. Giữ2GateJSONDđượcCLIreviewertínhlại: chỉbaseline.pathrelative, số/status/hashkhôngđổi,khôngrawJTL. ChưaCI/deepprofiles/productionapproval; dừng34human,khôngtựviết19. Khôngpush/Issue/SUTedits.
+- **Human review:** Đồng ý 8/8 tiêu chí. Bản chốt dẫn 18 tests từ executor; reviewer tự chạy 15/17 ở các vòng trước, và mình vừa chạy lại 18 tests OK ở bước 34. D1 46/D2 45 vs 23, exit 1 khớp; flow chart khớp code; SUT về main không delay. W1 đã có guard `CPT_SLO`/policy; W2 baseline một lượt; W3 sàn 5 ms; W5 CI queue là INFERENCE; W8/W9 cần người duyệt. Không có ❌; còn việc vận hành: chưa deploy CI, chưa duyệt policy/baseline deep. Mình không coi phần chưa chạy là PASS.
+
+## #40 – 2026-11-19 00:07 (giờ VN)
+- **AI tool:** omp – TaskThreeFinalReport (openai-codex/gpt-6.1-terra); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 35
+- **Prompt:**
+  > Bước 35 – Viết report/TASK3_REPORT.md. Đây là phần "Conclusion" theo đề, tổng hợp từ report/16, 16a, 17, 18, 19. Không tạo số mới. Các mục:
+  >   1. Tóm tắt mô hình (3–5 câu).
+  >   2. Flow chart: copy khối mermaid từ report/16.
+  >   3. Luật quyết định và luật gate.
+  >   4. Kết quả demo trên commit thật: bảng A–D từ report/17.
+  >   5. Trade-off: bảng từ report/16 (đã có số A/A).
+  >   6. Nhận định của sinh viên: chỉ LINK tới report/19, không sửa nội dung.
+  > Cập nhật README.md mục Task 3 (một đoạn + link). Cập nhật report/GIT_LOG.md bằng `git log --oneline --reverse > report/GIT_LOG.md`.
+  > Xong khi: mọi link đúng; flow chart có trong TASK3_REPORT; số nào cũng có nguồn.
+  > Load skill://ponytail activewhole session. Repository /home/zinn/zinn/testing/hw05; khôngnesteddelegation/commit/push/Issue. Khôngreadagentcontextfilesauto-loaded. FileeditsMUSTedit, newwrite; source35chỉdocs. Sởhữu report/TASK3_REPORT.md vàREADME.mdDUYNHẤT. ManagerxuấtGitlog/ghiAI_LOG, khôngsửaGIT_LOGcủangườidùng. Khôngtests/build/lint/format/JMeter/reset/backend/branch. Khôngrerunuserreportedtestsđểconfirm.
+  > Human34đãxácnhận'xong bước34'; report/19_human_review_task3.md làUSEROWNED frozen,đãđủ3themesvà2commands18testOK/1.589s vàgateD1FAILexit1. HumanreviewAIlog35–39đãfilled. ChỉLINK19trongstudentassessmentsection, khôngcopy/rewritefirstperson/humanwords. HumanGIỮN500/1000maintotal/relative>1.20ANDdelta>=5/SLOTask2; CHƯAapprovebaselineproduction/deep policyhayenableCI. Khôngchangescode/ngưỡng.
+  > Sources16(latest3D18:weeklyprofileSLOguard+flowchartforced/errors; SVGactualrender23:28,kernelandapprovalnotes),16a,17(realA–D+timings+lockfix),18(independent8criteriaPASS,W1resolved,opsW2–W9),19(userchoice). Allpathsđãcó,tránhguessanchorsdùngfilelinks. CopyblockMermaid16 byte-for-byte. Đủ6mụcnguyênprompt35; tableA–D từ17(summary+labelp95matrixnếucầntáchtable),tradeofftablecopy16đãđiềnA/A. Chiphí3/10/28phútlàước tính+overhead;actualintervals768.980svswall1431.771s từ17đúngscope,D+E384.618includedcleanupkhôngbịaEriêng. 0alerts/1A/Aonedirection,maxabs6downCheckout23→17; reversedbaselinefalsealarmtheoreticalnotextraJMeter. Smoke4JTLthậtA/B/D1D2, CinitiallockINCONCLrồiCfixedSKIPnoJTL. BaselineAbootstrapabsolutePASSchưarelative. DCheckout23→46/45FAIL,chỉrelativefail,othersnotregress. nearestRankjtl_truththroughgate;latencyafter15ramp,allerrorfull+120afterramp.
+  > READMErootgiữnguyênuserchangeskểcảTask1/Task2tables/video/grades/otheruncommittedtext. Thêm1đoạnngắnTask3vàlinksreport/17/18/human19, chỉnhclaimTask3notdoneđúng'đãcótàiliệuvàdemo;CIchưatriểnkhai', khôngnóitoànHW05done/Skilldone. Khôngduplicate datasetởREADME. Managerverifynewlinks+diagramcopy+GitLOGexport sauhandoff. Báofilemodified/modelactual/dateVN, khôngclaimruntimechecksđãrun.
+- **AI output:**
+  > Humanđãxácnhậnxong34, report19đủ2lệnh tựchạy18testsOK1.589s/D1FAILexit1 và3chủđề,Humanreview35–39filled; khôngrerunuserchecks. Tạo report/TASK3_REPORT.md đủ6mục,copynguyênMermaidvàtradeoff/p95tablesnguồn16/17; sectionstudentchỉLINK19,khôngsửahumantext. READMEthêmTask3vàgiớihạnCI/baseline/policychưaduyệt; khôngclaimfullHW05/Skilldone. ManagerchỉnhcâubaselineđượcduyệtsauBootstrapPASS(tránhvònglặpbaseline-before-bootstrap) vàscopeSLOtheopolicy(defaultTask2),khôngđổingưỡng/code/sốđo. Kiểm71localfilelinksđềutồntại,6sections,blockMermaid/tableexactcopy; khôngrenderlặpchartkhôngđổi. GIT_LOGxuấtđúnggitlog--oneline--reverse34commitđến66dd539,trướccommit35. GiữnguyênmọiJTL/SUT/19; khôngJMeter/push/Issue. Chỉcommit19nguyênvănvàHumanreview35–39đãđượcuserxácnhận,khônggộpTask2userchangesngoàiphạmvi.
+- **Human review:** _(để trống – người dùng tự điền)_
+
+## #41 – 2026-11-19 00:22 (giờ VN)
+- **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 3 – Bước 35
+- **Prompt:**
+  > Bước 35 – Viết report/TASK3_REPORT.md. Đây là phần "Conclusion" theo đề, tổng hợp từ report/16, 16a, 17, 18, 19. Không tạo số mới. Các mục:
+  >   1. Tóm tắt mô hình (3–5 câu).
+  >   2. Flow chart: copy khối mermaid từ report/16.
+  >   3. Luật quyết định và luật gate.
+  >   4. Kết quả demo trên commit thật: bảng A–D từ report/17.
+  >   5. Trade-off: bảng từ report/16 (đã có số A/A).
+  >   6. Nhận định của sinh viên: chỉ LINK tới report/19, không sửa nội dung.
+  > Cập nhật README.md mục Task 3 (một đoạn + link). Cập nhật report/GIT_LOG.md bằng `git log --oneline --reverse > report/GIT_LOG.md`.
+  > Xong khi: mọi link đúng; flow chart có trong TASK3_REPORT; số nào cũng có nguồn.
+  > Manager hỏi phạm vi commit vì AI_LOG có thay đổi lịch sử của người dùng đan xen không tách riêng an toàn. Người dùng chọn commit_scope="all_log": "Commit thêm toàn bộ AI_LOG hiện tại, bao gồm các sửa đổi lịch sử của tôi và entry mới."
+- **AI output:**
+  > Phạm vi dự kiến ởentry40chưađượccommit: côngcụgộpnhiềuold/newAIloglinesvàounit, Managerkhôngchọnbừa. Người dùng đãduyệtrõall_logquaform. Commit35vìvậybao gồmtoànbộAI_LOGhiệntạigiữnguyêncácchỉnhsửalịchsửcủangườidùng,vàreport19nguyênvăn,reportTASK3,README,GIT_LOG. Khôngsửalạientrycũđểđổilịch sử; entrynàynốithêmghiđúngquyếtđịnhmớithaykếhoạchphạmvi40. Khônggộpcácthayđổingoàiphạmviởreport14/15hayfilekhác;khôngpush/Issue/JMeter.
 - **Human review:** _(để trống – người dùng tự điền)_
