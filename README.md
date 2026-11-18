@@ -1,6 +1,6 @@
 # HW05 – Kiểm thử hiệu năng EShop
 
-Báo cáo này tổng hợp Task 1 và Task 2; Task 3 đã có tài liệu và demo, nhưng CI chưa triển khai và Agent Skill không được xác nhận hoàn thành ở bước này. Xem [báo cáo Task 1](report/TASK1_REPORT.md), [AI log](report/AI_LOG.md) và [snapshot Git log](report/GIT_LOG.md).
+Sinh viên 23120190, Flow 1. [Báo cáo chính](report/MAIN_REPORT.md) gộp Task 1–3, Agent Skill và AI Critique. Ngoài ra có [AI Audit Report](report/AI_AUDIT_REPORT.md), [AI Critique](report/AI_CRITIQUE.md) và [Git log](report/GIT_LOG.md).
 
 ## Tự đánh giá
 
@@ -29,9 +29,17 @@ Workflow bao phủ **Auth** (`POST /api/login`), **Read** (list/detail products)
 
 Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/08_endurance.md), bậc Stress cao nhất quan sát ổn định sau ramp là 290 VU, 468.556 RPS, p95 947 ms; chưa tìm thấy điểm vượt trong phạm vi này. Đây không chứng minh sức chịu tải liên tục 12 phút. Soak 203 VU có phút index 3 đạt p95 2.244 ms, 171.183 RPS, 0% lỗi, vượt ngưỡng 2.000 ms dù p95 tổng là 21 ms. RSS max quan sát Stress 171.64 MiB, Soak 127.80 MiB; slope Soak 1.470 MiB/phút không chứng minh trần RAM hay leak.
 
-[Bug report](report/09_bugs.md): 4 bug có bằng chứng (3 theo FR-02/FR-08, 1 mật khẩu plaintext theo SEC-01 tham khảo), thêm 1 finding Low về kiểu giá với spec chưa rõ; episode hiệu năng là quan sát riêng. [API GitHub Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả `[]` lúc Manager kiểm tra: 0 issue quan sát, không khẳng định trạng thái về sau. Sinh viên tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) và bổ sung ảnh/URL.
+[Bug report](report/09_bugs.md): 4 bug có bằng chứng (3 theo FR-02/FR-08, 1 mật khẩu plaintext theo SEC-01 tham khảo), 1 finding Low về kiểu giá và 1 vấn đề hiệu năng (Spike). Cả 6 đã đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) (#1–#6), ảnh chụp ở [evidence/issues/](evidence/issues/).
 
-**Video YouTube:** sinh viên bổ sung URL unlisted; chưa có URL. Cần video ít nhất 6 phút, thuyết minh tiếng Việt của sinh viên, theo [đề](2026.HW05.Performance%20Testing_En.pdf).
+**Video demo (YouTube, unlisted):**
+
+| Kịch bản | Link |
+|---|---|
+| Load | https://youtu.be/gI2pvrCkcQg |
+| Stress | https://youtu.be/1ZFqomMaMFU |
+| Spike | https://youtu.be/qH1VOzb8fZU |
+| Soak | https://youtu.be/ADsnkwwEeRE |
+| Agent Skill | _(bổ sung sau khi quay)_ |
 
 ## Task 2 – Phân tích AI
 
@@ -40,6 +48,10 @@ Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/
 ## Task 3 – Continuous Performance Testing
 
 [Báo cáo Task 3](report/TASK3_REPORT.md) tổng hợp mô hình theo dõi commit, luật gate, flow chart và trade-off; [demo trên commit thật](report/17_cpt_demo.md), [rà soát độc lập](report/18_task3_check.md) và [nhận định của sinh viên](report/19_human_review_task3.md) ghi bằng chứng và giới hạn. CI chưa triển khai; baseline vận hành và policy các tầng sâu chưa được duyệt.
+
+## Agent Skill
+
+[`skill/perf-endpoint-group`](skill/README.md): một lệnh `/perf-endpoint-group <auth|read|transactional|group.json> [smoke|load]` chạy trọn quy trình: sinh plan → reset SUT → JMeter non-GUI + monitor → số liệu tính từ JTL → SLO PASS/FAIL → AI phân tích → script kiểm mọi con số AI viết. Thêm endpoint mới chỉ cần một file JSON. Kết quả kiểm thử thật ở [skill/README.md](skill/README.md).
 
 ## Bắt đầu và tái lập
 
@@ -53,7 +65,3 @@ jmeter -n -t test-plans/23120190_Load_20261117.jmx -l results/jtl/load_new.jtl -
 ```
 
 Đổi tên JTL và thư mục HTML chưa tồn tại cho từng lần chạy; không ghi đè dữ liệu cũ. Lệnh đầy đủ cho từng plan, monitor và metadata thực tế ở [run log](report/07_run_log.md); Soak phải dùng `-Jwriter_file` trỏ tới một JTL mới **khác** `-l`, tránh cộng trùng hai bản ghi. Lệnh phân tích lại từ JTL canonical và monitor ở [endurance report](report/08_endurance.md); cần đường dẫn output mới nếu muốn giữ nguyên phân tích hiện tại.
-
-## Việc sinh viên còn làm
-
-Review AI log và các kết quả, tự điền cột Human review và điểm, tự đăng Issues và bổ sung ảnh, bổ sung URL video, quyết định điều kiện vận hành Task 3 và hoàn thành Agent Skill, xuất PDF theo đề và tự push repo công khai. Những mục này chưa được báo cáo là hoàn thành.

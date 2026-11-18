@@ -3,3 +3,10 @@ results/server.log
 *.log
 __pycache__/
 *.py[cod]
+# Prompt files and course materials stay local (included in the zip only)
+TASK*_PROMPTS.md
+VIDEO_SCRIPT.md
+03 - github_bug_management.pptx.pdf
+HW05_CHON_WORKFLOW.pdf
+results/cpt/.sut.lock
+report/.*.tmp.html
