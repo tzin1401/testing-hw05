@@ -559,3 +559,23 @@
 - **AI output:**
   > Reviewer đối chiếu mọi numericalclaim/nhận định phần20–21 (11 lines1–122), chạy 9 lệnh bằng jtl_truth helpers và đọc raw. Kết quả 0 lỗi số liệu cứng; khác filter/window/denominator/HTMLestimator không bị gán thành lỗi nếu analyst công bố đúng. Có bảng đúng, hạn chế riêng, coverage đầy đủ và lệnh tự kiểm để người dùng chọn ít nhất3. Reviewer không có write/edit nên trả toàn văn; Manager chép đầy đủ vào report/12_misinterpretation_hunt.md, không sửa analyst.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #31 – 2026-11-18 15:28 (giờ VN)
+- **AI tool:** omp – TaskTwoOptimizationReview (anthropic/claude-sonnet-5-5); Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 2 – Bước 25
+- **Prompt:**
+  > Bước 25 – Đánh giá từng đề xuất tối ưu trong report/11_ai_analysis.md (mục "Đề xuất tối ưu"), đối chiếu với code thật eshop-sut/backend/server.js, database.js, package.json.
+  > Với mỗi đề xuất, phân loại:
+  >   - FEASIBLE: áp dụng được cho code này; ghi chỗ cần sửa (file:dòng), rủi ro, và nó có thực sự nhắm đúng bottleneck đo được không (dẫn ground_truth.json).
+  >   - HALLUCINATED: dựa trên giả định sai về hệ thống. Ví dụ: "connection pool" khi sqlite3 dùng một kết nối file; nói tới bảng/cột/thư viện không tồn tại; số "cải thiện X%" không có căn cứ đo.
+  >   - PARTIALLY FEASIBLE: làm được nhưng sẽ gây lỗi khác. Ví dụ: chạy cluster nhiều tiến trình trong khi giỏ hàng nằm trong RAM của từng tiến trình (userCarts) và SQLite khóa ghi theo file.
+  > Kiểm tra cụ thể: index đề xuất có trúng câu query thật không (grep câu SQL); WAL có hợp với sqlite3 driver không; có thư viện nào được giả định đã cài mà package.json không có.
+  > Ghi bảng: | # | Đề xuất | Phân loại | Lý do (dẫn file:dòng) | Có nhắm đúng bottleneck đo được? |
+  > Ghi vào report/13_optimization_review.md.
+  > Xong khi: mọi đề xuất đều được phân loại, mỗi phân loại có dẫn chứng từ code.
+  > Analyst đã append7proposalsởreport11lines124–195: index,pool,WAL,cache,cluster,shortenCheckouttransaction,eventloopprofiling. Phải phânloạiTẤTCẢ7, mỗirowđủmô tả/phânloại/reasoncodefile:line/risk/bottleneckfitmetricrefs. Đọc fullserver/database/package thực đểnêu loạiDBfilehaymemory, connectioncount actual, schema/indexes, query strings, cáchseed/drop, RAMcart, lifecyclecluster. Khôngquyactualschema cho cácplaceholderanalyst: analystkhôngđọcSUTvàđãghiif/assumption. Trích nguyênvăn điều kiệnkhiđánhgiáđểkhônggán mệnhđềAIchưaassert. FEASIBLE/ HALLUCINATED/ PARTIALLY FEASIBLE theo prompt, giải thích 'khôngápdụnghiện trạng'vs'khảthi nếuđổiarchitecture', đừngcưỡngépcategoryvớiquanđiểmlỗikhôngcó. Không coi 'pool' tựđộnglàMySQL-only: đối chiếuchínhSQLitefilename, connectionisolation/driver thực. WALđối chiếujournalmodehỗtrợcủaDBhiện có,1connectionkhôngtựtăngwriteconcurrency; khôngchạyPRAGMAhayđổidatabaseđểthử. Indexphảiđối chiếuSQLWHEREORDERBY thực vàindexPK/UNIQUEđãcó; nếuindexproposalabstractnóirõ chưađưaspecificindex, cóthểđềxuấtreviewcandidateactualschema trongreport13(đóýkiếnreviewer, khôngsửaanalyst). Không benchmark hay hứa%improvement; analystđãghi tấtcảunquantified nênkhôngbịa%claimđểgọihallucinated.
+  > DẫnmetricJSONpath/cáchlọc actualperlabel/windowvàhạnchế rằng latencydoesn'tprovecausality. Staticfeasibilitykhông=chứngminhbottleneck hayhiệuquả, coiđiềunày riêngtrongcộtbottleneckfit. Cóthể dùngjtl_truthmetrics readonlychoquerycửasổ cần thiết, khôngcodegiả/liệugiả. CiteSQL/code/table/installeddepswithfilelines; nếu khuyếnnghịlibvắng trongpackagephải nêu rõ cầnthêm mới chứkhôngđãcài. Rủirocorrectnesscluster/RAMstate vàseedmỗiprocess cần explicit. Cuốiqualifytestsnotrun vàkhuyếnnghịưu tiênngắn dựatrênevidencechưarootcauseproof.
+  > Không viết humanreview, khôngimplementfix. Báofilehoặcreturnpayload, timestampdate+modelreal đểManagerlog; khôngđọcAI_LOG. Trướcbước26phảireport13complete.
+- **AI output:**
+  > Reviewer đọc server/database/package/driver và dữ liệu nguồn, phân loại đủ7đềxuất:4FEASIBLE,2PARTIALLYFEASIBLE,1HALLUCINATED theo hiện trạng; mỗirow cófile:dòng/risk/metricreference và phân biệt staticfeasibility với hiệu quả chưa benchmark. Manager chép toàn văn vào report/13_optimization_review.md, thêm mục9: #6 analyst có điều kiện nên không gán thành factualclaim sai; SQLiteINSERT vẫn implicittransaction; CPU D5 chỉước tính dưới giảđịnh, khônggroundtruth hayproofloạitrừCPU. Không sửa report11/SUT hoặc chạybenchmark, humanreviewđểngườidùng quyết định.
+- **Human review:** _(để trống – người dùng tự điền)_
