@@ -32,3 +32,7 @@ fe190bc docs: task 2 final checklist
 2fe9b49 feat: continuous performance gate scripts
 d717569 test: continuous performance gate demo on sut commits
 66dd539 docs: task 3 review
+7453685 docs: task 3 report
+4c21c54 docs: task 2 human review fixes
+76720fb feat: agent skill perf-endpoint-group
+cb4f133 docs: ai audit report, critique, main report and issue evidence
