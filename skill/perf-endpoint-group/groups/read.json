@@ -1,0 +1,14 @@
+{
+  "name": "read",
+  "description": "Read-heavy, public endpoints: product list, product detail, categories.",
+  "csv": [
+    {"file": "data/products.csv", "vars": "product_id,keyword,quantity,price,pname"}
+  ],
+  "steps": [
+    {"label": "R1 Products", "method": "GET", "path": "/api/products", "expect": "200"},
+    {"label": "R2 Product detail", "method": "GET", "path": "/api/products/${product_id}", "expect": "200"},
+    {"label": "R3 Categories", "method": "GET", "path": "/api/categories", "expect": "200"}
+  ],
+  "slo": {"p95_ms": 75, "error_pct": 0.1},
+  "think_ms": [500, 1500]
+}

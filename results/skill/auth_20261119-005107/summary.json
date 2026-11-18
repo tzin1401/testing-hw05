@@ -1,0 +1,91 @@
+{
+  "group": "auth",
+  "jtl": "results/skill/auth_20261119-005107/run.jtl",
+  "verdict": "PASS",
+  "missing_labels": [],
+  "max_all_threads": 5,
+  "total": {
+    "count": 143,
+    "errors": 0,
+    "error_pct": 0.0,
+    "rps": 4.9,
+    "span_s": 29.2,
+    "mean_ms": 4.7,
+    "p50_ms": 4,
+    "p90_ms": 6,
+    "p95_ms": 6,
+    "p99_ms": 9,
+    "max_ms": 37,
+    "codes": {
+      "200": 140,
+      "401": 2,
+      "403": 1
+    }
+  },
+  "labels": {
+    "A1 Login": {
+      "count": 71,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 2.46,
+      "span_s": 28.8,
+      "mean_ms": 5.2,
+      "p50_ms": 5,
+      "p90_ms": 6,
+      "p95_ms": 7,
+      "p99_ms": 37,
+      "max_ms": 37,
+      "codes": {
+        "200": 71
+      },
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "A2 Get profile": {
+      "count": 69,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 2.47,
+      "span_s": 27.9,
+      "mean_ms": 4.3,
+      "p50_ms": 4,
+      "p90_ms": 5,
+      "p95_ms": 6,
+      "p99_ms": 9,
+      "max_ms": 9,
+      "codes": {
+        "200": 69
+      },
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "A3 Negative login": {
+      "count": 3,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 0.18,
+      "span_s": 16.7,
+      "mean_ms": 4.0,
+      "p50_ms": 4,
+      "p90_ms": 4,
+      "p95_ms": 4,
+      "p99_ms": 4,
+      "max_ms": 4,
+      "codes": {
+        "401": 2,
+        "403": 1
+      },
+      "slo": "not gated"
+    }
+  },
+  "slo": {
+    "p95_ms": 75,
+    "error_pct": 0.1
+  },
+  "method": "Percentiles are nearest-rank on `elapsed`: sorted[ceil(p*n)-1]. Error = success=false.",
+  "monitor": {
+    "samples": 33,
+    "rss_first_mb": 88.11,
+    "rss_max_mb": 88.11,
+    "rss_last_mb": 81.22,
+    "note": "cpu_percent from ps is a lifetime average, not instantaneous; use htop in the video for live CPU."
+  }
+}

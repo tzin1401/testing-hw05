@@ -1,0 +1,143 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1795024237007,27,R1 Products,200,OK,read users 1-1,text,true,,1238,165,4,4,http://localhost:3000/api/products,27,0,18
+1795024237215,5,R1 Products,200,OK,read users 1-3,text,true,,1238,165,4,4,http://localhost:3000/api/products,5,0,1
+1795024237370,4,R1 Products,200,OK,read users 1-2,text,true,,1238,165,4,4,http://localhost:3000/api/products,4,0,1
+1795024237759,4,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,1
+1795024238304,5,R2 Product detail,200,OK,read users 1-1,text,true,,451,167,5,5,http://localhost:3000/api/products/1,5,0,0
+1795024238371,4,R2 Product detail,200,OK,read users 1-3,text,true,,448,167,5,5,http://localhost:3000/api/products/3,4,0,0
+1795024238640,3,R2 Product detail,200,OK,read users 1-4,text,true,,461,167,5,5,http://localhost:3000/api/products/4,3,0,0
+1795024238782,3,R2 Product detail,200,OK,read users 1-2,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024238874,3,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,1
+1795024238877,2,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024239066,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024239683,4,R2 Product detail,200,OK,read users 1-5,text,true,,467,167,5,5,http://localhost:3000/api/products/5,4,0,0
+1795024240044,4,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024240054,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024240264,3,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024240338,3,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024240436,2,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024240872,4,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024241001,3,R2 Product detail,200,OK,read users 1-1,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024241153,5,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,5,0,0
+1795024241245,3,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024241701,2,R2 Product detail,200,OK,read users 1-3,text,true,,451,167,5,5,http://localhost:3000/api/products/1,2,0,0
+1795024241749,3,R2 Product detail,200,OK,read users 1-4,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024241838,2,R2 Product detail,200,OK,read users 1-5,text,true,,467,167,5,5,http://localhost:3000/api/products/5,2,0,0
+1795024242254,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024242376,2,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024242618,3,R2 Product detail,200,OK,read users 1-2,text,true,,461,167,5,5,http://localhost:3000/api/products/4,3,0,0
+1795024242655,3,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024242658,3,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024242903,4,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024242940,4,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024243363,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024243501,4,R2 Product detail,200,OK,read users 1-3,text,true,,480,167,5,5,http://localhost:3000/api/products/2,4,0,0
+1795024243741,4,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024243936,2,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,2,0,0
+1795024244051,3,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024244185,3,R2 Product detail,200,OK,read users 1-1,text,true,,451,167,5,5,http://localhost:3000/api/products/1,3,0,0
+1795024244200,3,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024244323,3,R2 Product detail,200,OK,read users 1-5,text,true,,461,167,5,5,http://localhost:3000/api/products/4,3,0,0
+1795024244745,3,R2 Product detail,200,OK,read users 1-4,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024245029,4,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024245046,4,R2 Product detail,200,OK,read users 1-2,text,true,,467,167,5,5,http://localhost:3000/api/products/5,3,0,0
+1795024245315,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024245654,4,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024245744,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024245892,3,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024246143,3,R2 Product detail,200,OK,read users 1-3,text,true,,451,167,5,5,http://localhost:3000/api/products/1,3,0,0
+1795024246514,4,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024246800,3,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024246903,4,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024246938,5,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,5,0,0
+1795024247137,3,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024247484,2,R2 Product detail,200,OK,read users 1-5,text,true,,448,167,5,5,http://localhost:3000/api/products/3,2,0,0
+1795024247644,3,R2 Product detail,200,OK,read users 1-4,text,true,,467,167,5,5,http://localhost:3000/api/products/5,3,0,0
+1795024247996,3,R2 Product detail,200,OK,read users 1-1,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024248139,4,R2 Product detail,200,OK,read users 1-2,text,true,,461,167,5,5,http://localhost:3000/api/products/4,4,0,0
+1795024248213,3,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024248280,4,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024248822,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024249128,3,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024249289,4,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024249361,4,R2 Product detail,200,OK,read users 1-3,text,true,,451,167,5,5,http://localhost:3000/api/products/1,4,0,0
+1795024249409,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024250058,4,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024250065,3,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024250117,3,R2 Product detail,200,OK,read users 1-5,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024250669,4,R2 Product detail,200,OK,read users 1-4,text,true,,461,167,5,5,http://localhost:3000/api/products/4,4,0,0
+1795024250735,5,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,5,0,0
+1795024250763,3,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024250942,2,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024251294,4,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024251527,3,R2 Product detail,200,OK,read users 1-2,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024251854,4,R2 Product detail,200,OK,read users 1-1,text,true,,467,167,5,5,http://localhost:3000/api/products/5,4,0,0
+1795024251966,4,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024251977,4,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024252082,2,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,2,0,0
+1795024252379,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024252577,3,R2 Product detail,200,OK,read users 1-4,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024252787,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024253138,3,R2 Product detail,200,OK,read users 1-5,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024253407,4,R2 Product detail,200,OK,read users 1-3,text,true,,451,167,5,5,http://localhost:3000/api/products/1,4,0,0
+1795024253483,4,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024253518,3,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024254191,4,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024254208,4,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024254465,4,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024254629,3,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024254679,4,R2 Product detail,200,OK,read users 1-2,text,true,,461,167,5,5,http://localhost:3000/api/products/4,4,0,0
+1795024255087,3,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024255250,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024255352,3,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024255646,3,R2 Product detail,200,OK,read users 1-1,text,true,,467,167,5,5,http://localhost:3000/api/products/5,3,0,0
+1795024255989,3,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024256104,2,R2 Product detail,200,OK,read users 1-4,text,true,,451,167,5,5,http://localhost:3000/api/products/1,2,0,0
+1795024256174,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024256410,3,R2 Product detail,200,OK,read users 1-5,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024256569,3,R2 Product detail,200,OK,read users 1-3,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024256752,3,R2 Product detail,200,OK,read users 1-2,text,true,,461,167,5,5,http://localhost:3000/api/products/4,3,0,0
+1795024257137,5,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,5,0,0
+1795024257236,3,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024257310,3,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024257592,2,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024257651,3,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024258101,2,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,2,0,0
+1795024258371,3,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024258503,3,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024258725,4,R2 Product detail,200,OK,read users 1-5,text,true,,480,167,5,5,http://localhost:3000/api/products/2,4,0,0
+1795024258792,2,R2 Product detail,200,OK,read users 1-1,text,true,,467,167,5,5,http://localhost:3000/api/products/5,2,0,0
+1795024258812,2,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,2,0,0
+1795024259475,4,R2 Product detail,200,OK,read users 1-3,text,true,,448,167,5,5,http://localhost:3000/api/products/3,4,0,0
+1795024259612,4,R2 Product detail,200,OK,read users 1-4,text,true,,451,167,5,5,http://localhost:3000/api/products/1,4,0,0
+1795024259660,3,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024259774,4,R2 Product detail,200,OK,read users 1-2,text,true,,461,167,5,5,http://localhost:3000/api/products/4,4,0,0
+1795024260170,4,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,4,0,0
+1795024260272,2,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024260559,3,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024260930,3,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024261063,2,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024261136,3,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024261226,3,R1 Products,200,OK,read users 1-2,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024261463,3,R2 Product detail,200,OK,read users 1-5,text,true,,467,167,5,5,http://localhost:3000/api/products/5,2,0,0
+1795024261950,2,R2 Product detail,200,OK,read users 1-1,text,true,,451,167,5,5,http://localhost:3000/api/products/1,2,0,0
+1795024262075,3,R1 Products,200,OK,read users 1-3,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024262083,3,R3 Categories,200,OK,read users 1-5,text,true,,358,167,5,5,http://localhost:3000/api/categories,3,0,0
+1795024262234,3,R2 Product detail,200,OK,read users 1-2,text,true,,480,167,5,5,http://localhost:3000/api/products/2,3,0,0
+1795024262348,3,R1 Products,200,OK,read users 1-4,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024262781,4,R2 Product detail,200,OK,read users 1-3,text,true,,448,167,5,5,http://localhost:3000/api/products/3,3,0,0
+1795024263011,4,R3 Categories,200,OK,read users 1-1,text,true,,358,167,5,5,http://localhost:3000/api/categories,4,0,0
+1795024263512,2,R3 Categories,200,OK,read users 1-3,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024263565,3,R1 Products,200,OK,read users 1-5,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024263620,2,R2 Product detail,200,OK,read users 1-4,text,true,,461,167,5,5,http://localhost:3000/api/products/4,2,0,0
+1795024263622,1,R3 Categories,200,OK,read users 1-2,text,true,,358,167,5,5,http://localhost:3000/api/categories,1,0,0
+1795024263734,3,R1 Products,200,OK,read users 1-1,text,true,,1238,165,5,5,http://localhost:3000/api/products,3,0,0
+1795024264168,4,R2 Product detail,200,OK,read users 1-5,text,true,,467,167,5,5,http://localhost:3000/api/products/5,4,0,0
+1795024264320,3,R2 Product detail,200,OK,read users 1-1,text,true,,451,167,5,5,http://localhost:3000/api/products/1,3,0,0
+1795024264515,2,R3 Categories,200,OK,read users 1-4,text,true,,358,167,5,5,http://localhost:3000/api/categories,2,0,0
+1795024264541,2,R1 Products,200,OK,read users 1-3,text,true,,1238,165,4,4,http://localhost:3000/api/products,2,0,0
+1795024264674,4,R1 Products,200,OK,read users 1-2,text,true,,1238,165,4,4,http://localhost:3000/api/products,4,0,0
+1795024264756,3,R3 Categories,200,OK,read users 1-5,text,true,,358,167,4,4,http://localhost:3000/api/categories,3,0,0
+1795024264947,3,R3 Categories,200,OK,read users 1-1,text,true,,358,167,3,3,http://localhost:3000/api/categories,3,0,0
+1795024265087,3,R2 Product detail,200,OK,read users 1-3,text,true,,480,167,2,2,http://localhost:3000/api/products/2,3,0,0
+1795024265236,3,R2 Product detail,200,OK,read users 1-2,text,true,,448,167,1,1,http://localhost:3000/api/products/3,2,0,0

@@ -1,0 +1,22 @@
+{
+  "name": "transactional",
+  "description": "Transactional: log in once per virtual user, then add to cart, get cart, checkout, list my orders.",
+  "csv": [
+    {"file": "data/users_main.csv", "vars": "email,password"},
+    {"file": "data/products.csv", "vars": "product_id,keyword,quantity,price,pname"}
+  ],
+  "setup": [
+    {"label": "T0 Setup login", "method": "POST", "path": "/api/login", "slo": false,
+     "body": {"email": "${email}", "password": "${password}"}, "expect": "200", "extract": {"token": "$.token"}}
+  ],
+  "steps": [
+    {"label": "T1 Add cart", "method": "POST", "path": "/api/cart", "auth": true, "expect": "200",
+     "body": "{\"id\":${product_id},\"name\":\"${pname}\",\"price\":${price},\"quantity\":${quantity}}"},
+    {"label": "T2 Get cart", "method": "GET", "path": "/api/cart", "auth": true, "expect": "200"},
+    {"label": "T3 Checkout", "method": "POST", "path": "/api/checkout", "auth": true, "expect": "200",
+     "body": "{\"total_amount\":${price},\"shipping_address\":\"123 Test Street\"}", "slo_p95_ms": 100},
+    {"label": "T4 My orders", "method": "GET", "path": "/api/orders/my-orders", "auth": true, "expect": "200"}
+  ],
+  "slo": {"p95_ms": 75, "error_pct": 0.1},
+  "think_ms": [500, 1500]
+}

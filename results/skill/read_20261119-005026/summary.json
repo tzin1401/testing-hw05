@@ -1,0 +1,88 @@
+{
+  "group": "read",
+  "jtl": "results/skill/read_20261119-005026/run.jtl",
+  "verdict": "PASS",
+  "missing_labels": [],
+  "max_all_threads": 5,
+  "total": {
+    "count": 142,
+    "errors": 0,
+    "error_pct": 0.0,
+    "rps": 5.03,
+    "span_s": 28.2,
+    "mean_ms": 3.4,
+    "p50_ms": 3,
+    "p90_ms": 4,
+    "p95_ms": 4,
+    "p99_ms": 5,
+    "max_ms": 27,
+    "codes": {
+      "200": 142
+    }
+  },
+  "labels": {
+    "R1 Products": {
+      "count": 48,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 1.73,
+      "span_s": 27.7,
+      "mean_ms": 3.9,
+      "p50_ms": 3,
+      "p90_ms": 5,
+      "p95_ms": 5,
+      "p99_ms": 27,
+      "max_ms": 27,
+      "codes": {
+        "200": 48
+      },
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "R2 Product detail": {
+      "count": 48,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 1.78,
+      "span_s": 26.9,
+      "mean_ms": 3.2,
+      "p50_ms": 3,
+      "p90_ms": 4,
+      "p95_ms": 4,
+      "p99_ms": 5,
+      "max_ms": 5,
+      "codes": {
+        "200": 48
+      },
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "R3 Categories": {
+      "count": 46,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 1.76,
+      "span_s": 26.1,
+      "mean_ms": 3.0,
+      "p50_ms": 3,
+      "p90_ms": 4,
+      "p95_ms": 4,
+      "p99_ms": 5,
+      "max_ms": 5,
+      "codes": {
+        "200": 46
+      },
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    }
+  },
+  "slo": {
+    "p95_ms": 75,
+    "error_pct": 0.1
+  },
+  "method": "Percentiles are nearest-rank on `elapsed`: sorted[ceil(p*n)-1]. Error = success=false.",
+  "monitor": {
+    "samples": 32,
+    "rss_first_mb": 89.35,
+    "rss_max_mb": 89.35,
+    "rss_last_mb": 80.5,
+    "note": "cpu_percent from ps is a lifetime average, not instantaneous; use htop in the video for live CPU."
+  }
+}

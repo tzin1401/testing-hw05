@@ -1,0 +1,144 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1795024322952,37,T0 Setup login,200,OK,transactional users 1-1,text,true,,642,238,3,3,http://localhost:3000/api/login,37,0,23
+1795024323821,4,T0 Setup login,200,OK,transactional users 1-2,text,true,,642,238,5,5,http://localhost:3000/api/login,4,0,1
+1795024323924,3,T0 Setup login,200,OK,transactional users 1-3,text,true,,642,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024324196,3,T0 Setup login,200,OK,transactional users 1-4,text,true,,642,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024324232,6,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,404,5,5,http://localhost:3000/api/cart,5,0,0
+1795024324365,4,T0 Setup login,200,OK,transactional users 1-5,text,true,,642,238,5,5,http://localhost:3000/api/login,4,0,1
+1795024324680,4,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1795024325076,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,408,5,5,http://localhost:3000/api/cart,3,0,0
+1795024325281,3,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1795024325666,2,T2 Get cart,200,OK,transactional users 1-1,text,true,,334,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024325741,3,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,3,0,0
+1795024326166,2,T2 Get cart,200,OK,transactional users 1-2,text,true,,341,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024326291,3,T2 Get cart,200,OK,transactional users 1-4,text,true,,338,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024326339,3,T2 Get cart,200,OK,transactional users 1-5,text,true,,342,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024326650,2,T2 Get cart,200,OK,transactional users 1-3,text,true,,331,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024326910,14,T3 Checkout,200,OK,transactional users 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1795024327466,13,T3 Checkout,200,OK,transactional users 1-2,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024327508,12,T3 Checkout,200,OK,transactional users 1-5,text,true,,312,404,5,5,http://localhost:3000/api/checkout,12,0,0
+1795024327554,11,T3 Checkout,200,OK,transactional users 1-4,text,true,,312,404,5,5,http://localhost:3000/api/checkout,11,0,0
+1795024327890,13,T3 Checkout,200,OK,transactional users 1-3,text,true,,312,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024328180,4,T4 My orders,200,OK,transactional users 1-4,text,true,,404,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024328241,4,T4 My orders,200,OK,transactional users 1-5,text,true,,404,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024328246,3,T4 My orders,200,OK,transactional users 1-1,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024328611,4,T4 My orders,200,OK,transactional users 1-2,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024328812,4,T4 My orders,200,OK,transactional users 1-3,text,true,,405,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024328988,3,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1795024329222,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1795024329723,4,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,411,5,5,http://localhost:3000/api/cart,4,0,0
+1795024329950,4,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,408,5,5,http://localhost:3000/api/cart,3,0,0
+1795024330069,4,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,412,5,5,http://localhost:3000/api/cart,4,0,0
+1795024330162,3,T2 Get cart,200,OK,transactional users 1-4,text,true,,405,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024330477,3,T2 Get cart,200,OK,transactional users 1-1,text,true,,398,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024330626,3,T2 Get cart,200,OK,transactional users 1-3,text,true,,406,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024330785,4,T2 Get cart,200,OK,transactional users 1-2,text,true,,412,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024331187,2,T2 Get cart,200,OK,transactional users 1-5,text,true,,416,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024331322,21,T3 Checkout,200,OK,transactional users 1-4,text,true,,312,405,5,5,http://localhost:3000/api/checkout,21,0,0
+1795024331478,28,T3 Checkout,200,OK,transactional users 1-2,text,true,,312,404,5,5,http://localhost:3000/api/checkout,28,0,0
+1795024331945,16,T3 Checkout,200,OK,transactional users 1-3,text,true,,312,404,5,5,http://localhost:3000/api/checkout,16,0,0
+1795024331976,15,T3 Checkout,200,OK,transactional users 1-1,text,true,,312,405,5,5,http://localhost:3000/api/checkout,15,0,0
+1795024332081,4,T4 My orders,200,OK,transactional users 1-4,text,true,,541,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024332455,13,T3 Checkout,200,OK,transactional users 1-5,text,true,,313,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024332782,4,T4 My orders,200,OK,transactional users 1-3,text,true,,541,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024332819,4,T4 My orders,200,OK,transactional users 1-1,text,true,,542,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024332927,3,T4 My orders,200,OK,transactional users 1-2,text,true,,541,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024332982,4,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,4,0,0
+1795024333310,3,T4 My orders,200,OK,transactional users 1-5,text,true,,542,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024333662,2,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,2,0,0
+1795024333678,2,T2 Get cart,200,OK,transactional users 1-4,text,true,,471,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024333856,2,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,411,5,5,http://localhost:3000/api/cart,2,0,0
+1795024334258,2,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,408,5,5,http://localhost:3000/api/cart,2,0,0
+1795024334613,3,T2 Get cart,200,OK,transactional users 1-1,text,true,,461,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024334802,4,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,4,0,0
+1795024334947,2,T2 Get cart,200,OK,transactional users 1-2,text,true,,482,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024335005,2,T2 Get cart,200,OK,transactional users 1-3,text,true,,479,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024335013,13,T3 Checkout,200,OK,transactional users 1-4,text,true,,313,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024335712,14,T3 Checkout,200,OK,transactional users 1-3,text,true,,313,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1795024335847,13,T3 Checkout,200,OK,transactional users 1-2,text,true,,313,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024335945,26,T3 Checkout,200,OK,transactional users 1-1,text,true,,313,405,5,5,http://localhost:3000/api/checkout,25,0,0
+1795024336196,2,T2 Get cart,200,OK,transactional users 1-5,text,true,,490,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024336254,3,T4 My orders,200,OK,transactional users 1-4,text,true,,678,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024336441,3,T4 My orders,200,OK,transactional users 1-2,text,true,,677,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024336512,2,T4 My orders,200,OK,transactional users 1-3,text,true,,678,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1795024336660,3,T4 My orders,200,OK,transactional users 1-1,text,true,,679,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024336980,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1795024337204,3,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1795024337300,3,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1795024337378,14,T3 Checkout,200,OK,transactional users 1-5,text,true,,313,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024337535,2,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,408,5,5,http://localhost:3000/api/cart,2,0,0
+1795024338239,3,T2 Get cart,200,OK,transactional users 1-4,text,true,,538,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024338267,2,T4 My orders,200,OK,transactional users 1-5,text,true,,678,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1795024338557,2,T2 Get cart,200,OK,transactional users 1-1,text,true,,532,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024338580,2,T2 Get cart,200,OK,transactional users 1-3,text,true,,543,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024338648,1,T2 Get cart,200,OK,transactional users 1-2,text,true,,556,318,5,5,http://localhost:3000/api/cart,1,0,0
+1795024338769,20,T3 Checkout,200,OK,transactional users 1-4,text,true,,313,405,5,5,http://localhost:3000/api/checkout,20,0,0
+1795024338853,3,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,3,0,0
+1795024339118,13,T3 Checkout,200,OK,transactional users 1-1,text,true,,313,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024339287,12,T3 Checkout,200,OK,transactional users 1-2,text,true,,313,405,5,5,http://localhost:3000/api/checkout,12,0,0
+1795024339357,12,T3 Checkout,200,OK,transactional users 1-3,text,true,,313,405,5,5,http://localhost:3000/api/checkout,12,0,0
+1795024339399,3,T2 Get cart,200,OK,transactional users 1-5,text,true,,565,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024339835,4,T4 My orders,200,OK,transactional users 1-2,text,true,,814,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024339841,4,T4 My orders,200,OK,transactional users 1-4,text,true,,815,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024340181,4,T4 My orders,200,OK,transactional users 1-1,text,true,,815,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024340407,13,T3 Checkout,200,OK,transactional users 1-5,text,true,,313,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024340565,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1795024340590,3,T4 My orders,200,OK,transactional users 1-3,text,true,,815,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024340677,4,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,404,5,5,http://localhost:3000/api/cart,4,0,0
+1795024340953,3,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,3,0,0
+1795024340969,3,T4 My orders,200,OK,transactional users 1-5,text,true,,814,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024341246,3,T2 Get cart,200,OK,transactional users 1-4,text,true,,611,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024341496,3,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,3,0,0
+1795024341523,2,T2 Get cart,200,OK,transactional users 1-2,text,true,,622,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024341750,3,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,408,5,5,http://localhost:3000/api/cart,3,0,0
+1795024341756,4,T2 Get cart,200,OK,transactional users 1-1,text,true,,595,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024341868,14,T3 Checkout,200,OK,transactional users 1-4,text,true,,313,405,5,5,http://localhost:3000/api/checkout,14,0,0
+1795024342125,16,T3 Checkout,200,OK,transactional users 1-2,text,true,,313,405,5,5,http://localhost:3000/api/checkout,16,0,0
+1795024342559,3,T4 My orders,200,OK,transactional users 1-4,text,true,,952,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024342911,2,T2 Get cart,200,OK,transactional users 1-5,text,true,,639,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024342900,15,T3 Checkout,200,OK,transactional users 1-1,text,true,,313,405,5,5,http://localhost:3000/api/checkout,15,0,0
+1795024343025,2,T2 Get cart,200,OK,transactional users 1-3,text,true,,613,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024343308,3,T4 My orders,200,OK,transactional users 1-2,text,true,,951,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024343369,2,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,2,0,0
+1795024343581,16,T3 Checkout,200,OK,transactional users 1-3,text,true,,313,404,5,5,http://localhost:3000/api/checkout,16,0,0
+1795024343905,4,T4 My orders,200,OK,transactional users 1-1,text,true,,952,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024343924,12,T3 Checkout,200,OK,transactional users 1-5,text,true,,313,404,5,5,http://localhost:3000/api/checkout,12,0,0
+1795024344319,3,T4 My orders,200,OK,transactional users 1-3,text,true,,951,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024344522,5,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,401,5,5,http://localhost:3000/api/cart,5,0,0
+1795024344526,4,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,411,5,5,http://localhost:3000/api/cart,4,0,0
+1795024344595,2,T4 My orders,200,OK,transactional users 1-5,text,true,,950,330,5,5,http://localhost:3000/api/orders/my-orders,2,0,0
+1795024344742,2,T2 Get cart,200,OK,transactional users 1-4,text,true,,677,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024345282,3,T2 Get cart,200,OK,transactional users 1-2,text,true,,695,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024345292,12,T3 Checkout,200,OK,transactional users 1-4,text,true,,313,405,5,5,http://localhost:3000/api/checkout,12,0,0
+1795024345704,3,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,408,5,5,http://localhost:3000/api/cart,3,0,0
+1795024345728,3,T2 Get cart,200,OK,transactional users 1-1,text,true,,658,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024345781,4,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,4,0,0
+1795024346341,4,T4 My orders,200,OK,transactional users 1-4,text,true,,1089,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024346564,13,T3 Checkout,200,OK,transactional users 1-1,text,true,,313,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024346715,11,T3 Checkout,200,OK,transactional users 1-2,text,true,,313,405,5,5,http://localhost:3000/api/checkout,11,0,0
+1795024346873,3,T2 Get cart,200,OK,transactional users 1-3,text,true,,683,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024347120,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1795024347180,2,T2 Get cart,200,OK,transactional users 1-5,text,true,,713,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024347288,3,T4 My orders,200,OK,transactional users 1-1,text,true,,1089,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024347478,4,T4 My orders,200,OK,transactional users 1-2,text,true,,1088,330,5,5,http://localhost:3000/api/orders/my-orders,4,0,0
+1795024348143,2,T2 Get cart,200,OK,transactional users 1-4,text,true,,743,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024348183,4,T1 Add cart,200,OK,transactional users 1-2,text,true,,294,401,5,5,http://localhost:3000/api/cart,4,0,0
+1795024348297,13,T3 Checkout,200,OK,transactional users 1-3,text,true,,313,404,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024348398,3,T1 Add cart,200,OK,transactional users 1-1,text,true,,294,411,5,5,http://localhost:3000/api/cart,3,0,0
+1795024348442,14,T3 Checkout,200,OK,transactional users 1-5,text,true,,313,404,5,5,http://localhost:3000/api/checkout,14,0,0
+1795024348969,2,T2 Get cart,200,OK,transactional users 1-2,text,true,,758,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024349434,28,T3 Checkout,200,OK,transactional users 1-4,text,true,,313,405,5,5,http://localhost:3000/api/checkout,28,0,0
+1795024349491,3,T4 My orders,200,OK,transactional users 1-3,text,true,,1087,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024349589,2,T2 Get cart,200,OK,transactional users 1-1,text,true,,731,318,5,5,http://localhost:3000/api/cart,2,0,0
+1795024349772,4,T4 My orders,200,OK,transactional users 1-5,text,true,,1086,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024349968,3,T4 My orders,200,OK,transactional users 1-4,text,true,,1226,330,5,5,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024350111,13,T3 Checkout,200,OK,transactional users 1-2,text,true,,313,405,5,5,http://localhost:3000/api/checkout,13,0,0
+1795024350528,3,T1 Add cart,200,OK,transactional users 1-4,text,true,,294,404,5,5,http://localhost:3000/api/cart,3,0,0
+1795024350645,3,T1 Add cart,200,OK,transactional users 1-5,text,true,,294,412,5,5,http://localhost:3000/api/cart,3,0,0
+1795024350863,2,T1 Add cart,200,OK,transactional users 1-3,text,true,,294,408,5,5,http://localhost:3000/api/cart,2,0,0
+1795024350956,23,T3 Checkout,200,OK,transactional users 1-1,text,true,,313,405,5,5,http://localhost:3000/api/checkout,23,0,0
+1795024351340,3,T2 Get cart,200,OK,transactional users 1-5,text,true,,787,318,5,5,http://localhost:3000/api/cart,3,0,0
+1795024351571,3,T4 My orders,200,OK,transactional users 1-2,text,true,,1225,330,4,4,http://localhost:3000/api/orders/my-orders,3,0,0
+1795024351614,2,T2 Get cart,200,OK,transactional users 1-4,text,true,,809,318,3,3,http://localhost:3000/api/cart,2,0,0
+1795024351813,3,T2 Get cart,200,OK,transactional users 1-3,text,true,,753,318,2,2,http://localhost:3000/api/cart,3,0,0
+1795024351868,4,T4 My orders,200,OK,transactional users 1-1,text,true,,1226,330,1,1,http://localhost:3000/api/orders/my-orders,4,0,0

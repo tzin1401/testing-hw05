@@ -1,0 +1,144 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1795024277947,37,A1 Login,200,OK,auth users 1-1,text,true,,642,238,2,2,http://localhost:3000/api/login,37,0,21
+1795024278470,8,A1 Login,200,OK,auth users 1-2,text,true,,642,238,4,4,http://localhost:3000/api/login,8,0,2
+1795024279007,4,A1 Login,200,OK,auth users 1-3,text,true,,642,238,5,5,http://localhost:3000/api/login,4,0,1
+1795024279041,6,A1 Login,200,OK,auth users 1-4,text,true,,642,238,5,5,http://localhost:3000/api/login,6,0,2
+1795024279218,9,A2 Get profile,200,OK,auth users 1-1,text,true,,459,322,5,5,http://localhost:3000/api/users/me,9,0,0
+1795024279297,5,A2 Get profile,200,OK,auth users 1-2,text,true,,459,322,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024279830,5,A2 Get profile,200,OK,auth users 1-4,text,true,,459,322,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024280060,6,A1 Login,200,OK,auth users 1-5,text,true,,642,238,5,5,http://localhost:3000/api/login,6,0,1
+1795024280165,6,A1 Login,200,OK,auth users 1-1,text,true,,642,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024280290,6,A1 Login,200,OK,auth users 1-2,text,true,,642,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024280439,4,A2 Get profile,200,OK,auth users 1-3,text,true,,459,322,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024280861,5,A2 Get profile,200,OK,auth users 1-2,text,true,,459,322,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024280877,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024281429,5,A2 Get profile,200,OK,auth users 1-5,text,true,,459,322,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024281447,5,A2 Get profile,200,OK,auth users 1-1,text,true,,459,322,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024281468,7,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,7,0,0
+1795024281613,6,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024281763,3,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024282051,4,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024282114,6,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,6,0,0
+1795024282126,7,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,7,0,0
+1795024282268,5,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024282683,5,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024282918,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024282988,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024283211,8,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,7,0,0
+1795024283410,5,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024283527,6,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024283810,4,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024284033,4,A3 Negative login,401,Unauthorized,auth users 1-5,text,true,,314,240,5,5,http://localhost:3000/api/login,4,0,0
+1795024284039,9,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,9,0,0
+1795024284150,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024284486,5,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024284495,4,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024285024,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024285357,6,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024285467,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024285499,5,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024285628,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024285866,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024285949,4,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024286370,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024286414,4,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024286550,5,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024287061,4,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024287395,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024287614,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024287652,4,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024287699,5,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024287776,4,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024288467,5,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024288477,5,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024288550,5,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024288753,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024288950,4,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024288977,4,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024289537,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024289716,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024289760,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024289767,5,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024289888,5,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024290414,4,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024290445,4,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024290473,5,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024290648,4,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024290960,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024290977,4,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024291004,5,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024291530,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024291576,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024291873,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024292289,4,A3 Negative login,401,Unauthorized,auth users 1-4,text,true,,314,240,5,5,http://localhost:3000/api/login,4,0,0
+1795024292314,4,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024292370,3,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024292416,2,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,2,0,0
+1795024292883,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024293180,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024293459,3,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024293544,5,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024293808,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024294180,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024294383,5,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024294490,3,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024294652,2,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,2,0,0
+1795024294818,5,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024295263,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024295335,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024295551,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024295864,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024295874,6,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024295982,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024296367,5,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024296775,3,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024296904,6,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,6,0,0
+1795024297063,5,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024297136,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024297324,4,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024297572,3,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024297835,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024298145,4,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024298520,5,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024298544,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024298549,4,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024298640,4,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024299019,4,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024299298,6,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,6,0,0
+1795024299300,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024299849,5,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024299866,5,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024299886,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024299911,5,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024300444,5,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024300628,5,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024300629,5,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024300683,4,A3 Negative login,403,Forbidden,auth users 1-1,text,true,,342,240,5,5,http://localhost:3000/api/login,4,0,0
+1795024300758,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024301279,5,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024301781,3,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024301794,3,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024301964,3,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024302013,3,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024302241,4,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024302445,5,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,5,0,0
+1795024302741,3,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024302933,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024303005,3,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024303535,3,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024303561,5,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024303871,6,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024304107,5,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,5,5,http://localhost:3000/api/users/me,5,0,0
+1795024304171,3,A1 Login,200,OK,auth users 1-1,text,true,,645,238,5,5,http://localhost:3000/api/login,3,0,0
+1795024304426,4,A1 Login,200,OK,auth users 1-3,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024304836,3,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024305297,2,A2 Get profile,200,OK,auth users 1-3,text,true,,460,324,5,5,http://localhost:3000/api/users/me,2,0,0
+1795024305344,2,A1 Login,200,OK,auth users 1-2,text,true,,645,238,5,5,http://localhost:3000/api/login,2,0,0
+1795024305463,4,A1 Login,200,OK,auth users 1-4,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024305515,4,A2 Get profile,200,OK,auth users 1-1,text,true,,460,324,5,5,http://localhost:3000/api/users/me,4,0,0
+1795024306257,4,A1 Login,200,OK,auth users 1-5,text,true,,645,238,5,5,http://localhost:3000/api/login,4,0,0
+1795024306328,3,A2 Get profile,200,OK,auth users 1-2,text,true,,460,324,5,5,http://localhost:3000/api/users/me,3,0,0
+1795024306514,4,A1 Login,200,OK,auth users 1-1,text,true,,645,238,4,4,http://localhost:3000/api/login,4,0,0
+1795024306749,4,A1 Login,200,OK,auth users 1-3,text,true,,645,238,3,3,http://localhost:3000/api/login,4,0,0
+1795024306770,4,A2 Get profile,200,OK,auth users 1-4,text,true,,460,324,2,2,http://localhost:3000/api/users/me,4,0,0
+1795024307127,3,A2 Get profile,200,OK,auth users 1-5,text,true,,460,324,1,1,http://localhost:3000/api/users/me,3,0,0
