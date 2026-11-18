@@ -484,3 +484,30 @@
 - **AI output:**
   > Cùng phiên analyst append mục Đề xuất ngưỡng: bảng p95/p99 ba nhóm có nguồn lọc, error/throughput, endurance ứng viên chưa chứng minh và rule regression. Manager kiểm tra đủ trường và phần20 được giữ nguyên, không sửa đề xuất hay cung cấp số ground truth. Analyst không đọc/ghi AI_LOG và chưa làm22.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #28 – 2026-11-18 14:58 (giờ VN)
+- **AI tool:** omp – TaskTwoTruthScript (openai-codex/gpt-6.1-terra); TaskTwoTruthRun (sonic, runtime không cung cấp model ID)
+- **Bước:** Task 2 – Bước 23
+- **Prompt:**
+  > Bước 23 – Viết scripts/jtl_truth.py: script tính số liệu tham chiếu ("ground truth") trực tiếp từ JTL thô, để đối chiếu với phân tích của AI.
+  > Yêu cầu:
+  >   - Chỉ dùng thư viện chuẩn Python (csv, statistics, json). Chạy bằng: python3 scripts/jtl_truth.py → ghi results/analysis/ground_truth.json và in bảng ra màn hình.
+  >   - Với mỗi lần chạy (Load, Stress, Spike, Soak; KHÔNG dùng file *_writer.jtl, chỉ ghi chú nó trùng với Soak bằng cách so số dòng và khoảng timestamp):
+  >       * Tính HAI biến thể: (a) tất cả sample; (b) chỉ 7 label luồng chính, bỏ "Negative login".
+  >       * count, error count/% (success=false), số mẫu có responseCode 401/403 nhưng success=true.
+  >       * throughput = count / (timestamp cuối + elapsed − timestamp đầu) tính bằng giây; ghi rõ công thức.
+  >       * mean, p50, p90, p95, p99 (nearest-rank, ghi rõ phương pháp), max của elapsed. Tách thêm mean Latency và mean Connect.
+  >       * Theo từng label: count, error %, mean, p95, max.
+  >       * Theo từng phút (cửa sổ 60 s kể từ sample đầu): count, RPS, p95.
+  >       * Stress: theo từng bậc (dựa vào threadName "Stress stage N"): count, RPS, p95, error %.
+  >       * Spike: theo pha 0–120 s, 120–180 s, 180–240 s, 240–360 s.
+  >   - So sánh với results/html/<tên>/statistics.json: liệt kê chỗ khác nhau (nếu có) và giải thích vì sao (ví dụ cách tính percentile, có tính Negative login hay không).
+  >   - Có self-check: assert tổng count theo label = count tổng; chạy 2 lần cho cùng kết quả.
+  > Ghi thêm results/analysis/ground_truth.md (bảng dễ đọc). Không đọc report/11_ai_analysis.md.
+  > Xong khi: script chạy được, JSON và MD có đủ các mục trên cho cả 4 lần chạy, self-check pass.
+  > ĐÂY LÀ PHIÊN MỚI, tách hoàn toàn analyst. Bạn sở hữu scripts/jtl_truth.py và self-check tối thiểu nếu cần. KHÔNG đọc report/11_ai_analysis.md, output/agent/history của analyst; không sao chép kết quả cũ results/analysis/endurance.* hoặc report/07/08/TASK1_REPORT. Có thể đọc scripts/summarize.py để tái dùng quy ước mã hiện có nhưng tính độc lập trực tiếp từ JTL cho toàn bộ yêu cầu. Không sửa script cũ. Chỉ standard library; không SUT reads cần thiết. Chuẩn bị script, KHÔNG chạy script/test trong coding worker: sau khi code xong Manager giao sonic chạy, kiểm tra tự kiểm, chạy2lần so byte. Vì vậy chưa claim Xong khi output đã có hoặc selfcheckpass. JSON/MD là program outputs mà script tạo khi được chạy, không ghi số liệu bằng tay, không tạo fake fallback.
+  > Canonical4JTL đúng paths trong common; *_writer chỉ so rowcount và min/max timestamp với Soak, không cộng như run mới. Hai biến thể all và main whitelist7labels. Formula time: min start tới MAX(start+elapsed), không lấy dòng cuối CSV vì concurrent rows có thể không theo thứ tự completion; ghi rõ công thức và boundary này. p50,p90,p95,p99 nearest-rank; elapsed vsLatency vsConnect tách rõunitsms. main/all mỗi variant có perlabel/perminute/perstage/phase tương ứng; subset labels defined inmethod. Windows60s relativefirstsample (chỉ rõ origin chung vs từngvariant), finalpartialdenominatoractual vàemptybucketp95null, không hardcode60 làm sai phútcuối. StressbythreadNameStageN actualwindow group firststart→lastcompletion; Spike phases requested 0–120,120–180,180–240,240–360, boundary computed from runfirstsample, half-open start-time classification, overlap requests counted by start, possibletail beyond360 explicit notsilentdrop. Luôn bảo toàn countsum labels/minutebuckets; addselfcheckphasecount+out-of-range=total andvariantsconsistent. responseCode401/403success=true count separately khôngerror. Report per-label count/error%,mean,p95,max.
+  > Compare HTML perrun canonical basename original folders dates18; all metrics compare Total, label entries against derivedfields with precisionrule stated; main vs Total intentionally filter khác. Không khẳng định nguyên nhân percentile diff cụ thể nếu chưa có config/code evidence: phân biệt chắc chắn do filter/denominator/estimator khác và nguyên nhân chưa chứng minh. Không giả %improvement/causal explanation. Outputschema deterministic paths stable, khôngcurrenttime/randomorder, README-style generated ground_truth.md phải đủ bảng/references/filter/formulas vàHTMLdiffs cho cả4runs (có thể dài vừa đủ). Script python3 scripts/jtl_truth.py khôngargs đọc4sources thật, sinh results/analysis/ground_truth.json/md vàinbảng. Validation schema/numeric bool/time meaningful; selfcheck meaningful metric boundaries có thể assert/in-memory selftest, không .jtl fixturetrênđĩa. Không overwrite userfiles nếu jtl_truth.py hoặc outputs đã có ngoài scope thì báo; Manager listing hiện không có. Chỉ codephase23; Manager ghi log tuần tự sau runtime proof.
+- **AI output:**
+  > Phiên mới tạo scripts/jtl_truth.py không đọc analyst. Sonic chạy python3 scripts/jtl_truth.py hai lần, self-check pass, cmp JSON và MD đều exit0; giữ results/analysis/ground_truth.json/md, dọn snapshot tạm. Có đủ4run×all/main, count/errors/accepted401403, nearest-rank elapsed percentiles, Latency/Connect, label/minute/Stressstage/post-ramp/Spikephase/outside, metadata thread và HTMLdiffs. Soakwriter chỉ so rowcount+timestampbounds, không tính thành run mới hay khẳng định row identity. Model sonic không được cung cấp nên không suy đoán. Manager kiểm tra output/schema; chưa chuyển kết quả cho analyst.
+- **Human review:** _(để trống – người dùng tự điền)_
