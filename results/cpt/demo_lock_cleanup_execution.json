@@ -1,0 +1,13 @@
+{
+  "operation": "maintenance reset only; no pipeline/JMeter",
+  "command": "bash scripts/reset_sut.sh",
+  "start_timestamp_vn": "2026-11-18 22:56:24 +0700",
+  "end_timestamp_vn": "2026-11-18 22:56:30 +0700",
+  "start_epoch": 1795017384.7956588,
+  "end_epoch": 1795017390.6111796,
+  "duration_seconds": 5.804780942999059,
+  "rc": 0,
+  "lsof_lock_before": "COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME\nnode 3894385 zinn 9w REG ... results/cpt/.sut.lock",
+  "lsof_lock_after": "lsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/3f55e35aae3db994896e404990e62c02c7fb3c8ef4cd370903ee3129b3fcc632\n      Output information may be incomplete.\nlsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/b1b4bdedf49b5c2811ac3ba9a116c6db79ceb766ed3c5d8e69832919ed0436ab\n      Output information may be incomplete.\nlsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/189c9496be4936a99f4ef1dcd1af81b8c9c0fc26a00fd92563f2c95a3c6992bd\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/12090247d87c\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/428f7e34bd61\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/60a2299e283a\n      Output information may be incomplete.\nlsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/fc2c9cbfa7def74e6b6cdda31b8fe5649dfc6d590a8e430b0d6236602d92c6ca\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/f43b7de32943\n      Output information may be incomplete.\nlsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/4b1a14dd512d082ffa923067bd0ba156ed3216b7c05bd7a06cc2bb2a87078caa\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/04c6420ecea8\n      Output information may be incomplete.\nlsof: WARNING: can't stat() overlay file system /var/lib/docker/rootfs/overlayfs/68e5592c7882a9ae772ed09093b7ede84ac6ee97ee9d9131b4ed57fc2ec99fa1\n      Output information may be incomplete.\nlsof: WARNING: can't stat() nsfs file system /run/docker/netns/ecbf924c045d\n      Output information may be incomplete.",
+  "backend_processes_after": "3718417 node src/server.js\n3720613 node src/server.js\n3917047 node server.js"
+}

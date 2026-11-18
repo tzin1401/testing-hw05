@@ -1,0 +1,21 @@
+{
+  "checkpoint": "C-after-fix",
+  "command": "bash scripts/cpt_pipeline.sh main perf-demo/docs-only",
+  "start_timestamp_vn": "2026-11-18 22:58:43 +0700",
+  "end_timestamp_vn": "2026-11-18 22:58:43 +0700",
+  "start_epoch": 1795017523.0501223,
+  "end_epoch": 1795017523.1379933,
+  "duration_seconds": 0.0699489580001682,
+  "rc": 0,
+  "sut_head": "4506e466a84ec0a25d3397ce8fd234f5d766b872",
+  "decision": "skip",
+  "jtl_paths_before": [
+    "results/cpt/85af3ba875c8_1/run.jtl",
+    "results/cpt/bootstrap_smoke/run.jtl"
+  ],
+  "jtl_paths_after": [
+    "results/cpt/85af3ba875c8_1/run.jtl",
+    "results/cpt/bootstrap_smoke/run.jtl"
+  ],
+  "new_jtl_paths": []
+}

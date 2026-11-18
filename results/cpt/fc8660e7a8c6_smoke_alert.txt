@@ -1,0 +1,6 @@
+Confirmed performance gate FAIL (two FAIL runs); human investigation required; no Issue created.
+SUT commit: fc8660e7a8c6685cc7ed9c48b84de972d4323677; tier: smoke; baseline: /home/zinn/zinn/testing/hw05/results/cpt/baseline.json
+Evidence: results/cpt/fc8660e7a8c6_1/run.jtl results/cpt/fc8660e7a8c6_1/run_gate.json results/cpt/fc8660e7a8c6_1/html
+Reasons: 06 Checkout: p95 regression
+Evidence: results/cpt/fc8660e7a8c6_2/run.jtl results/cpt/fc8660e7a8c6_2/run_gate.json results/cpt/fc8660e7a8c6_2/html
+Reasons: 06 Checkout: p95 regression

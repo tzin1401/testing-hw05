@@ -1,0 +1,13 @@
+{
+  "checkpoint": "B",
+  "start_timestamp_vn": "2026-11-18 22:48:51 +0700",
+  "end_timestamp_vn": "2026-11-18 22:52:01 +0700",
+  "start_epoch": 1795016931.7294085,
+  "end_epoch": 1795017121.1256247,
+  "duration_seconds": 189.3834345889918,
+  "command": "bash scripts/cpt_pipeline.sh main^ main",
+  "rc": 0,
+  "artifact_paths": [
+    "results/cpt/85af3ba875c8_1"
+  ]
+}

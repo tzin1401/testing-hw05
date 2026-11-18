@@ -1,0 +1,11 @@
+{
+  "checkpoint": "A",
+  "start_timestamp_vn": "2026-11-18 22:44:17 +0700",
+  "end_timestamp_vn": "2026-11-18 22:47:26 +0700",
+  "start_epoch": 1795016657.6013906,
+  "end_epoch": 1795016846.6942592,
+  "duration_seconds": 189.07912361301715,
+  "command": "bash scripts/reset_sut.sh && jmeter -n -t test-plans/23120190_Load_20261117.jmx -l results/cpt/bootstrap_smoke/run.jtl -e -o results/cpt/bootstrap_smoke/html -Jthreads=30 -Jrampup=15 -Jduration=180 -Jlock_percent=5",
+  "reset_rc": 0,
+  "rc": 0
+}

@@ -1,0 +1,27 @@
+{
+  "source_jtl": "/home/zinn/zinn/testing/hw05/results/cpt/bootstrap_smoke/run.jtl",
+  "source_sha256": "54a0e771d038f2a4a3877c74fd895c43732c864d285a95cdea9d34d0e3384f7e",
+  "source_commit": "85af3ba875c88283615e22cb108f13e2fccaf0e9",
+  "profile": {
+    "name": "smoke",
+    "threads": 30,
+    "rampup": 15,
+    "duration": 180,
+    "lock_percent": 5,
+    "stages": "single group"
+  },
+  "plan": "test-plans/23120190_Load_20261117.jmx",
+  "filter": "latency/main after initial ramp; error all whole run and 120s windows after initial ramp; sample start timestamps",
+  "machine": {
+    "hostname": "zinn-Nitro-AN515-57",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "machine": "x86_64"
+  },
+  "plan_sha256": "31228c5403091147d086e166a39e3bf06168d8aff404b8cc3cc8ea60172db2cb",
+  "data_sha256": {
+    "products.csv": "fd551f6c1834b1e0b726622689620a9ad6cc030f0d4eb02cf2e72c00e3b0e78d",
+    "users.csv": "892d71731b84c0c3f1c8dcb538cb5e07305ee7caaaddb50f95dd5cb79e570d98",
+    "users_lock.csv": "ce2d7a91f8639ce1264c8d3e08f878ccd3fa514fe03d1079beff286b2d09206b",
+    "users_main.csv": "f4b94ac2418ddacc4a6283fecc978167d9601e21f5c7509a637b8ce8e7171256"
+  }
+}

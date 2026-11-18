@@ -1,0 +1,25 @@
+{
+  "checkpoint": "E",
+  "command": "git -C eshop-sut switch main; git -C eshop-sut log --oneline -1; git -C eshop-sut rev-parse HEAD; grep -nF delay eshop-sut/backend/server.js; bash scripts/reset_sut.sh",
+  "timestamp_vn": "2026-11-18 23:08:09 +0700",
+  "standalone_cleanup_timing_seconds": null,
+  "timing_note": "Cleanup ran in EXIT trap after D; only combined D+cleanup monotonic duration is available in demo_D_execution.json. No standalone E timing was captured.",
+  "combined_demo_start_timestamp_vn": "2026-11-18 23:01:44 +0700",
+  "combined_demo_end_timestamp_vn": "2026-11-18 23:08:09 +0700",
+  "combined_duration_seconds": 384.6183660149982,
+  "switch_rc": 0,
+  "git_log_oneline": "85af3ba first upload",
+  "git_log_rc": 0,
+  "main_head": "85af3ba875c88283615e22cb108f13e2fccaf0e9",
+  "expected_main_head": "85af3ba875c88283615e22cb108f13e2fccaf0e9",
+  "rev_parse_rc": 0,
+  "delay_grep_rc": 1,
+  "delay_grep_output": "",
+  "reset_rc": 0,
+  "reset_output": "SUT reset. Backend PID: 3952534  | users seeded: 300",
+  "sut_status_after_cleanup": " M backend/database.sqlite\n?? backend/node_modules/",
+  "branches_retained": [
+    "perf-demo/docs-only",
+    "perf-demo/slow-checkout"
+  ]
+}

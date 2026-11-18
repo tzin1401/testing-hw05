@@ -1,6 +1,10 @@
 """Synthetic CSV fixtures are parser tests, not JMeter results."""
 import csv
+import fcntl
 import json
+import os
+import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -135,6 +139,46 @@ class DecisionTests(unittest.TestCase):
 
     def test_unknown(self):
         self.assertEqual(decide(['backend/database.sqlite'], 'change')[0], 'run')
+
+
+class PipelineLockTests(unittest.TestCase):
+    def test_backend_does_not_keep_pipeline_lock(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'scripts').mkdir()
+            (root / 'results/cpt').mkdir(parents=True)
+            (root / 'eshop-sut').mkdir()
+            bins = root / 'bin'
+            bins.mkdir()
+            shutil.copy(ROOT / 'scripts/cpt_pipeline.sh', root / 'scripts/cpt_pipeline.sh')
+            (root / 'scripts/perf_decide.py').write_text("print('{\"decision\":\"run\"}')\n")
+            (root / 'scripts/reset_sut.sh').write_text(
+                '#!/bin/bash\nsleep 60 >/dev/null 2>&1 &\necho $! > backend.pid\n')
+            git = bins / 'git'
+            git.write_text('#!/bin/bash\ncase "$3" in rev-parse) echo abc123 ;; esac\n')
+            git.chmod(0o755)
+            jmeter = bins / 'jmeter'
+            jmeter.write_text('#!/bin/bash\nexit 1\n')
+            jmeter.chmod(0o755)
+            env = os.environ.copy()
+            env.update(PATH=str(bins) + os.pathsep + env['PATH'], CPT_TIER='smoke', CPT_FORCE='0')
+            env.pop('CPT_RUN_ID', None)
+            pidfile = root / 'backend.pid'
+            try:
+                result = subprocess.run(['bash', str(root / 'scripts/cpt_pipeline.sh'), 'base', 'head'],
+                                        cwd=root, env=env, capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                pid = int(pidfile.read_text())
+                os.kill(pid, 0)
+                with (root / 'results/cpt/.sut.lock').open('w') as lock:
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    fcntl.flock(lock, fcntl.LOCK_UN)
+            finally:
+                if pidfile.exists():
+                    try:
+                        os.kill(int(pidfile.read_text()), signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
 
 
 if __name__ == '__main__':

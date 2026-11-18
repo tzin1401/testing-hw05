@@ -1,0 +1,21 @@
+{
+  "checkpoint": "C",
+  "command": "bash scripts/cpt_pipeline.sh main perf-demo/docs-only",
+  "start_timestamp_vn": "2026-11-18 22:53:06 +0700",
+  "end_timestamp_vn": "2026-11-18 22:53:06 +0700",
+  "start_epoch": 1795017186.746412,
+  "end_epoch": 1795017186.786644,
+  "duration_seconds": 0.024766250018728897,
+  "rc": 2,
+  "decision": "actual pipeline result; inspect stdout",
+  "sut_head": "4506e466a84ec0a25d3397ce8fd234f5d766b872",
+  "artifact_paths_before": [
+    "results/cpt/bootstrap_smoke/run.jtl",
+    "results/cpt/85af3ba875c8_1/run.jtl"
+  ],
+  "artifact_paths_after": [
+    "results/cpt/85af3ba875c8_1/run.jtl",
+    "results/cpt/bootstrap_smoke/run.jtl"
+  ],
+  "new_jtl_paths": []
+}

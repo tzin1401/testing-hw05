@@ -15,6 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   performance:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: [self-hosted, linux, x64, performance]
     steps:
       - name: Checkout HW05 tools

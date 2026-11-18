@@ -34,7 +34,7 @@ for attempt in 1 2; do
     suffix="${CPT_RUN_ID:+_${CPT_RUN_ID}}"
     if [ "$tier" = smoke ]; then dir="results/cpt/${short}${suffix}_${attempt}"; else dir="results/cpt/${short}_${tier}${suffix}_${attempt}"; fi
     mkdir "$dir" || { echo 'INCONCLUSIVE: artifact directory exists or cannot be created' >&2; exit 2; }
-    bash scripts/reset_sut.sh || { echo 'INCONCLUSIVE: reset failed' >&2; exit 2; }
+    bash scripts/reset_sut.sh 9>&- || { echo 'INCONCLUSIVE: reset failed' >&2; exit 2; }
     jmeter -n -t "$plan" -l "$dir/run.jtl" -e -o "$dir/html" "${opts[@]}" || { echo 'INCONCLUSIVE: JMeter failed' >&2; exit 2; }
     python3 scripts/perf_gate.py --baseline "$baseline" --write-metadata "$dir/run.jtl" --profile "$tier" || exit 2
     python3 scripts/perf_gate.py --baseline "$baseline" --candidate "$dir/run.jtl"
