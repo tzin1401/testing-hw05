@@ -540,3 +540,22 @@
 - **AI output:**
   > Cùng phiên analyst append 7 đề xuất: index, pool, WAL, cache, cluster, transaction checkout, event-loop profiling; mỗi đề xuất có mô tả/số liệu/kỳ vọng/cách triển khai minh họa và nêu giả định, không định lượng hiệu quả chưa đo. Manager kiểm tra đủ mục và prefix20/21 giữ nguyên, không sửa đề xuất. Lịch sử truy cập20–22 không có report khác, results/analysis hoặc code SUT; chỉ JTL/plans/own11 và skill/date được phép.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #30 – 2026-11-18 15:07 (giờ VN)
+- **AI tool:** omp – TaskTwoMetricReview (anthropic/claude-sonnet-5-5)
+- **Bước:** Task 2 – Bước 24
+- **Prompt:**
+  > Bước 24 – Đối chiếu từng con số và nhận định trong report/11_ai_analysis.md (bước 20–21) với results/analysis/ground_truth.json (bước 23) và JTL thô.
+  > Với MỖI chỗ AI đọc sai, hiểu sai hoặc kết luận sai, ghi một dòng theo mẫu:
+  >   | # | AI nói (trích nguyên văn + vị trí) | Giá trị đúng từ .jtl (con số + file + cách lọc) | Loại sai | Vì sao AI sai |
+  > Loại sai gợi ý: nhầm mean với p95; dùng số cộng dồn thay vì theo cửa sổ thời gian; tính cả/không tính Negative login; coi 401/403 là lỗi; tính trùng file *_writer.jtl; nhầm đơn vị ms/s; throughput chia sai thời lượng; nhầm elapsed với Latency; trộn các bậc Stress; kết luận nhân quả không có bằng chứng (ví dụ gán latency spike cho rò rỉ bộ nhớ); ngưỡng đề xuất mâu thuẫn với số đo.
+  > Với từng giá trị đúng: tự chạy lại lệnh/đoạn code để xác nhận, ghi lệnh đó.
+  > Cũng ghi các chỗ AI ĐÚNG (bảng riêng, ngắn) để báo cáo cân bằng.
+  > Ghi vào report/12_misinterpretation_hunt.md. KHÔNG sửa report/11_ai_analysis.md.
+  > Xong khi: mọi con số trong 11_ai_analysis.md đã được đối chiếu; mỗi lỗi có giá trị đúng kèm nguồn và lệnh kiểm tra.
+  > Bảnanalyst report11 hiện195dòng; bước20–21 làlines1–122, bước22tốiuưđểbước25reviewkhôngcầnauditmetricduplicate. Phải đối chiếu TẤT CẢ numericalclaims20–21:4tablesoverall/count/duration/rps/error/mean/p90p95p99max;4Checkoutcounts/meanp95max vàwholemaxlabels;negativecodes;Stress4fixed150srows;Spike4windows(60–120/120–180/180–240/240–300)+burstfirst/lasttime;Soak6fixed120srows;SLOgroupcounts/quantilescustomwindows, throughput/errorcandidate/rulearithmetic/VUclaims. Có appendixcoverage theo nhómquote+line/filter/cmd/outcome bao phủ mọi số không chỉchọn5. Bảnglỗi riêng+đúng riêngngắn, nhưngcoveragekhôngbỏ.
+  > Quantrọng:ground_truth.json mặcđịnh cóstagebythreadName,minute60s vàSpike4phaseskhácwindowanalyst. Khôngsuy lỗi chỉvì khácfilter/denominatorđãdeclared; kiểmtrađúng phươngpháp analystđãcôngbố. Script23exportload_jtl(path),metrics(samples,duration_ms=None),LABELS,ROOT,percentile; đối chiếu customwindows/groupSLO bằngpythonreadonly importmodulejtl_truth (sys.path.insert(0,'scripts')) vàgọi chínhmetrics() trênraw lọcđúnglabel/time. Đây outputmetriccủascript23, khôngtựviếtthuậttínhkhác hoặccopyTask1nums. Ghi rõ côngthứcdurationfixedwidthvsactualspan trongtừngcommand. Với mỗi 'giátrịđúng' trong12 phải trích JSONpath sẵncó hoặcoutput củametrics() thuộcscript23 vớifile/filter+fullrunnablecommand (đặtcmdID táidùng). Tựchạycáccommand đó đểbáothật; userbước26phảicóít nhất3commandrunnable đểtựchọnchạy. Khôngghiđè ground_truth.json/md trừ thựcchạy jtl_truth theo yêu cầu, cũngkhôngsửa script đểkhớp analyst.
+  > Khôngmarkthresholdđềxuất làsốđãđo. Giảthuyếtbottleneck đãqualify khôngtựbiếnthànhcausalclaim. HTMLpercentileskhácJTLkhônglàlỗi analystnếudùngnearest-rankrawđúng. Nếu khôngtìmlỗi hardmetricthật, ghi0 rõràng; hạnchế/tổchứccửasổ/SLOđềxuất làkhuyếnnghịkhôngtôvẽthànhmisreading. Nếu cólỗi, mỗierrorrowquoteexactline,file/filter+correctnum vàcmdexecuted, confidence/why. Đừngbỏtrốngvìkhócoverage; nhómnhiềutrườngcùngfiltertrongmộtrowđượcnhưngnêutấtcảfieldschecked. Ghi đúngmãnguồn 'scripts/jtl_truth.py'khôngnhầmoldsummary. Cuốireportnêu scope/notchecked rõ; Manager ghiAIlog thay.
+- **AI output:**
+  > Reviewer đối chiếu mọi numericalclaim/nhận định phần20–21 (11 lines1–122), chạy 9 lệnh bằng jtl_truth helpers và đọc raw. Kết quả 0 lỗi số liệu cứng; khác filter/window/denominator/HTMLestimator không bị gán thành lỗi nếu analyst công bố đúng. Có bảng đúng, hạn chế riêng, coverage đầy đủ và lệnh tự kiểm để người dùng chọn ít nhất3. Reviewer không có write/edit nên trả toàn văn; Manager chép đầy đủ vào report/12_misinterpretation_hunt.md, không sửa analyst.
+- **Human review:** _(để trống – người dùng tự điền)_
