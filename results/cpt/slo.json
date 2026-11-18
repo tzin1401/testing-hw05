@@ -1,0 +1,13 @@
+{
+  "source": "report/TASK2_REPORT.md#4-ngưỡng-cuối-cùng",
+  "error_pct": 0.1,
+  "labels": {
+    "01 Login": {"p95_ms": 75, "p99_ms": 125},
+    "02 Products": {"p95_ms": 75, "p99_ms": 125},
+    "03 Product detail": {"p95_ms": 75, "p99_ms": 125},
+    "04 Add cart": {"p95_ms": 50, "p99_ms": 100},
+    "05 Get cart": {"p95_ms": 50, "p99_ms": 100},
+    "06 Checkout": {"p95_ms": 100, "p99_ms": 150},
+    "07 My orders": {"p95_ms": 75, "p99_ms": 125}
+  }
+}

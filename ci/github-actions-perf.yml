@@ -1,0 +1,82 @@
+# Copy into the SUT repository's .github/workflows/ after configuring the prerequisites
+# documented in results/cpt/README.md. Scheduled tiers require approved separate baselines.
+name: Continuous performance
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 2 * * 1-6'
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sut-performance-runner
+  cancel-in-progress: false
+jobs:
+  performance:
+    runs-on: [self-hosted, linux, x64, performance]
+    steps:
+      - name: Checkout HW05 tools
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.HW05_REPOSITORY }}
+          ref: ${{ vars.HW05_REF }}
+          token: ${{ secrets.HW05_READ_TOKEN }}
+          clean: false
+      - name: Checkout SUT candidate
+        uses: actions/checkout@v4
+        with:
+          path: eshop-sut
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          clean: false
+      - name: Select tier and commits
+        id: config
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          BEFORE: ${{ github.event.before }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          head=$(git -C eshop-sut rev-parse HEAD)
+          tier=smoke; force=0
+          if [[ "$EVENT" == schedule ]]; then
+            force=1
+            if [[ "$SCHEDULE" == '0 2 * * 0' ]]; then tier=weekly; else tier=nightly; fi
+          fi
+          base=${PR_BASE:-${BEFORE:-}}
+          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then base=$(git -C eshop-sut rev-parse "$head^"); fi
+          git -C eshop-sut cat-file -e "$base^{commit}"
+          printf 'tier=%s\nforce=%s\nbase=%s\nhead=%s\n' "$tier" "$force" "$base" "$head" >> "$GITHUB_OUTPUT"
+      - name: Run measured pipeline
+        env:
+          CPT_TIER: ${{ steps.config.outputs.tier }}
+          CPT_FORCE: ${{ steps.config.outputs.force }}
+          CPT_RUN_ID: ${{ github.run_id }}_${{ github.run_attempt }}
+          BASELINE_DIR: ${{ vars.CPT_BASELINE_DIR }}
+          BASE: ${{ steps.config.outputs.base }}
+          HEAD: ${{ steps.config.outputs.head }}
+        run: |
+          set -euo pipefail
+          : "${BASELINE_DIR:?set CPT_BASELINE_DIR to the approved persistent baseline directory}"
+          tiers=("$CPT_TIER")
+          if [[ "$CPT_TIER" == weekly ]]; then tiers=(stress spike soak); fi
+          overall=0
+          for tier in "${tiers[@]}"; do
+            if [[ "$tier" == smoke ]]; then baseline=baseline.json; else baseline="${tier}_baseline.json"; fi
+            export CPT_TIER="$tier" CPT_BASELINE="$BASELINE_DIR/$baseline"
+            status=0
+            bash scripts/cpt_pipeline.sh "$BASE" "$HEAD" || status=$?
+            if [[ "$status" -eq 1 ]]; then overall=1; elif [[ "$status" -ne 0 && "$overall" -eq 0 ]]; then overall=2; fi
+          done
+          exit "$overall"
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/cpt/
+          if-no-files-found: warn
