@@ -433,3 +433,22 @@
 - **AI output:**
   > Lưu bản review độc lập và cập nhật xử lý vào report/10_final_check.md. Sửa báo cáo nhầm của worker về HTML Stress: log gốc ghi Dashboard generated, _recovered chỉ là xuất đối chiếu; chuyển các tham chiếu hiện hành về HTML gốc và đưa thư mục đó vào commit. Thêm BUG-05 mật khẩu plaintext từ curl đã có, trích SEC-01 là tham khảo; cập nhật đếm 4 bug + 1 finding ở README/main report. Đính chính nhãn Task 2 ở entry #19/#21: đây là bước 16/17 Task 1, không sửa entry cũ. Cập nhật snapshot Git log và trạng thái smoke Soak. Không chạy lại tải/reset hoặc sửa JTL/SUT. Việc người dùng còn thiếu và giới hạn endurance giữ rõ trong checklist.
 - **Human review:** _(để trống – người dùng tự điền)_
+
+## #26 – 2026-11-18 14:52 (giờ VN)
+- **AI tool:** omp – TaskTwoAnalyst (openai-codex/gpt-6.1-terra)
+- **Bước:** Task 2 – Bước 20
+- **Prompt:**
+  > Bước 20 – Bạn là AI phân tích hiệu năng. Phân tích kết quả 4 lần chạy JMeter (Load, Stress, Spike, Soak).
+  > Chỉ được đọc: results/jtl/*.jtl, results/html/*/statistics.json, test-plans/*.jmx. KHÔNG đọc thư mục report/, results/analysis/, TASK1_REPORT.md, VIDEO_SCRIPT.md.
+  > Bạn được tự viết code (Python) để đọc JTL. Với mỗi lần chạy, hãy nêu:
+  >   - Tổng số request, throughput (request/giây), error %.
+  >   - Thời gian phản hồi: trung bình, p90, p95, p99, max.
+  >   - Request (label) nào chậm nhất. Có lỗi nào không, lỗi ở label nào.
+  >   - Với Stress: hệ thống bắt đầu suy giảm từ bậc nào. Với Spike: hệ thống phản ứng thế nào khi tải tăng đột ngột. Với Soak: có dấu hiệu suy giảm theo thời gian không.
+  >   - Nhận định nút thắt (bottleneck) có khả năng nhất.
+  > Ghi vào report/11_ai_analysis.md. Mỗi con số ghi kèm cách bạn tính (file nào, lọc gì). Kết luận theo hiểu biết của bạn, không cần đối chiếu tài liệu khác.
+  > Xong khi: có đủ 4 lần chạy, mỗi lần đủ các chỉ số trên, có mục bottleneck.
+  > HỢP ĐỒNG ISOLATION CHO ANALYST: bạn là phiên analyst độc lập, chưa có số liệu Task1 đã kiểm chứng. Chỉ đọc nội dung results/jtl/*.jtl, results/html/*/statistics.json, test-plans/*.jmx; exception bắt buộc: skill ponytail và date. KHÔNG đọc bất kỳ report Task1, AI_LOG, scripts cũ, results/analysis/, VIDEO_SCRIPT.md, code SUT, file prompt hoặc history/archive/agent outputs. Manager đã xác nhận report/11_ai_analysis.md chưa tồn tại: tạo mới bằng write, không liệt kê/đọc report/. Từ bước21 được đọc DUY NHẤT output của chính mình report/11_ai_analysis.md và append sections, không đọc report khác. Không đọc output ground-truth worker. Bạn được tính trực tiếp JTL bằng Python lệnh tạm trong bộ nhớ; nếu tạo source helper file phải write tool và báo manager, không dùng shell/python ghi source hay report. Không chạy lại load/reset/curl. Chỉ làm BƯỚC20 trong lần giao này; sau đó chờ Manager gửi nguyên prompt21,22 vào CHÍNH phiên của bạn. Không tự làm trước21/22. Output của analyst được lưu làm evidence: không sửa/xóa nội dung bước trước; mọi section mới chỉ append. Bảo lưu bất định và giả thuyết, không đánh đồng suy đoán bottleneck với quan sát. Mọi số cho từng run đủ trường theo prompt, label chậm nhất phải nói theo mean/p95/max nào. Không cần đoán đáp án người kiểm chứng, kết luận độc lập. Trả metadata timestamp/model để Manager ghi log thay, không đọc log.
+- **AI output:**
+  > Analyst độc lập tạo report/11_ai_analysis.md từ JTL và plan: bốn run đủ count/RPS/error/mean/p90/p95/p99/max, label chậm nhất, diễn biến Stress/Spike/Soak và bottleneck chỉ là giả thuyết. Không đọc report Task1/results/analysis/SUT; Manager kiểm tra nguồn truy cập và đủ mục, không sửa phân tích hay đối chiếu ground truth ở bước này. Log do Manager ghi để analyst không phải đọc AI_LOG có số liệu Task1.
+- **Human review:** _(để trống – người dùng tự điền)_
