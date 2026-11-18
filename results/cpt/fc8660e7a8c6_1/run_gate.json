@@ -259,7 +259,7 @@
   "slo_source": "/home/zinn/zinn/testing/hw05/results/cpt/slo.json",
   "slo_sha256": "f120db11d053f41889ca73cf28dc8ff1aec45648aa0c02723443b872bac36502",
   "baseline": {
-    "path": "/home/zinn/zinn/testing/hw05/results/cpt/baseline.json",
+    "path": "results/cpt/baseline.json",
     "sha256": "2845bafab2313572859a8b5f875e34ac78daf85a616ab87bfbc2b13778420aea",
     "metadata": {
       "source_jtl": "/home/zinn/zinn/testing/hw05/results/cpt/bootstrap_smoke/run.jtl",

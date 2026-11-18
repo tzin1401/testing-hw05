@@ -69,6 +69,11 @@ jobs:
           for tier in "${tiers[@]}"; do
             if [[ "$tier" == smoke ]]; then baseline=baseline.json; else baseline="${tier}_baseline.json"; fi
             export CPT_TIER="$tier" CPT_BASELINE="$BASELINE_DIR/$baseline"
+            if [[ "$tier" == stress || "$tier" == spike || "$tier" == soak ]]; then
+              export CPT_SLO="$BASELINE_DIR/${tier}_slo.json"
+            else
+              unset CPT_SLO
+            fi
             status=0
             bash scripts/cpt_pipeline.sh "$BASE" "$HEAD" || status=$?
             if [[ "$status" -eq 1 ]]; then overall=1; elif [[ "$status" -ne 0 && "$overall" -eq 0 ]]; then overall=2; fi

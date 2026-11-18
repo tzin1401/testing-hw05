@@ -114,6 +114,31 @@ class GateTests(unittest.TestCase):
         self.assertEqual(self.run_gate('--make-baseline', candidate).returncode, 0)
         self.assertEqual(self.run_gate('--make-baseline', candidate).returncode, 0)
 
+    def test_policy_hash_mismatch_is_inconclusive_but_absolute_failure_survives(self):
+        self.assertEqual(self.run_gate('--make-baseline', self.fixture('base', 20)).returncode, 0)
+        policy = self.dir / 'policy.json'
+        policy.write_text((ROOT / 'results/cpt/slo.json').read_text() + '\n')
+        result = self.run_gate('--slo', policy, '--candidate', self.fixture('candidate', 20))
+        self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+        report = json.loads((self.dir / 'candidate_gate.json').read_text())
+        self.assertIn('baseline SLO policy hash mismatch', report['inconclusive'])
+        result = self.run_gate('--slo', policy, '--candidate', self.fixture('slow', 200))
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+
+    def test_check_policy_rejects_missing_baseline_and_policy_mismatch(self):
+        with self.subTest('missing baseline'):
+            result = self.run_gate('--check-policy', '--profile', 'smoke')
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn('INCONCLUSIVE', result.stderr)
+            self.assertIn('baseline.json', result.stderr)
+        self.assertEqual(self.run_gate('--make-baseline', self.fixture('base', 20)).returncode, 0)
+        policy = self.dir / 'policy.json'
+        policy.write_text((ROOT / 'results/cpt/slo.json').read_text() + '\n')
+        with self.subTest('policy hash mismatch'):
+            result = self.run_gate('--check-policy', '--profile', 'smoke', '--slo', policy)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn('SLO hash mismatch', result.stderr)
+
     def test_relative_requires_main_count_but_slo_still_checked(self):
         from scripts.perf_gate import evaluate
         from scripts.jtl_truth import metrics
@@ -152,6 +177,7 @@ class PipelineLockTests(unittest.TestCase):
             bins.mkdir()
             shutil.copy(ROOT / 'scripts/cpt_pipeline.sh', root / 'scripts/cpt_pipeline.sh')
             (root / 'scripts/perf_decide.py').write_text("print('{\"decision\":\"run\"}')\n")
+            (root / 'scripts/perf_gate.py').write_text('raise SystemExit(0)\n')
             (root / 'scripts/reset_sut.sh').write_text(
                 '#!/bin/bash\nsleep 60 >/dev/null 2>&1 &\necho $! > backend.pid\n')
             git = bins / 'git'
@@ -179,6 +205,34 @@ class PipelineLockTests(unittest.TestCase):
                         os.kill(int(pidfile.read_text()), signal.SIGTERM)
                     except ProcessLookupError:
                         pass
+
+    def test_deep_profile_without_policy_stops_before_reset(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'scripts').mkdir()
+            (root / 'results/cpt').mkdir(parents=True)
+            (root / 'eshop-sut').mkdir()
+            bins = root / 'bin'
+            bins.mkdir()
+            shutil.copy(ROOT / 'scripts/cpt_pipeline.sh', root / 'scripts/cpt_pipeline.sh')
+            (root / 'scripts/perf_decide.py').write_text("print('{\"decision\":\"run\"}')\n")
+            (root / 'scripts/reset_sut.sh').write_text('touch reset-called\n')
+            git = bins / 'git'
+            git.write_text('#!/bin/bash\ncase "$3" in rev-parse) echo abc123 ;; esac\n')
+            git.chmod(0o755)
+            jmeter = bins / 'jmeter'
+            jmeter.write_text('#!/bin/bash\ntouch jmeter-called\nexit 1\n')
+            jmeter.chmod(0o755)
+            env = os.environ.copy()
+            env.update(PATH=str(bins) + os.pathsep + env['PATH'], CPT_TIER='stress', CPT_FORCE='0')
+            env.pop('CPT_SLO', None)
+            result = subprocess.run(['bash', str(root / 'scripts/cpt_pipeline.sh'), 'base', 'head'],
+                                    cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn('CPT_SLO', result.stderr)
+            self.assertFalse((root / 'reset-called').exists())
+            self.assertFalse((root / 'jmeter-called').exists())
+            self.assertFalse((root / 'results/cpt/abc123_stress_1').exists())
 
 
 if __name__ == '__main__':

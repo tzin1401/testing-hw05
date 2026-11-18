@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 import platform
 import socket
 import subprocess
@@ -98,6 +99,41 @@ def evaluate(candidate, baseline, slo, minimum):
     return ('FAIL' if failures else 'INCONCLUSIVE' if incomplete else 'PASS'), failures, incomplete
 
 
+def load_slo(path):
+    slo = json.loads(path.read_text())
+    values = [slo['error_pct']]
+    values.extend(slo['labels'][label][key] for label in LABELS for key in ('p95_ms', 'p99_ms'))
+    if any(type(value) not in (int, float) or not math.isfinite(value) or value < 0 for value in values) or values[0] > 100:
+        raise ValueError('invalid SLO thresholds')
+    return slo
+
+
+def check_policy(baseline_path, slo_path, profile_name):
+    slo = load_slo(slo_path)
+    base = json.loads(baseline_path.read_text())
+    bm = base['metadata']
+    if base['status'] != 'PASS' or base['min_samples'] < 500 or base['slo_sha256'] != digest(slo_path):
+        raise ValueError('baseline not approved/passing or SLO hash mismatch')
+    if bm['profile'] != {'name': profile_name, **PROFILES[profile_name]} or bm['filter'] != FILTER:
+        raise ValueError('baseline profile/filter mismatch')
+    machine = {'hostname': socket.gethostname(), 'platform': platform.platform(), 'machine': platform.machine()}
+    plan = ROOT / 'test-plans' / PLANS[profile_name]
+    data = {p.name: digest(p) for p in sorted(DATA.glob('*.csv'))}
+    if (not all(bm.get(k) for k in ('source_jtl', 'source_sha256', 'source_commit')) or
+            bm['machine'] != machine or bm['plan'] != str(plan.relative_to(ROOT)) or
+            bm['plan_sha256'] != digest(plan) or not data or bm['data_sha256'] != data):
+        raise ValueError('baseline provenance or environment mismatch')
+    measured = base['metrics']
+    if measured['main']['count'] < 1000:
+        raise ValueError('baseline has fewer than 1000 main samples')
+    for label in LABELS:
+        m = measured['labels'][label]
+        if m['count'] < 500 or not isinstance(m['p95_ms'], (int, float)) or not isinstance(m['p99_ms'], (int, float)):
+            raise ValueError(f'invalid baseline metrics for {label}')
+    if evaluate(measured, None, slo, 500)[0] != 'PASS':
+        raise ValueError('baseline metrics do not pass the active SLO')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--baseline', required=True, type=Path)
@@ -106,11 +142,15 @@ def main():
     parser.add_argument('--slo', type=Path, default=SLO)
     parser.add_argument('--min-samples', type=int, default=500)
     parser.add_argument('--write-metadata', type=Path)
+    parser.add_argument('--check-policy', action='store_true')
     parser.add_argument('--profile', choices=PLANS, default='smoke')
     args = parser.parse_args()
     try:
         if args.min_samples < 500:
             raise ValueError('minimum must be at least 500 per label')
+        if args.check_policy:
+            check_policy(args.baseline, args.slo, args.profile)
+            return 0
         if args.write_metadata:
             meta = metadata(args.write_metadata, args.profile)
             with sidecar(args.write_metadata).open('x') as f:
@@ -125,7 +165,7 @@ def main():
             raise ValueError('missing or invalid candidate metadata')
         if meta['profile'].get('name') not in PROFILES or meta['profile'] != {'name': meta['profile']['name'], **PROFILES[meta['profile']['name']]} or meta['plan'] != 'test-plans/' + PLANS[meta['profile']['name']] or set(meta['machine']) != {'hostname', 'platform', 'machine'} or not all(meta['machine'].values()):
             raise ValueError('incomplete profile or machine metadata')
-        slo = json.loads(args.slo.read_text())
+        slo = load_slo(args.slo)
         result = measure(path, meta)
         baseline = None
         base = None
@@ -140,6 +180,8 @@ def main():
                         compatibility.append(f'incompatible or missing {key}')
                 if base.get('status') != 'PASS' or not bm.get('source_commit') or not bm.get('source_sha256') or not bm.get('source_jtl') or base.get('min_samples', 0) < 500:
                     compatibility.append('incomplete baseline provenance')
+                if base.get('slo_sha256') != digest(args.slo):
+                    compatibility.append('baseline SLO policy hash mismatch')
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 compatibility.append(f'baseline unavailable or invalid: {exc}')
         status, failures, incomplete = evaluate(result, baseline if not compatibility else None, slo, args.min_samples)

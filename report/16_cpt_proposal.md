@@ -15,6 +15,8 @@ So sánh path trong diff giữa base và commit ứng viên, kể cả path cũ 
 
 Thứ tự phân loại path cụ thể trong [16a §2](16a_sut_change_map.md#2-chính-sách-phân-loại-file) ưu tiên backend trước Markdown. Seed trong `backend/database.js` là B, seed file mới chưa phân loại là U; thay seed hoặc môi trường bên ngoài repo không xuất hiện trong diff có thể bị bỏ sót. Frontend có thể đổi request mix thực tế dù không đổi workload cố định. Marker skip cũng có thể bỏ sót thay đổi thật; test theo lịch giảm rủi ro nhưng không chứng minh bao phủ đầy đủ.
 
+Marker chỉ đọc message của HEAD theo hợp đồng `perf_decide.py BASE HEAD`: push nhiều commit có thể bị message `[skip perf]` cuối dải bỏ qua thay đổi backend trước đó. CI theo lịch dùng `CPT_FORCE=1`, vẫn đọc/in decision diff nhưng ép chạy sau các kiểm tra hợp lệ; đây không phải nhánh skip thông thường.
+
 ## 3. Các tầng test và chi phí dự kiến
 
 Chạy JMeter non-GUI, reset bằng `scripts/reset_sut.sh` trước **mỗi** lượt, kể cả retry và mỗi plan trong tầng tuần. Mỗi lượt tạo JTL và HTML ở đường dẫn mới, không nối hoặc ghi đè kết quả cũ. Thời gian dưới đây là **ước tính theo scheduler JMX**, không phải số đo thời gian máy; ramp nằm trong duration, cộng thêm reset, khởi động, kết thúc request và xử lý report chưa đo.
@@ -25,7 +27,7 @@ Chạy JMeter non-GUI, reset bằng `scripts/reset_sut.sh` trước **mỗi** l�
 | 2 | Hằng đêm: cùng Load plan, 50 VU, ramp mặc định 50 s, duration 600 s | 600 s = 10 phút/lượt |
 | 3 | Hằng tuần hoặc trước release: Stress, Spike, Soak lần lượt | Stress 4 stage nối tiếp × 150 s = 600 s; Spike chạy song song baseline 360 s và spike delay 120 s + duration 120 s → 360 s; Soak 720 s. Tổng 1.680 s = 28 phút, cộng ba lần reset và overhead |
 
-Tầng đêm/tuần dùng profile và baseline được phê duyệt riêng; không so với smoke. Nếu chưa có baseline tương thích, relative gate là INCONCLUSIVE. SLO/đánh giá cho các profile khác cần giữ đúng phạm vi và cửa sổ của từng plan; không giả định một ngưỡng throughput chứng minh sức chịu tải mọi tầng.
+Tầng đêm/tuần dùng profile và baseline được phê duyệt riêng; không so với smoke. Smoke/nightly mặc định dùng SLO Task 2. Stress/Spike/Soak bắt buộc có `CPT_SLO` riêng do con người phê duyệt **trước** bootstrap/bật CI, không tự sao chép hay nới SLO smoke cho tải cao. Pipeline kiểm baseline/SLO/profile/hash/môi trường sau decision run và trước reset/JMeter: thiếu hoặc không tương thích → INCONCLUSIVE (exit 2), chưa chạy test. Lịch tuần và cả ba plan vẫn được giữ, chỉ chạy khi đủ đầu vào đã duyệt. Absolute SLO FAIL trên tải cao không tự chứng minh regression mới; baseline chỉ được tạo khi đạt policy tương ứng. Chưa đo tier đêm/tuần của CPT, không tuyên bố sẵn sàng triển khai các tier này.
 
 ## 4. Gate và retry
 
@@ -55,32 +57,51 @@ Baseline smoke là kết quả smoke của commit `main` gần nhất **đã PAS
 
 Lưu metadata cùng JTL bằng sidecar do pipeline/lệnh tạo baseline ghi: SUT commit, máy được nhận diện bằng hostname/platform/architecture, workflow, plan và profile thực tế (threads, ramp, duration và tham số liên quan), cửa sổ sau ramp, bộ lọc và các fingerprint plan/CSV. So sánh các thuộc tính tương thích trước gate; thiếu thông tin cần thiết hoặc khác nhau → INCONCLUSIVE. Các dấu nhận diện này không chứng minh CPU/RAM, phiên bản Java/JMeter/Node hay tải nền hoàn toàn giống nhau; người vận hành phải giữ môi trường cố định. Caller checkout đúng commit SUT trước khi chạy; pipeline kiểm tra HEAD và tree nguồn có thay đổi chưa commit, không tự checkout. DB runtime đã thay đổi và `node_modules` untracked là state sẵn có cần ghi nhận và xử lý theo chính sách runtime, không stash/restore/xóa; không được để thay đổi source chưa commit hoặc sai HEAD làm phép đo tưởng thuộc commit khác.
 
+Baseline cố định không phải commit BASE của diff: một lỗi đã đưa vào main có thể tiếp tục bị phát hiện ở các commit sau, cho tới khi sửa lỗi hoặc có baseline được duyệt khác. Alert chỉ in đường dẫn baseline; commit và số baseline đã dùng có trong gate JSON, cần xem để quy trách nhiệm đúng.
+
+Một lượt bootstrap chỉ đủ minh họa demo, chưa chứng minh baseline ổn định để bật CI. Phản ví dụ từ A/A thật: nếu dùng B làm baseline, Checkout 17 → 23 ms của A thỏa luật regression dù cùng code. Trước khi duyệt vận hành cần đo lặp theo kế hoạch đã chốt và chọn một lượt thật đại diện, giữ JTL/hash/metadata; không tự chế baseline bằng median các p95 không có JTL nguồn đơn. Chưa chạy thêm các lượt đó, không tự phê duyệt baseline sản xuất.
+
+Nhận diện `platform` có cả chuỗi OS/kernel: nâng OS hoặc kernel có thể làm pipeline INCONCLUSIVE dù vẫn cùng máy vật lý. Phải duyệt lại baseline tương thích; không tự nới điều kiện nhận diện để làm gate xanh.
+
+Code chỉ kiểm schema, giá trị và tính tương thích, không chứng minh được ai đã phê duyệt policy. Người vận hành phải kiểm soát quyền ghi thư mục policy/baseline và ghi hash policy đã chấp nhận trong human review trước khi bật CI; chưa duyệt tier nào thì giữ tier đó INCONCLUSIVE, không tạo ngưỡng thay cho con người.
+
 ## 6. Luồng tự động và người duyệt
 
 ```mermaid
 flowchart TD
-    A[Commit SUT mới] --> B{Quyết định chạy}
-    B -->|Skip| C[Ghi lý do skip]
-    B -->|Run| D[Kiểm tra HEAD và tree nguồn]
-    D -->|Không hợp lệ| X[Ghi lỗi hạ tầng hoặc INCONCLUSIVE]
-    D -->|Hợp lệ| E[Reset SUT]
-    E --> F[Chạy smoke và lưu artifact mới]
-    F --> G{Gate}
+    A[Commit SUT mới] --> D[Kiểm tra HEAD/tree, profile và lock]
+    D -->|Lỗi| X[Chưa kết luận hoặc lỗi hạ tầng, exit 2]
+    D -->|Hợp lệ| B[Đọc diff và message HEAD]
+    B -->|Lỗi BASE hoặc Git| X
+    B -->|Đọc được| V{CPT_FORCE bằng 1?}
+    V -->|Có| R[Run theo lịch]
+    V -->|Không| Q{Decision}
+    Q -->|Skip| C[Ghi lý do ra stdout, exit 0]
+    Q -->|Run| R
+    R --> T{Baseline và SLO đã duyệt tương thích?}
+    T -->|Không| X
+    T -->|Có| E[Tạo thư mục artifact mới, reset SUT]
+    E -->|Lỗi| X
+    E -->|Thành công| F[Chạy smoke, ghi metadata]
+    F -->|Lỗi| X
+    F -->|Thành công| G{Gate}
     G -->|INCONCLUSIVE hoặc lỗi| X
-    G -->|PASS| H[Thông báo PASS]
-    G -->|FAIL| I[Reset SUT lần hai]
-    I --> J[Chạy lại smoke và lưu artifact riêng]
-    J --> K{Gate retry}
-    K -->|FAIL| L[Cảnh báo và tạo nội dung nháp Issue]
-    K -->|PASS| M[Không xác nhận regression]
+    G -->|PASS| H[Log PASS và exit 0]
+    G -->|FAIL| I[Tạo artifact retry, reset lần hai]
+    I -->|Lỗi| X
+    I -->|Thành công| J[Chạy lại smoke, ghi metadata]
+    J -->|Lỗi| X
+    J -->|Thành công| K{Gate retry}
+    K -->|FAIL| L[Alert local và nháp Issue, exit 1]
+    K -->|PASS| M[Exit 0, giữ artifact FAIL lần một]
     K -->|INCONCLUSIVE hoặc lỗi| X
     H --> N[Người duyệt xem kết quả main]
     N -->|Duyệt| O[Người dùng chạy lệnh explicit cập nhật baseline]
     N -->|Không duyệt| P[Giữ baseline cũ]
-    L --> Q[Người dùng quyết định tạo Issue]
+    L --> U[Người dùng quyết định tạo Issue]
 ```
 
-Các nút đến cảnh báo là tự động; nháp không phải Issue đã tạo. Phê duyệt, lệnh cập nhật baseline và tạo Issue là hành động của người dùng, ngoài pipeline. Mermaid đã render bằng `npx -y @mermaid-js/mermaid-cli` với Chrome `/usr/bin/google-chrome` và `--no-sandbox`, exit 0; executor đã xem SVG và xác nhận các nhánh/nhãn hiển thị, rồi xóa file tạm.
+Các nút đến cảnh báo là tự động; nháp không phải Issue đã tạo. Phê duyệt, lệnh cập nhật baseline và tạo Issue là hành động của người dùng, ngoài pipeline. Nút PASS/retry-PASS/skip biểu diễn exit code và stdout/artifact, không có cờ flaky riêng. Hình minh họa smoke; các tier theo lịch dùng cùng luồng với plan đã chọn ở §3. Phiên bản có policy guard/force/nhánh lỗi đã render bằng `mermaid-cli` + Chrome `--no-sandbox`, exit 0 lúc 23:28 ngày 2026-11-18 (giờ VN); executor đã xem SVG thực tế và xác nhận đủ nhãn/nhánh rồi xóa file tạm.
 
 ## 7. Vai trò AI – G9.6
 
@@ -91,7 +112,11 @@ AI có thể đọc diff để gợi ý tầng test, tóm tắt kết quả và 
 | Trade-off | Rủi ro / chi phí | Giảm thiểu |
 |---|---|---|
 | Chi phí | Ước tính scheduler: mỗi commit được chọn 3 phút, có retry 6 phút; mỗi đêm 10 phút; mỗi tuần 28 phút. Công thức tổng = 3 × số commit chạy + 3 × số retry + 10 × số đêm + 28 × số tuần, phút; chưa tính reset, report, xếp hàng hay chạy release thêm. | Lọc diff, serialize SUT, dùng runner cố định; đo overhead thực tế trước khi lập ngân sách. |
-| Báo động giả | Máy dùng chung và nhiễu có thể gây spike dù không đổi code; [Task 2 §2](TASK2_REPORT.md) có cửa sổ Soak 120–240 s p95 all 1.013 ms. [Demo A/A](17_cpt_demo.md): 0 cảnh báo trong 1 lần so sánh, độ lệch p95 tuyệt đối tối đa 6 ms tại Checkout theo chiều giảm; một cặp chưa ước lượng được tỷ lệ báo động giả quần thể. | Cùng máy/profile/filter, cô lập tải và retry sau reset; A/A kiểm tra độ nhiễu, không xem một spike là nguyên nhân đã chứng minh. |
-| Bỏ sót | Smoke ngắn không xác lập rò rỉ RAM dài hạn; `userCarts` giữ entry sau checkout, nhưng RSS tăng trong Soak chỉ phù hợp với giả thuyết giữ state, không chứng minh leak vô hạn hay quan hệ nhân quả ([08](08_endurance.md)). | Soak dài định kỳ, theo dõi RSS và state, điều tra nguyên nhân; mở rộng workflow khi cần. |
+| Báo động giả | Máy dùng chung và nhiễu có thể gây spike dù không đổi code; [Task 2 §2](TASK2_REPORT.md) có cửa sổ Soak 120–240 s p95 all 1.013 ms. [Demo A/A](17_cpt_demo.md): 0 cảnh báo trong 1 chiều so sánh, độ lệch p95 tuyệt đối tối đa 6 ms tại Checkout theo chiều giảm. Đảo baseline B thì A sẽ FAIL; một cặp chưa ước lượng được tỷ lệ báo động giả quần thể. | Đánh giá độ ổn định baseline trước khi bật CI, không chỉ retry candidate; cùng máy/profile/filter và reset. Hai lượt có thể tương quan, không mặc định xác suất cảnh báo bằng bình phương xác suất một lượt. |
+| Bỏ sót | Smoke ngắn không xác lập rò rỉ RAM dài hạn; `userCarts` giữ entry sau checkout nhưng chưa chứng minh leak vô hạn ([08](08_endurance.md)). Sàn +5 ms cố ý bỏ qua tăng lớn theo tỷ lệ ở endpoint rất nhanh: **giả định**, không phải số đo, Add cart 3→7 ms vẫn PASS. | Giữ luật đã chốt, ghi rõ độ nhạy và theo dõi endpoint; Soak định kỳ khi có policy phù hợp, điều tra RSS/state và mở rộng workflow. |
 | Độ trễ phản hồi dev | Smoke cần ít nhất thời lượng cấu hình 3 phút cộng overhead, hoặc hai lượt khi FAIL; các tầng sâu chờ lịch. | Báo trạng thái sớm, chạy smoke trước và các tầng đêm/tuần bất đồng bộ. |
 | Baseline bị trôi | Cập nhật liên tục hoặc so sai profile có thể biến regression thành chuẩn mới. | Lưu commit/metadata, kiểm tra tương thích, cần người duyệt và lệnh explicit; giữ lịch sử artifact để đối chiếu. |
+
+FAIL rồi retry PASS trả exit 0 nhưng artifact lượt đầu vẫn FAIL; chưa có cảnh báo flaky riêng, cần đọc stdout và cả hai gate JSON. Đây là đánh đổi của luật “hai FAIL mới báo”, không phải bằng chứng lỗi đã biến mất.
+
+**[INFERENCE] Chưa chạy CI trên GitHub:** concurrency mặc định chỉ giữ một lượt pending, nên push dồn có thể thay lượt chờ chứa backend bằng lượt docs-only; trigger push và PR cũng có thể đo trùng cùng SHA. [Tài liệu GitHub chính thức](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency) mô tả mặc định này. Trước khi bật thật cần chọn chính sách queue/nhánh và theo dõi SHA đã đo; mẫu hiện tại không bảo đảm mọi SHA trung gian đều được đo hoặc quy đúng commit đầu tiên gây regression.

@@ -26,10 +26,25 @@ Sau khi người có thẩm quyền duyệt baseline, B chạy diff thật với
 Copy `ci/github-actions-perf.yml` vào SUT `.github/workflows/` sau khi cài self-hosted runner nhãn `linux`, `x64`, `performance` trên máy baseline, Java/JMeter/Node/curl/flock và dependency backend. Thiết lập `HW05_REPOSITORY` (owner/repo), `HW05_REF` (commit tools đã duyệt), secret `HW05_READ_TOKEN` có quyền read HW05, `CPT_BASELINE_DIR` là đường dẫn tuyệt đối bền vững trên runner chứa baseline đã duyệt. Checkout tools tại workspace root và SUT tại `eshop-sut/`; workspace phải có data, plans, scripts và results. Runner phải chuyên dụng/tin cậy; không chạy code PR không tin cậy trên runner có credentials hay mạng nhạy cảm. Serialize bằng concurrency và flock; không có workload khác dùng SUT.
 
 Workflow chặn PR từ fork bằng điều kiện ở job trước khi checkout/chạy trên self-hosted runner. PR cùng repo vẫn phải đến từ người có quyền ghi được tin cậy; giới hạn này không thay thế quản trị quyền truy cập runner.
+Smoke và nightly mặc định dùng `results/cpt/slo.json`; có thể đặt `CPT_SLO` để chọn policy đã duyệt khác. Stress, Spike và Soak **bắt buộc** đặt `CPT_SLO` trỏ đến policy được con người phê duyệt riêng cho profile; không fallback về smoke. Schema là `slo.json`: `error_pct` và `labels` chứa bảy label, mỗi label có `p95_ms`, `p99_ms`. CI đọc lần lượt `$CPT_BASELINE_DIR/stress_slo.json`, `spike_slo.json`, `soak_slo.json`; không tạo hay tự phê duyệt file. Trước reset/JMeter, sau decision run, pipeline kiểm tra policy và baseline đọc được, đúng schema, hash policy, profile, môi trường và provenance. Thiếu hoặc không tương thích trả INCONCLUSIVE (2); decision skip không đòi policy. File tồn tại không chứng minh được phê duyệt: người vận hành chịu trách nhiệm duyệt và bảo vệ đường dẫn policy/baseline. SLO hash khác baseline ngăn relative PASS; absolute FAIL hợp lệ vẫn được báo.
+
+Deep tier chưa sẵn sàng triển khai với SUT này: kết quả Task 1 ở tải cao đã vi phạm absolute SLO hiện tại, điều đó không tự chứng minh p95 regression mới. Người có thẩm quyền phải quyết định và phê duyệt policy theo profile **trước khi đo bootstrap và bật CI**; không tự đổi ngưỡng sau khi thấy kết quả. Không có policy đã duyệt thì INCONCLUSIVE, không chạy test tốn chi phí.
 
 Push/PR dùng smoke Load 30/15/180; nightly dùng Load 50/50/600 (users/ramp/duration giây). Weekly chạy lần lượt ba plan gốc: Stress bốn stage nối tiếp 50/100/200/290 users, mỗi stage ramp 30 s và duration 150 s; Spike baseline 10 users ramp 10 s duration 360 s đồng thời burst 190 users delay 120 s, ramp 5 s, duration 120 s; Soak 203 users ramp 60 s duration 720 s. Negative mặc định 5%. Lọc latency sau initial ramp, không bỏ ramp các stage sau hoặc burst; so với baseline cùng plan/profile/filter. Mỗi plan reset riêng, và retry reset lại. Schedule ép chạy; baseline riêng `nightly_baseline.json`, `stress_baseline.json`, `spike_baseline.json`, `soak_baseline.json`, không so với smoke `baseline.json`. Thiếu baseline là INCONCLUSIVE. Các tier chưa có số đo; theo dõi chi phí và báo động giả. Soak từng có p95 1.013 ms trong cửa sổ 120–240 s dù không đổi code ([bằng chứng](../../report/08_endurance.md)); hai FAIL cần người điều tra trước khi kết luận nguyên nhân.
 
-Bootstrap các tier khác thủ công tương tự smoke, tạo thư mục mới cho từng run, reset trước mỗi run, rồi chạy JMeter với lệnh tương ứng bên dưới; sau đó thay `smoke` bằng tier trong `--profile` và `baseline.json` bằng `<tier>_baseline.json` trong hai lệnh metadata và make-baseline. Người duyệt đặt baseline đã tạo vào thư mục bền vững của runner.
+Bootstrap các tier khác thủ công tương tự smoke, tạo thư mục mới và reset trước mỗi run. Nightly dùng `--profile nightly` và mặc định Task 2 SLO. Với deep tier, trước lần chạy phải có file policy được duyệt; chạy đúng plan bên dưới, sau đó metadata và baseline phải dùng cùng profile/policy. Ví dụ Stress (Spike/Soak thay tên tier và plan tương ứng):
+
+```bash
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export POLICY=/absolute/path/to/approved/stress_slo.json
+mkdir results/cpt/bootstrap_stress
+bash scripts/reset_sut.sh
+jmeter -n -t test-plans/23120190_Stress_20261117.jmx -l results/cpt/bootstrap_stress/run.jtl -e -o results/cpt/bootstrap_stress/html
+python3 scripts/perf_gate.py --baseline results/cpt/stress_baseline.json --slo "$POLICY" --write-metadata results/cpt/bootstrap_stress/run.jtl --profile stress
+python3 scripts/perf_gate.py --baseline results/cpt/stress_baseline.json --slo "$POLICY" --make-baseline results/cpt/bootstrap_stress/run.jtl
+```
+
+Sau khi baseline đạt absolute gate và được người có thẩm quyền duyệt, đặt baseline và đúng file policy vào thư mục bền vững; chạy `CPT_TIER=stress CPT_SLO="$POLICY" CPT_BASELINE=/absolute/path/to/stress_baseline.json bash scripts/cpt_pipeline.sh BASE HEAD`. Lệnh plan gốc cho các profile (mỗi dòng là lựa chọn riêng, không chạy lại Stress đã bootstrap ở trên):
 
 ```bash
 jmeter -n -t test-plans/23120190_Load_20261117.jmx -l results/cpt/bootstrap_nightly/run.jtl -e -o results/cpt/bootstrap_nightly/html -Jthreads=50 -Jrampup=50 -Jduration=600 -Jlock_percent=5

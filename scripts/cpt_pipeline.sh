@@ -29,6 +29,15 @@ short=$(git -C "$SUT" rev-parse --short=12 "$resolved") || exit 2
 decision=$(python3 scripts/perf_decide.py "$BASE" "$HEAD") || exit 2
 printf '%s\n' "$decision"
 if [ "${CPT_FORCE:-0}" != 1 ] && [ "$(printf '%s' "$decision" | python3 -c 'import json,sys; print(json.load(sys.stdin)["decision"])')" = skip ]; then exit 0; fi
+if [[ "$tier" = stress || "$tier" = spike || "$tier" = soak ]]; then
+    if [ -z "${CPT_SLO:-}" ]; then echo "INCONCLUSIVE: approved $tier SLO must be supplied in CPT_SLO" >&2; exit 2; fi
+    slo=$CPT_SLO
+else
+    slo=${CPT_SLO:-"$ROOT/results/cpt/slo.json"}
+fi
+if ! python3 scripts/perf_gate.py --check-policy --baseline "$baseline" --slo "$slo" --profile "$tier"; then
+    echo "INCONCLUSIVE: baseline/SLO policy not ready for $tier" >&2; exit 2
+fi
 export JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-17-openjdk-amd64}
 for attempt in 1 2; do
     suffix="${CPT_RUN_ID:+_${CPT_RUN_ID}}"
@@ -36,8 +45,8 @@ for attempt in 1 2; do
     mkdir "$dir" || { echo 'INCONCLUSIVE: artifact directory exists or cannot be created' >&2; exit 2; }
     bash scripts/reset_sut.sh 9>&- || { echo 'INCONCLUSIVE: reset failed' >&2; exit 2; }
     jmeter -n -t "$plan" -l "$dir/run.jtl" -e -o "$dir/html" "${opts[@]}" || { echo 'INCONCLUSIVE: JMeter failed' >&2; exit 2; }
-    python3 scripts/perf_gate.py --baseline "$baseline" --write-metadata "$dir/run.jtl" --profile "$tier" || exit 2
-    python3 scripts/perf_gate.py --baseline "$baseline" --candidate "$dir/run.jtl"
+    python3 scripts/perf_gate.py --baseline "$baseline" --slo "$slo" --write-metadata "$dir/run.jtl" --profile "$tier" || exit 2
+    python3 scripts/perf_gate.py --baseline "$baseline" --slo "$slo" --candidate "$dir/run.jtl"
     status=$?
     if [ "$status" -eq 0 ]; then exit 0; fi
     if [ "$status" -ne 1 ]; then exit 2; fi
