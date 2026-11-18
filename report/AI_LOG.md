@@ -632,6 +632,9 @@
 ## #35 – 2026-11-18 22:29 (giờ VN)
 - **AI tool:** omp – TaskThreeChangeMap (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol)
 - **Bước:** Task 3 – Bước 29
+## #2 – 2026-11-17 23:04 (giờ VN)
+- **AI tool:** omp – scout; Manager (openai-codex/gpt-6.1-sol)
+- **Bước:** Task 1 – Bước 1
 - **Prompt:**
   > Bước 29 – Chỉ đọc, không sửa file nào. Lập bản đồ để pipeline biết commit nào CẦN chạy performance test:
   >   1. Liệt kê các thư mục/file của eshop-sut (git -C eshop-sut ls-files). Xếp từng nhóm vào 1 trong 3 loại:
@@ -644,6 +647,16 @@
   > Xong khi: mọi file tracked của eshop-sut được xếp loại; mọi route có số dòng.
   > Ràngbuộc thực thi của Manager: load skill://ponytail trước, active whole session. Chỉ đọc, không tạo/sửa file kể cả report/log; trả nguyên nội dung Markdown report/16a_sut_change_map.md trong fence BỐN backticks để Manager ghi đúng một lần. Manager là người duy nhất append AI_LOG và commit. Không push/tạoIssue/JMeter/reset/SUT edits. Không đọc/grep/glob agent-context files vì quy tắc đã auto-loaded; áp dụng: không sửa/tạoJTL, khôngbịa metric, humanreviewđểtrống, tài liệu Markdowntrongreport/, không commit worker. NếuLSP khảdụng, dùng xd://lsp cho definitions/references khi cần codeintelligence; việc đọc route inventory phải có sốdòng từsourceactual. Khôngbuild/lint/test/formatter ởbướcchỉđọc này. Khôngnesteddelegation.
   > Reportphải bao phủ mọi trackedfile: có thểnhóm bằngpattern/rule có thứtựvà count, nhưng đính kèminventorypath→category cho toàn bộtrackedpaths (khôngbỏfile), kiểm conservation totals. Auth/Read/Transactional mapping theo Flow1: Login; Products+Detail; Cart+Checkout+Myorders. Negative login cùng POSTloginvớiđầu vào sai; routes khác ghi không phủ, không giả mainlabel. Lệnh git ls-files/log/status là thu thậpmetadata useryêucầu bước29, không validationedits. Trả metadata thời gianVN bằng date, tênmodel actual, lệnh/sourceđãđọc và tổngfiles/routes cùng invariantcoverproof; không bịa output. Nếu dài vẫntrảđủreport, Manager sẽđọcartifact continuation.
+  > Bước 1 – Phân tích API cho Flow 1 (chỉ đọc, không sửa file nào ngoài file báo cáo).
+  > Đọc eshop-sut/backend/server.js, eshop-sut/api_specification.md, eshop-sut/README.md. Với từng endpoint của Flow 1, liệt kê:
+  >   method, path, cần token hay không, request body, response mẫu (gọi thử bằng curl để lấy response thật), mã lỗi có thể xảy ra, truy vấn DB bên dưới (đọc hay ghi SQLite).
+  > Sau đó chỉ ra:
+  >   (a) Mỗi endpoint thuộc nhóm nào (Auth/Read/Transactional) và lý do.
+  >   (b) Biến nào phải trích xuất để truyền giữa các request (token, user.id, product price, orderId...).
+  >   (c) Các bẫy khi load test: lockout, price string/number, cart không xóa, SQLite khóa ghi, server đơn luồng.
+  > Ghi kết quả vào report/01_api_analysis.md.
+  > Xong khi: đủ 7 endpoint, mỗi endpoint có response thật lấy từ curl, có mục (a)(b)(c).
 - **AI output:**
   > Scout chỉ đọc source/JMX, không có shell để hoàn tất metadata. Manager chạy các lệnh Git chỉ đọc và date thực tế, tạo report/16a_sut_change_map.md: đủ66trackedpaths (6ảnhhưởngbackend/59khôngảnhhưởngAPIworkloadcốđịnh/1chưarõ),31route với dòngsource,7routeFlow1/24khôngphủ. Đính chính số29mởđầucủascout thành31; phânloạirouteghi catalog làTransactional. HEADSUTmain85af3ba875c88283615e22cb108f13e2fccaf0e9; database.sqliteđãmodified vànode_modulesuntracked trước bước này, khôngrestore/xóa/stage. Giữ nguyên sửađổicủangườidùng ởHW05, kểcảhuman14/checklist15/logentry34. Kiểmtrareport66inventoryrows/31uniqueroutes và6localfilelinks đều tồn tại. KhôngchạyJMeter/reset/sửaSUT/JTL/push/Issue.
+  > Scout đọc code/spec và phân tích tĩnh nhưng không có shell. Manager gọi thật workflow, chạy curl cho đủ 7 endpoint và tạo report/01_api_analysis.md: body, token, response thật, lỗi từ code, SQL, nhóm endpoint, biến liên kết và bẫy. Không sửa SUT. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
 - **Human review:** _(để trống – người dùng tự điền)_
