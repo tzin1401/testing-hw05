@@ -26,3 +26,4 @@ Skill này đóng gói quy trình kiểm thử hiệu năng và phân tích log 
 | `read`, `auth`, `transactional`, mỗi nhóm 5 VU × 30 s | Cả 3 PASS, 0 lỗi | `results/skill/*_20261119-0050*`, `*-005149` |
 | Nhóm cố ý sai path (`/api/nope`) | FAIL đúng: lỗi 100%, mã 404 | Đã xóa sau khi kiểm |
 | Agent mới làm theo SKILL.md: `/perf-endpoint-group transactional` | PASS. `check_claims` bắt được 1 số không có nguồn, agent đã sửa | `results/skill/transactional_20261119-005420` |
+| Video demo trên omp (gpt-6.1-sol): `/skill:perf-endpoint-group transactional`, 20 VU × 120 s | PASS: 2260 request, 0% lỗi, Checkout p95 14 ms; `check_claims` OK. Video: https://youtu.be/1NvKtbFaqGs | `results/skill/transactional_20261119-114919` |

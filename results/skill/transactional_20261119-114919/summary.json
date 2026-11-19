@@ -1,0 +1,126 @@
+{
+  "group": "transactional",
+  "jtl": "results/skill/transactional_20261119-114919/run.jtl",
+  "verdict": "PASS",
+  "missing_labels": [],
+  "max_all_threads": 20,
+  "total": {
+    "count": 2260,
+    "errors": 0,
+    "error_pct": 0.0,
+    "rps": 18.94,
+    "span_s": 119.3,
+    "mean_ms": 4.2,
+    "p50_ms": 2,
+    "p90_ms": 11,
+    "p95_ms": 12,
+    "p99_ms": 15,
+    "max_ms": 32,
+    "codes": {
+      "200": 2260
+    }
+  },
+  "labels": {
+    "T0 Setup login": {
+      "count": 20,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 2.02,
+      "span_s": 9.9,
+      "mean_ms": 4.7,
+      "p50_ms": 3,
+      "p90_ms": 5,
+      "p95_ms": 7,
+      "p99_ms": 32,
+      "max_ms": 32,
+      "codes": {
+        "200": 20
+      },
+      "slo": "not gated"
+    },
+    "T1 Add cart": {
+      "count": 568,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 4.8,
+      "span_s": 118.2,
+      "mean_ms": 1.8,
+      "p50_ms": 2,
+      "p90_ms": 3,
+      "p95_ms": 3,
+      "p99_ms": 4,
+      "max_ms": 8,
+      "codes": {
+        "200": 568
+      },
+      "slo_p95_limit_ms": 75,
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "T2 Get cart": {
+      "count": 560,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 4.78,
+      "span_s": 117.2,
+      "mean_ms": 1.6,
+      "p50_ms": 2,
+      "p90_ms": 2,
+      "p95_ms": 3,
+      "p99_ms": 3,
+      "max_ms": 6,
+      "codes": {
+        "200": 560
+      },
+      "slo_p95_limit_ms": 75,
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    },
+    "T3 Checkout": {
+      "count": 557,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 4.79,
+      "span_s": 116.2,
+      "mean_ms": 11.0,
+      "p50_ms": 11,
+      "p90_ms": 13,
+      "p95_ms": 14,
+      "p99_ms": 19,
+      "max_ms": 25,
+      "codes": {
+        "200": 557
+      },
+      "slo_p95_limit_ms": 100,
+      "slo": "PASS (p95 <= 100 ms, error <= 0.1%)"
+    },
+    "T4 My orders": {
+      "count": 555,
+      "errors": 0,
+      "error_pct": 0.0,
+      "rps": 4.81,
+      "span_s": 115.4,
+      "mean_ms": 2.3,
+      "p50_ms": 2,
+      "p90_ms": 3,
+      "p95_ms": 4,
+      "p99_ms": 10,
+      "max_ms": 13,
+      "codes": {
+        "200": 555
+      },
+      "slo_p95_limit_ms": 75,
+      "slo": "PASS (p95 <= 75 ms, error <= 0.1%)"
+    }
+  },
+  "slo": {
+    "p95_ms": 75,
+    "error_pct": 0.1
+  },
+  "method": "Percentiles are nearest-rank on `elapsed`: sorted[ceil(p*n)-1]. Error = success=false.",
+  "monitor": {
+    "samples": 121,
+    "rss_first_mb": 88.48,
+    "rss_max_mb": 99.77,
+    "rss_last_mb": 99.77,
+    "note": "cpu_percent from ps is a lifetime average, not instantaneous; use htop in the video for live CPU."
+  }
+}

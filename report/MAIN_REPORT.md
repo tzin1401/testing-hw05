@@ -11,7 +11,7 @@ Sinh viên **23120190** · Flow 1 (login → products → product detail → car
 | 5 | Agent Skill |
 | 6 | AI Critique |
 
-Video demo: Load https://youtu.be/gI2pvrCkcQg · Stress https://youtu.be/1ZFqomMaMFU · Spike https://youtu.be/qH1VOzb8fZU · Soak https://youtu.be/ADsnkwwEeRE
+Video demo: Load https://youtu.be/gI2pvrCkcQg · Stress https://youtu.be/1ZFqomMaMFU · Spike https://youtu.be/qH1VOzb8fZU · Soak https://youtu.be/ADsnkwwEeRE · Agent Skill https://youtu.be/1NvKtbFaqGs
 
 AI Audit Report: [AI_AUDIT_REPORT.md](AI_AUDIT_REPORT.md) · Toàn văn log: [AI_LOG.md](AI_LOG.md)
 
@@ -377,27 +377,19 @@ Skill này đóng gói quy trình kiểm thử hiệu năng và phân tích log 
 | `read`, `auth`, `transactional`, mỗi nhóm 5 VU × 30 s | Cả 3 PASS, 0 lỗi | `results/skill/*_20261119-0050*`, `*-005149` |
 | Nhóm cố ý sai path (`/api/nope`) | FAIL đúng: lỗi 100%, mã 404 | Đã xóa sau khi kiểm |
 | Agent mới làm theo SKILL.md: `/perf-endpoint-group transactional` | PASS. `check_claims` bắt được 1 số không có nguồn, agent đã sửa | `results/skill/transactional_20261119-005420` |
+| Video demo trên omp (gpt-6.1-sol): `/skill:perf-endpoint-group transactional`, 20 VU × 120 s | PASS: 2260 request, 0% lỗi, Checkout p95 14 ms; `check_claims` OK. Video: https://youtu.be/1NvKtbFaqGs | `results/skill/transactional_20261119-114919` |
 
 
 # 6. AI Critique
 
-**AI sai, thiên lệch hoặc thiếu ở đâu?**
+Đọc lại log, mình thấy AI hiếm khi tính sai số. Cái sai chủ yếu nằm ở cách diễn giải số và thiết kế công cụ đo.
 
-AI hiếm khi viết sai số. Nó sai khi diễn giải số và khi thiết kế công cụ đo.
+Lỗi rõ nhất là ngưỡng. Ở Task 2, AI đọc đúng mọi số từ `.jtl` nhưng vẫn đề xuất SLO p95 50 ms cho từng nhóm. Stress 200 VU đã đo được Login 51 ms, Products 52 ms, Checkout 60 ms. p95 gộp Transactional 45 ms trông đẹp nên che mất Checkout.
 
-- **Ngưỡng không khớp dữ liệu.** Ở Task 2, AI đọc đúng mọi số từ `.jtl` nhưng đề xuất SLO p95 50 ms theo nhóm. Trong khi đó, Stress 200 VU đã đo được Login 51 ms, Products 52 ms, Checkout 60 ms. p95 gộp Transactional là 45 ms, che mất Checkout.
-- **Công cụ đo có lỗi.** Plan Soak có thêm listener ghi trùng mọi sample. Monitor dùng `ps %cpu`, là CPU trung bình từ lúc tiến trình khởi động, không phải CPU tức thời. Lời thoại video AI soạn ghi CPU 80%, còn htop chỉ hiện 45,7%.
-- **Đề xuất tối ưu không áp dụng được.** "Rút ngắn transaction Checkout" không áp dụng, vì Checkout chỉ có một `INSERT`. "Connection pool" không hợp với SQLite, vì SQLite chỉ có một writer.
+Công cụ đo cũng có lỗi. Plan Soak có thêm listener ghi trùng mọi sample. Monitor dùng `ps %cpu`, là CPU trung bình cả phiên, không phải CPU tức thời; lời thoại video AI soạn ghi 80%, htop chỉ 45,7%.
 
-**Vì sao AI không tự phát hiện?**
+AI còn có thiên lệch làm phức tạp. Plan Stress có pool tài khoản `synchronized` và gate Groovy giữa các bậc; nhiều lỗi sinh ra từ đó. Đề xuất tối ưu cũng không áp dụng được: "rút ngắn transaction Checkout" vô nghĩa vì Checkout chỉ có một `INSERT`; "connection pool" không hợp với SQLite vì chỉ có một writer.
 
-- AI trả lời theo mẫu quen thuộc nhưng không đối chiếu với dữ liệu và mã nguồn thật.
-- AI không thấy runtime.
-- Agent reviewer có cùng điểm mù với agent viết.
-- Số gộp trông đẹp nên che mất phần đuôi chậm.
+Vì sao AI không tự thấy? Vì nó trả lời theo mẫu quen thuộc, không đối chiếu dữ liệu và mã nguồn. Nó không thấy runtime. Reviewer do AI làm cũng mang cùng điểm mù.
 
-**Nguyên tắc em rút ra**
-
-- Tách phần đo và phần diễn giải: mọi con số phải do script tính lại được từ `.jtl` thô.
-- Không để AI tự review AI. Phải có bước kiểm bằng script hoặc người, như `jtl_truth.py`, gate A/A và `check_claims.py`.
-- Người giữ các quyết định có hậu quả: SLO, baseline, đóng cảnh báo.
+Mình rút ra ba nguyên tắc. Một, tách đo và diễn giải: mọi số phải tính lại được từ `.jtl` thô. Hai, không để AI tự review AI; phải kiểm độc lập bằng script hoặc người, như `jtl_truth.py`, gate A/A, `check_claims.py`. Ba, người giữ quyết định có hậu quả: SLO, baseline, đóng cảnh báo. AI chỉ nên chỉ chỗ mình nhìn sót.

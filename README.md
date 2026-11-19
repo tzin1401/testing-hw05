@@ -39,7 +39,7 @@ Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/
 | Stress | https://youtu.be/1ZFqomMaMFU |
 | Spike | https://youtu.be/qH1VOzb8fZU |
 | Soak | https://youtu.be/ADsnkwwEeRE |
-| Agent Skill | _(bổ sung sau khi quay)_ |
+| Agent Skill | https://youtu.be/1NvKtbFaqGs |
 
 ## Task 2 – Phân tích AI
 
@@ -51,7 +51,7 @@ Theo [endurance JSON](results/analysis/endurance.json) và [phân tích](report/
 
 ## Agent Skill
 
-[`skill/perf-endpoint-group`](skill/README.md): một lệnh `/perf-endpoint-group <auth|read|transactional|group.json> [smoke|load]` chạy trọn quy trình: sinh plan → reset SUT → JMeter non-GUI + monitor → số liệu tính từ JTL → SLO PASS/FAIL → AI phân tích → script kiểm mọi con số AI viết. Thêm endpoint mới chỉ cần một file JSON. Kết quả kiểm thử thật ở [skill/README.md](skill/README.md).
+[`skill/perf-endpoint-group`](skill/README.md): một lệnh `/perf-endpoint-group <auth|read|transactional|group.json> [smoke|load]` (trên omp: `/skill:perf-endpoint-group …`) chạy trọn quy trình: sinh plan → reset SUT → JMeter non-GUI + monitor → số liệu tính từ JTL → SLO PASS/FAIL → AI phân tích → script kiểm mọi con số AI viết. Thêm endpoint mới chỉ cần một file JSON. Kết quả kiểm thử thật ở [skill/README.md](skill/README.md).
 
 ## Bắt đầu và tái lập
 

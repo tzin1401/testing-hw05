@@ -301,7 +301,7 @@
   > Bổ sungphâncông: codeonly scripts/summarize.py vàselfcheck nhỏ; chưa viếtconclusions08chođếnsonicrun. Script nhậnexplicit4paths --soak-jtl,--soak-monitor,--stress-jtl,--stress-monitor; sourcescanonical *_Soak_20261118.jtl và*_Stress_20261118.jtl trongresults/jtl,CSVtươngứngresults/monitor. TuyệtđốikhôngcộngSoak_writer.jtl. Xuất deterministicJSONstdout, khôngcurrenttime. MainmetricsloạiNegative login, negativecounts/codes/successriêng. Nearest-rankp95; runrelativeminutebucketsfromfirstmainsample; RPSdenominatortimewidth/partialminuteexplicit; ramp60s summarySoakriêng. StressgroupbythreadName StressstageN, actualuniqueVU, samplecount/errors/p95/RPSallstage vàpost30sramp. ChỉJTLtimestamp+elapsedlànguồnstart/end, khôngcầnlogignoredkhóreproduce; ghi rõwindow khác07nênRPSstablecóthểkhác. Thresholdfirststage error>5%orp95>2000, nullnếuchưavượt; maxstableobservedVU/RPS/p95, khôngclaimbreakpointđãđạt. Monitor max/avgRSSMiB/CPU vàOLS RSSslopeMiB/min trên timestampsจริง, khôngassumeHz. CPUpslifetimeaverage,observedmaxRSSkhônghardmemoryceiling; khôngproveleakbằngRSS12phút. Include sourcepaths/methodunitsJSON. Inputvalidationfinite/time/samplemeaningful. Mộtselfcheckinmemory unittestfilehoặcasserts cho percentile/bucketedge/negativeexclusion (khôngtạoJTLtestfixturetrênđĩa). Noexecutionagent; Manager giao sonicrun2lầncheckdeterminism rồi viết08. AppendAI_LOGbước16codephasechưasốliệu. Khôngtạoabstractionpipeline hoặcdependencies.
 - **AI output:**
   > Tạo scripts/summarize.py tính metrics từ bốn đường dẫn đầu vào và xuất JSON; tạo scripts/test_summarize.py tự kiểm tra bằng dữ liệu trong bộ nhớ. Chưa chạy script hoặc tự kiểm tra, chưa ghi báo cáo hay kết luận số liệu.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đã đọc `scripts/summarize.py` và `scripts/test_summarize.py`. Đồng ý p95 nearest-rank, main loại Negative login, RPS chia theo bề rộng phút thật, không cộng `Soak_writer.jtl` và output không phụ thuộc giờ chạy. Nhãn "Task 2" ở tiêu đề là ghi nhầm; đây là bước 16 của Task 1, đã đính chính ở #25 mà không sửa entry cũ. Bước này mới là code, mình chưa coi số liệu đã được xác nhận.
 
 ## #20 – 2026-11-18 01:58 (giờ VN)
 - **AI tool:** omp – ComputeEndurance (sonic); Manager (openai-codex/gpt-6.1-sol)
@@ -322,7 +322,7 @@
   > Xong khi: mọi con số đều do script tính ra; script chạy lại cho cùng kết quả.
 - **AI output:**
   > Chạy 3 self-check PASS; script chạy hai lần output JSON byte-identical (cmp exit 0). Tạo results/analysis/endurance.json và report/08_endurance.md. Mức Stress ổn định cao nhất quan sát: 290 VU, 468.556 RPS, p95 947 ms; chưa thấy breakpoint. Soak phút index 3 có p95 2244 ms vượt 2000 ms dù tổng HTML p95 21 ms: không kết luận ổn định liên tục 12 phút. RSS max Soak 127.80 MiB, Stress 171.64 MiB; slope Soak 1.470 MiB/phút chỉ là xu hướng quan sát, không chứng minh memory ceiling hay leak vô hạn. Manager sửa checksum bị chép thiếu và nêu rõ breach theo phút trong báo cáo.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đã đối chiếu report/08 với `results/analysis/endurance.json`. Đồng ý Stress chỉ tới 290 VU, 468,556 RPS, p95 947 ms và chưa có breakpoint, nên chỉ gọi là mức ổn định cao nhất quan sát. Soak phút 3 p95 2.244 ms > 2.000 ms dù p95 tổng 21 ms, nên mình không đọc là ổn định liên tục 12 phút. RSS max 171,64/127,80 MiB và slope 1,470 MiB/phút chỉ là quan sát, chưa đủ chứng minh leak hay trần RAM; checksum đã sửa đúng.
 
 ## #21 – 2026-11-18 02:04 (giờ VN)
 - **AI tool:** omp – ReproduceBugs (openai-codex/gpt-6-luna)
@@ -347,7 +347,7 @@
   > AppendAI_LOGentrybước17promptnguyênvănbỏGhi vào log/modelactual/datetimeVN/Humanreviewblank. Reportmọifile vàrawoutput evidence. KhôngautoGitHubIssue. Khôngresetcuốicũngđượcvìkhôngcòntestload; nếuresetthìghirõ. 
 - **AI output:**
   > Reset SUT một lần; ghi raw curl output cho lockout, giá sản phẩm, checkout và cart. Tạo `report/09_bugs.md` với bốn finding có phân biệt yêu cầu spec và inference; nêu riêng quan sát Soak phút 3 p95 2,244 ms, 0% lỗi, 171.183 RPS, không quy nguyên nhân và không tái chạy tải. Không đăng GitHub.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý 3 bug có yêu cầu spec rõ và 1 finding Low về type price (FR-06 không bắt buộc number, chỉ là consistency). Mình kiểm raw `flow1_bugs_*.txt`: sai 2 lần đều 401, đúng mật khẩu tại ~35 s và ~179 s vẫn 403, ~181 s mới 200; checkout order total 1 dù giá thật 28.000.000; cart còn item sau checkout. Tách quan sát Soak phút 3 khỏi bug curl là đúng, mình không đọc nó như bug tái hiện.
 
 ## #22 – 2026-11-18 02:09 (giờ VN)
 - **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol)
@@ -365,7 +365,7 @@
   > Xong khi: mỗi bug có lệnh curl tái hiện kèm output thật.
 - **AI output:**
   > Manager đọc raw curl: các lượt cart/checkout của worker đều 403 nên kết luận 200 trước đó chưa có bằng chứng. Giữ token thật trong bộ nhớ và chỉ che bản in, gọi curl lại thành công lúc 02:06:55 +07, lưu results/repro/checkout_cart_20261118.txt: checkout HTTP 200 orderId1, orders total_amount1 dù giá sản phẩm 28000000, cart còn nguyên. Sửa nguồn chứng minh trong report/09_bugs.md, bổ sung trích response thật, sửa mô tả code price ID chẵn và che một token còn lộ ở raw cũ (không sửa JTL). Lockout và price đã có đủ bằng chứng nên không đo lại. Ba bug có yêu cầu spec rõ và một finding type consistency có ambiguity; không tự đăng Issues.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý không giữ kết luận 200 khi raw toàn 403; phải gọi lại và lưu `results/repro/checkout_cart_20261118.txt` mới tính là bằng chứng. Mình đã xem response thật: HTTP 200, `total_amount` 1, orders trả 1, cart còn nguyên. Che token còn lộ trong raw cũ là cần thiết; không sửa JTL vì đây là lỗi nguồn chứng minh, không phải lỗi số đo.
 
 ## #23 – 2026-11-18 02:12 (giờ VN)
 - **AI tool:** omp – TaskOneReport (openai-codex/gpt-6.1-terra)
@@ -393,7 +393,7 @@
   > AI-errorsectionphânbiệtsourceAIreviewvsuserhumanreview: keepalive/cartassert/loginfailurepause/extractorJava17/propertygetmutatesdefaults; aggregateSoak hidesperminutebreach; bugreportclaimed200butraw403correctedbyManager. Chỉfactlinkcites, khôngviếthumanacceptancehộuser. Link06only. Cuốibáocáochecklisthumanremaining: tựđăngIssues/screenshots,video≥6minVNvoiceunlisted, điềnHumanreviewentriesmới,điểmblank,pushpublic(gatecấmagentpush). PDFexportsubmissioncóthểghiuserexportchưatạo, khôngclaimfilePDFnếukhôngexisting. KhôngvờTask1ready-submitfullkhiđườnglinkuserscònthiếu. Mọirelativelinkphảiđếnexistingfile; đừnglinkreport10chưatạotrướcstep19.
 - **AI output:**
   > Tạo báo cáo Task 1, README tự đánh giá và snapshot Git log; trích nguồn kết quả, nêu giới hạn endurance, các bug và phần việc sinh viên; không sửa human review. Manager cung cấp kết quả API Issues rỗng tại thời điểm kiểm tra. Không tự đăng issue hay push.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý báo cáo trích số từ file nguồn, không viết tay. Mình giữ cách đọc thận trọng: 290 VU/468,556 RPS/p95 947 ms là quan sát cao nhất, Soak phút 3 vượt 2 s nên không tuyên bố ổn định 12 phút, RSS/slope không phải trần RAM. Bug ghi 3 confirmed + 1 Low đúng; README chỉ nhận Task 1, không nhận Task 2/3/Skill đã xong. Video, Issues và Human review vẫn là việc của mình.
 
 
 ## #24 – 2026-11-18 02:22 (giờ VN)
@@ -415,7 +415,7 @@
   > Checklist✅/❌từngmục+existingproofpaths. Mọi❌cóhướngxửlý rõ agentfixvsusermandatory. CuốiliệtkêuserremainingIssuesảnh/video≥6minunlistedVNvoice/Humanreviewnew/selfgrade/PDF/publicpush; Task2/3/Skilloutscopekhôngclaimdone. Nếucóactualagenterrorreachableghi exactfilelines đểManagerfix, khôngnarrowfalsePASS. AppendAI_LOGbước19modelactual/dateVN/promptnguyênvănbỏGhi vào log/Humanreviewblank; readonlytoolsreturnentryforManagerappend.
 - **AI output:**
   > Đọc 4 JMX, TASK1_REPORT, README, 07/08/09, AI_LOG, GIT_LOG, 05_hardware, 06 (chỉ đọc), 9 ảnh evidence, statistics.json, endurance.json và JTL; không chạy tải/reset/commit/push, không sửa plan/JTL/SUT/06. Không có tool edit/write nên không ghi file; trả toàn văn report/10_final_check.md và entry này cho Manager ghi. Kết quả: 3 plan cùng workflow, đủ 3 nhóm endpoint, CSV, 3 listener khác nhau (Summary / Aggregate / Response Time Graph) + Soak Simple Data Writer; 4 JTL parse CSV có số dòng bằng Total.sampleCount của HTML (33,775 / 175,882 / 27,965 / 158,591), writer Soak trùng không cộng; 5 trường ngẫu nhiên (Stress RPS, Stress p95, Spike p95, Soak p95, Soak samples) và cả 16 ô bảng khớp statistics.json; số endurance khớp endurance.json (290 VU, 468.556 RPS, p95 947 ms; Soak phút 3 p95 2,244 ms > 2,000 ms, không đánh PASS ổn định 12 phút; RSS 171.64/127.80 MiB, slope 1.470 MiB/phút, không phải trần RAM hay bằng chứng leak). Hostname zinn-Nitro-AN515-57 khớp hardware.png, 05_hardware.md và lệnh `hostname`; 4 ảnh run cho thấy htop + tail jmeter.log cùng khung (PID khớp run log với Load và Spike; Stress/Soak không đối chiếu được PID đầy đủ, ghi uncertainty). AI_LOG có entry cho bước 0–11 và 13–18, bước 12 là việc người dùng nên không bịa entry. Phát hiện ❌ agent-fix: 07_run_log.md:64,102 và TASK1_REPORT.md:47 ghi sai là HTML Stress ban đầu "lỗi thư mục tồn tại" — log JMeter chỉ có INFO và "Dashboard generated", thư mục gốc đầy đủ, giống hệt bản recovered, chưa được git track; đề xuất sửa 3 dòng, chọn bản chính, git add thư mục gốc. Đề xuất bug chưa có: mật khẩu plaintext trả về trong /api/login (SEC-01, server.js:23-24,46,52; raw checkout_cart_20261118.txt dòng 2). Việc người dùng còn lại: video ≥ 6 phút unlisted giọng tiếng Việt, ảnh trang Issues và đăng Issues, điền Human review #14–#24, AI Critique 200–300 từ, xuất PDF, điền điểm tự chấm, push public, đóng gói zip. Task 2/3/Agent Skill ngoài phạm vi, không tuyên bố xong. Bối cảnh chung theo Phần B TASK1_PROMPTS.md được truyền kèm.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý checklist. Mình kiểm lại 5 số ngẫu nhiên và 16 ô bảng đều khớp statistics.json; 4 JTL có số dòng bằng HTML (33.775/175.882/27.965/158.591), không cộng writer; hostname khớp hardware.png. Đồng ý sửa 3 dòng mô tả sai HTML Stress "lỗi thư mục tồn tại" vì log chỉ có Dashboard generated, và thêm BUG-05 plaintext password. Reviewer không tự ghi file là đúng; các việc video/Issues/PDF/tự chấm mình xác nhận còn lại.
 
 ## #25 – 2026-11-18 02:31 (giờ VN)
 - **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol)
@@ -432,7 +432,7 @@
   > Xong khi: checklist đầy đủ, mọi mục ❌ có hướng xử lý.
 - **AI output:**
   > Lưu bản review độc lập và cập nhật xử lý vào report/10_final_check.md. Sửa báo cáo nhầm của worker về HTML Stress: log gốc ghi Dashboard generated, _recovered chỉ là xuất đối chiếu; chuyển các tham chiếu hiện hành về HTML gốc và đưa thư mục đó vào commit. Thêm BUG-05 mật khẩu plaintext từ curl đã có, trích SEC-01 là tham khảo; cập nhật đếm 4 bug + 1 finding ở README/main report. Đính chính nhãn Task 2 ở entry #19/#21: đây là bước 16/17 Task 1, không sửa entry cũ. Cập nhật snapshot Git log và trạng thái smoke Soak. Không chạy lại tải/reset hoặc sửa JTL/SUT. Việc người dùng còn thiếu và giới hạn endurance giữ rõ trong checklist.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý các xử lý: chuyển tham chiếu về HTML Stress gốc, thêm BUG-05, cập nhật đếm 4 bug + 1 finding, ghi đính chính nhãn Task 1 ở #19/#21 thay vì sửa entry cũ, cập nhật snapshot Git log. Giữ lịch sử sai và ghi đính chính là cách minh bạch hơn. Không chạy lại tải/reset hay sửa JTL. Task 1 khép lại với 4 bug xác nhận và 1 finding Low.
 
 ## #26 – 2026-11-18 14:52 (giờ VN)
 - **AI tool:** omp – TaskTwoAnalyst (openai-codex/gpt-6.1-terra)
@@ -851,7 +851,7 @@
   > READMErootgiữnguyênuserchangeskểcảTask1/Task2tables/video/grades/otheruncommittedtext. Thêm1đoạnngắnTask3vàlinksreport/17/18/human19, chỉnhclaimTask3notdoneđúng'đãcótàiliệuvàdemo;CIchưatriểnkhai', khôngnóitoànHW05done/Skilldone. Khôngduplicate datasetởREADME. Managerverifynewlinks+diagramcopy+GitLOGexport sauhandoff. Báofilemodified/modelactual/dateVN, khôngclaimruntimechecksđãrun.
 - **AI output:**
   > Humanđãxácnhậnxong34, report19đủ2lệnh tựchạy18testsOK1.589s/D1FAILexit1 và3chủđề,Humanreview35–39filled; khôngrerunuserchecks. Tạo report/TASK3_REPORT.md đủ6mục,copynguyênMermaidvàtradeoff/p95tablesnguồn16/17; sectionstudentchỉLINK19,khôngsửahumantext. READMEthêmTask3vàgiớihạnCI/baseline/policychưaduyệt; khôngclaimfullHW05/Skilldone. ManagerchỉnhcâubaselineđượcduyệtsauBootstrapPASS(tránhvònglặpbaseline-before-bootstrap) vàscopeSLOtheopolicy(defaultTask2),khôngđổingưỡng/code/sốđo. Kiểm71localfilelinksđềutồntại,6sections,blockMermaid/tableexactcopy; khôngrenderlặpchartkhôngđổi. GIT_LOGxuấtđúnggitlog--oneline--reverse34commitđến66dd539,trướccommit35. GiữnguyênmọiJTL/SUT/19; khôngJMeter/push/Issue. Chỉcommit19nguyênvănvàHumanreview35–39đãđượcuserxácnhận,khônggộpTask2userchangesngoàiphạmvi.
-- **Human review:** _(để trống – người dùng tự điền)_
+- **Human review:** Đồng ý TASK3_REPORT đủ 6 mục, không tạo số mới. Mình kiểm flow chart copy nguyên từ report/16, bảng A–D lấy từ 17, trade-off từ 16; mục nhận định chỉ link report/19, không chép lời mình. README thêm Task 3 đúng mức "đã có tài liệu và demo, CI chưa triển khai", không nhận hoàn thành cả HW05/Skill. Baseline và policy deep vẫn chưa duyệt.
 
 ## #41 – 2026-11-19 00:22 (giờ VN)
 - **AI tool:** omp – Manager (openai-codex/gpt-6.1-sol)
@@ -869,4 +869,13 @@
   > Manager hỏi phạm vi commit vì AI_LOG có thay đổi lịch sử của người dùng đan xen không tách riêng an toàn. Người dùng chọn commit_scope="all_log": "Commit thêm toàn bộ AI_LOG hiện tại, bao gồm các sửa đổi lịch sử của tôi và entry mới."
 - **AI output:**
   > Phạm vi dự kiến ởentry40chưađượccommit: côngcụgộpnhiềuold/newAIloglinesvàounit, Managerkhôngchọnbừa. Người dùng đãduyệtrõall_logquaform. Commit35vìvậybao gồmtoànbộAI_LOGhiệntạigiữnguyêncácchỉnhsửalịchsửcủangườidùng,vàreport19nguyênvăn,reportTASK3,README,GIT_LOG. Khôngsửalạientrycũđểđổilịch sử; entrynàynốithêmghiđúngquyếtđịnhmớithaykếhoạchphạmvi40. Khônggộpcácthayđổingoàiphạmviởreport14/15hayfilekhác;khôngpush/Issue/JMeter.
+- **Human review:** Mình xác nhận chọn `all_log`: commit toàn bộ AI_LOG hiện tại, gồm các chỉnh sửa lịch sử của mình và entry mới, vì tách riêng không an toàn. Đồng ý commit `7453685` gồm AI_LOG, report/19, TASK3_REPORT, README, GIT_LOG; không gộp report/14, 15 hay file ngoài phạm vi. Không sửa entry cũ; entry này ghi quyết định mới thay kế hoạch ở #40.
+
+## #42 – 2026-11-19 11:51 (giờ VN)
+- **AI tool:** omp (openai-codex/gpt-6.1-sol)
+- **Bước:** Agent Skill – Chạy và phân tích nhóm transactional bằng perf-endpoint-group (video demo)
+- **Prompt:**
+  > /skill:perf-endpoint-group transactional. Tự chạy, không giao task cho agent khác.
+- **AI output:**
+  > Tự chạy `.claude/skills/perf-endpoint-group/scripts/run.sh transactional smoke`, không giao agent khác; pipeline reset SUT, sinh plan, chạy JMeter non-GUI và monitor RAM, phân tích JTL thật, exit 0/SLO PASS. Kết quả tại `results/skill/transactional_20261119-114919/`: 2260 request, 18.94 req/s, span 119.3 s, tối đa 20 thread, error 0.0%, toàn bộ HTTP 200, p95 tổng 12 ms. p95 Add cart/Get cart/My orders là 3/3/4 ms so với ngưỡng 75 ms; Checkout 14 ms so với ngưỡng 100 ms. RSS đầu 88.48 MB, cuối/max 99.77 MB; không kết luận memory leak. Viết `report.md` trong thư mục run với bảng summary giữ nguyên, phân tích và checklist người kiểm tra chưa tick. Chạy `check_claims.py` trả OK, mọi số mục B có trong summary.json (47 giá trị tham chiếu). Không chỉnh JTL, không thay SLO, không commit/push; chưa xác minh video htop hay đối chiếu dashboard bằng trình duyệt.
 - **Human review:** _(để trống – người dùng tự điền)_

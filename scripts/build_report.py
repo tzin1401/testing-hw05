@@ -33,7 +33,8 @@ def build_md():
         '| 1 | Task 1 – Load / Stress / Spike / Soak |\n| 2 | Bug report |\n| 3 | Task 2 – Phân tích AI và misinterpretation hunt |\n'
         '| 4 | Task 3 – Continuous Performance Testing |\n| 5 | Agent Skill |\n| 6 | AI Critique |\n\n'
         'Video demo: Load https://youtu.be/gI2pvrCkcQg · Stress https://youtu.be/1ZFqomMaMFU · '
-        'Spike https://youtu.be/qH1VOzb8fZU · Soak https://youtu.be/ADsnkwwEeRE\n\n'
+        'Spike https://youtu.be/qH1VOzb8fZU · Soak https://youtu.be/ADsnkwwEeRE · '
+        'Agent Skill https://youtu.be/1NvKtbFaqGs\n\n'
         'AI Audit Report: [AI_AUDIT_REPORT.md](AI_AUDIT_REPORT.md) · Toàn văn log: [AI_LOG.md](AI_LOG.md)\n',
         section(R / 'TASK1_REPORT.md', '1. Task 1 – Kiểm thử hiệu năng'),
         section(R / '09_bugs.md', '2. Bug report'),

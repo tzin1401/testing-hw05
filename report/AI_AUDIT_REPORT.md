@@ -18,7 +18,7 @@ Sinh viên: 23120190 · Flow 1 · Repo: https://github.com/tzin1401/testing-hw05
 
 Cách ghi log: quy tắc trong [`agent.md`](../agent.md). Mỗi prompt có cụm "ghi vào log" thì agent tự append một entry gồm tên công cụ, ngày giờ (lấy từ lệnh `date`), prompt nguyên văn và tóm tắt output. Mục **Human review** do sinh viên tự điền.
 
-## Danh sách tương tác (41 entry)
+## Danh sách tương tác (42 entry)
 
 Prompt nguyên văn, AI output và Human review của từng entry nằm trong [AI_LOG.md](AI_LOG.md). Bản PDF có kèm toàn văn log ở phụ lục.
 
@@ -65,3 +65,4 @@ Prompt nguyên văn, AI output và Human review của từng entry nằm trong [
 | 39 | 2026-11-18 23:37 | Task 3 – Bước 33 | omp – TaskThreeReview (anthropic/claude-sonnet-5-5); TaskThreePipeline (openai-codex/gpt-6.1-terra); TaskThreeReviewRender + TaskThreeRenderCheck (gpt-6-luna); Manager (openai-codex/gpt-6.1-sol) |
 | 40 | 2026-11-19 00:07 | Task 3 – Bước 35 | omp – TaskThreeFinalReport (openai-codex/gpt-6.1-terra); Manager (openai-codex/gpt-6.1-sol) |
 | 41 | 2026-11-19 00:22 | Task 3 – Bước 35 | omp – Manager (openai-codex/gpt-6.1-sol) |
+| 42 | 2026-11-19 11:51 | Agent Skill – video demo `/skill:perf-endpoint-group transactional` | omp – Manager (openai-codex/gpt-6.1-sol) |
