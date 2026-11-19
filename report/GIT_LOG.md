@@ -40,3 +40,5 @@ c0c4c32 docs: git commit log
 7451005 docs: agent skill demo video, run results and final report rebuild
 62b087a docs: update git commit log
 f15e858 docs: self-assessment, hardware table in main report, remove stale to-do
+3b60014 docs: update git commit log
+237afeb docs: human review for skill demo entry
