@@ -1,4 +1,4 @@
-# Bước 17 – Bản nháp bug report Flow 1
+# Bug report Flow 1
 
 Ngày tái hiện: 2026-11-18 (giờ VN). SUT reset một lần trước lần tái hiện. Raw `results/repro/flow1_bugs_20261118.txt` chứng minh lockout và price; các request cart/checkout trong file đó trả 403 nên **không chứng minh BUG-02/03**. Manager sửa quy trình giữ token thật trong bộ nhớ, chỉ che bản in, rồi thu curl thành công lúc 02:06:55 +07 trong `results/repro/checkout_cart_20261118.txt`; không sửa SUT hoặc chạy lại load. Môi trường: Linux; SUT Node.js/Express + SQLite tại `http://localhost:3000`; JMeter 5.6.3/JDK 17 test profile (không chạy JMeter ở bước này). Lệnh reset đầu phiên: `scripts/reset_sut.sh`.
 

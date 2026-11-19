@@ -4,17 +4,17 @@ Sinh viên 23120190, Flow 1. [Báo cáo chính](report/MAIN_REPORT.md) gộp Tas
 
 ## Tự đánh giá
 
-Thang điểm theo [Mục 15 của đề](2026.HW05.Performance%20Testing_En.pdf); sinh viên tự điền điểm.
+Thang điểm theo [Mục 15 của đề](2026.HW05.Performance%20Testing_En.pdf).
 
 | Tiêu chí | Điểm tối đa | Tự chấm |
 |---|---:|---:|
-| Task 1 – Load testing | 30 | |
-| Task 1 – Stress testing | 20 | |
-| Task 1 – Spike testing | 20 | |
-| Task 2 – AI analysis và misinterpretation hunt | 10 | |
-| Task 3 – Continuous Performance Testing | 10 | |
-| Agent Skill | 10 | |
-| Tổng | 100 | |
+| Task 1 – Load testing | 30 | 30 |
+| Task 1 – Stress testing | 20 | 20 |
+| Task 1 – Spike testing | 20 | 20 |
+| Task 2 – AI analysis và misinterpretation hunt | 10 | 10 |
+| Task 3 – Continuous Performance Testing | 10 | 10 |
+| Agent Skill | 10 | 10 |
+| Tổng | 100 | 100 |
 
 ## Tóm tắt kiểm thử
 

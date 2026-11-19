@@ -76,7 +76,7 @@ Soak 203 VU có phút index 3 (180–240 s từ mẫu chính đầu tiên) **p95
 
 ### 8. Bug và issue
 
-[Bản nháp bug](09_bugs.md) có **4 bug đã có bằng chứng**: 3 lỗi theo FR-02/FR-08 (lockout, checkout tin tổng tiền client, giỏ không xóa) và BUG-05 về mật khẩu plaintext theo SEC-01 (mục bảo mật tham khảo). Thêm **1 finding Low** về kiểu giá không nhất quán; spec chưa quy định rõ kiểu. [Raw lockout và giá](../results/repro/flow1_bugs_20261118.txt); [raw login/cart/checkout](../results/repro/checkout_cart_20261118.txt). Episode latency là quan sát riêng, không đếm thành bug chức năng. [API Issues](https://api.github.com/repos/tzin1401/testing-hw05/issues?state=all&per_page=100) trả `[]` lúc Manager kiểm tra; người dùng tự đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) rồi bổ sung URL/ảnh. Agent không đăng.
+[Bug report](09_bugs.md) có **4 bug đã có bằng chứng**: 3 lỗi theo FR-02/FR-08 (lockout, checkout tin tổng tiền client, giỏ không xóa) và BUG-05 về mật khẩu plaintext theo SEC-01 (mục bảo mật tham khảo). Thêm **1 finding Low** về kiểu giá không nhất quán; spec chưa quy định rõ kiểu. [Raw lockout và giá](../results/repro/flow1_bugs_20261118.txt); [raw login/cart/checkout](../results/repro/checkout_cart_20261118.txt). Episode latency là quan sát riêng, không đếm thành bug chức năng. Cả 4 bug, finding Low và 1 vấn đề hiệu năng (Spike) đã được sinh viên đăng tại [GitHub Issues](https://github.com/tzin1401/testing-hw05/issues) (#1–#6); ảnh chụp ở [evidence/issues/](../evidence/issues/).
 
 ### 9. Bằng chứng
 
@@ -92,12 +92,19 @@ Soak 203 VU có phút index 3 (180–240 s từ mẫu chính đầu tiên) **p95
 ![Soak và monitor](../evidence/soak_run.png)
 [Soak tại 6 phút](../evidence/soak_run_6m.png) · [Kết quả Soak](../evidence/soak_result.png)
 
-### Việc sinh viên còn thực hiện
+### Bảng thông số phần cứng
 
-- Tự review kết quả và điền Human review các entry mới trong [AI log](AI_LOG.md); không sửa thay phần đánh giá cá nhân.
-- Tự đăng Issues, chụp ảnh và bổ sung URL; cung cấp video YouTube unlisted ít nhất 6 phút, giọng thuyết minh tiếng Việt của mình theo [đề mục 6](../2026.HW05.Performance%20Testing_En.pdf).
-- Điền điểm vào [README](../README.md), hoàn thành các phần ngoài phạm vi Task 1; xuất PDF báo cáo và AI critique/audit theo yêu cầu đề, rồi chuẩn bị bài nộp.
-- Tự push repository công khai sau khi kiểm tra; hiện chưa thể coi bài nộp đầy đủ khi các thông tin và tác vụ của sinh viên còn thiếu.
+| Hạng mục | Giá trị |
+|---|---|
+| Hostname | `zinn-Nitro-AN515-57` |
+| OS | `Ubuntu 26.04.1 LTS` |
+| Kernel | `Linux zinn-Nitro-AN515-57 7.0.0-43-generic #43-Ubuntu SMP PREEMPT_DYNAMIC Fri Oct 23 13:25:25 UTC 2026 x86_64 GNU/Linux` |
+| CPU | `11th Gen Intel(R) Core(TM) i5-11400H @ 2.70GHz`; 1 socket, 6 cores/socket, 2 threads/core; tổng 6 cores / 12 threads |
+| RAM | 30 GiB tổng; swap 8.0 GiB |
+| Disk | `sda` 931.5G (HGST HTS541010B7E610, ROTA=1); `nvme0n1` 476.9G (WDC PC SN530 SDBPNPZ-512G-1114, ROTA=0); `nvme1n1` 931.5G (CT1000P3PSSD8, ROTA=0) |
+| Java | OpenJDK `25.0.5.0.3` |
+| Node.js | `v22.22.1` |
+| JMeter | `5.6.3` |
 
 
 # 2. Bug report

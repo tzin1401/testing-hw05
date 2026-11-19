@@ -36,7 +36,8 @@ def build_md():
         'Spike https://youtu.be/qH1VOzb8fZU · Soak https://youtu.be/ADsnkwwEeRE · '
         'Agent Skill https://youtu.be/1NvKtbFaqGs\n\n'
         'AI Audit Report: [AI_AUDIT_REPORT.md](AI_AUDIT_REPORT.md) · Toàn văn log: [AI_LOG.md](AI_LOG.md)\n',
-        section(R / 'TASK1_REPORT.md', '1. Task 1 – Kiểm thử hiệu năng'),
+        section(R / 'TASK1_REPORT.md', '1. Task 1 – Kiểm thử hiệu năng') + '\n### Bảng thông số phần cứng\n\n'
+        + re.search(r'(\| Hạng mục.*?)\n\n', (R / '05_hardware.md').read_text(encoding='utf-8'), re.S).group(1) + '\n',
         section(R / '09_bugs.md', '2. Bug report'),
         section(R / 'TASK2_REPORT.md', '3. Task 2 – Phân tích AI'),
         section(R / 'TASK3_REPORT.md', '4. Task 3 – Continuous Performance Testing'),
