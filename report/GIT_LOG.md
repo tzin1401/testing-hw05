@@ -36,3 +36,5 @@ d717569 test: continuous performance gate demo on sut commits
 4c21c54 docs: task 2 human review fixes
 76720fb feat: agent skill perf-endpoint-group
 cb4f133 docs: ai audit report, critique, main report and issue evidence
+c0c4c32 docs: git commit log
+7451005 docs: agent skill demo video, run results and final report rebuild
